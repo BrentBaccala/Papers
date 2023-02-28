@@ -1,0 +1,159 @@
+
+\documentclass{article}
+
+\title{A New Solution to Hydrogen}
+\author{Brent Baccala}
+%\email{cosine@freesoft.org}
+\date{February 8, 2023}
+
+\usepackage{amsmath}
+
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{graphicx}
+
+\usepackage{tabularx}
+
+\begin{document}
+\parindent 0pt
+
+\begin{center}
+\Large
+A New Solution to Hydrogen
+\end{center}
+
+\begin{center}
+Brent Baccala \\
+\verb+cosine@freesoft.org+
+\end{center}
+
+\begin{abstract}
+I show a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
+The solution involves a Bessel function, is not separable, and is not in $L^2$.
+\end{abstract}
+
+\subsection*{Theorem}
+
+Consider the following simple Sch\"odinger equation for the hydrogen atom:
+
+\begin{equation}
+\label{schrodinger}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation}
+
+Let $J_0$ be the ordinary Bessel function $J_0$, and set
+
+\begin{equation}
+\label{solution}
+\Psi = J_0(2\sqrt{x+r})
+\end{equation}
+
+Then \eqref{solution} is an exact solution to \eqref{schrodinger}, with $E=0$.
+
+\subsection*{Verification}
+
+The result can be easily verified using Mathematica, as follows:
+
+\includegraphics[page=1, clip, trim=1in 7in 1in 1in, width=\textwidth]{improved.pdf}
+
+\vfill\eject
+\subsection*{Proof}
+The ordinary Bessel function $J_0(x)$ satisfies:
+
+\begin{equation}
+x^2 J_0''(x) + xJ_0'(x) + x^2J_0(x) = 0
+\end{equation}
+
+The claim is that $\Psi = J_0(2\sqrt{x+r}) = (J_0 \circ 2\sqrt{v}) (x+r)$ satisfies:
+
+\begin{equation}
+\left(\frac{\delta^2}{\delta^2 x} + \frac{\delta^2}{\delta^2 y} + \frac{\delta^2}{\delta^2 z}\right) \Psi + \frac{2}{r}\Psi = 0
+\end{equation}
+
+Letting $v=x+r$, we compute the first partial derivatives of $\Psi$:
+
+%\begin{equation}
+%\frac{\delta}{\delta x} \Psi = \frac{d v}{d x} \frac{d}{d v}  \Psi = \frac{d v}{d x} J_0'(v) x^{-1/2}
+%\end{equation}
+
+\begin{equation}
+\frac{\delta}{\delta x} \Psi = \frac{d v}{d x} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-1/2}
+\end{equation}
+\begin{equation}
+\frac{\delta}{\delta y} \Psi = \frac{d v}{d y} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-1/2}
+\end{equation}
+\begin{equation}
+\frac{\delta}{\delta z} \Psi = \frac{d v}{d z} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-1/2}
+\end{equation}
+
+Next we compute the partial second derivatives of $\Psi$, using the product rule:
+
+\begin{subequations}
+\label{second partials}
+\begin{align}
+\frac{\delta^2}{\delta x^2} \Psi = \frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d x} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-3/2} \\
+\frac{\delta^2}{\delta y^2} \Psi = \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d y} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-3/2} \\
+\frac{\delta^2}{\delta z^2} \Psi = \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d z} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-3/2}
+\end{align}
+\end{subequations}
+
+We need to know the derivatives of $v=r+x$ with respect to the coordinates:
+
+\begin{subequations}
+\label{first v}
+\begin{align}
+\frac{d v}{d x} = & \frac{d}{d x} (x+r) = 1 + \frac{x}{r} \\
+\frac{d v}{d y} = & \frac{d}{d y} (x+r) = \frac{y}{r} \\
+\frac{d v}{d z} = & \frac{d}{d z} (x+r) = \frac{z}{r}
+\end{align}
+\end{subequations}
+
+\vskip 20pt
+
+\begin{equation}
+\frac{d^2 v}{d x^2} = \frac{d}{d x} \left(1 + \frac{x}{r}\right) = \frac{r - x(x/r)}{r^2} = \frac{r^2 - x^2}{r^3}
+\end{equation}
+\begin{equation}
+\frac{d^2 v}{d y^2} = \frac{r^2 - y^2}{r^3}
+\end{equation}
+\begin{equation}
+\frac{d^2 v}{d z^2} = \frac{r^2 - z^2}{r^3}
+\end{equation}
+
+\vskip 20pt
+
+Substituting \eqref{first v} into \eqref{second partials}, and \eqref{second partials} into ..., we obtain:
+
+\begin{equation}
+\begin{aligned}
+&\frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d x} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d y} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d z} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+=&\frac{r^2-x^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{r^2-y^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \frac{y}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{y}{r} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{r^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \frac{z}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{z}{r} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+=&\frac{3r^2-x^2-y^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\end{document}
