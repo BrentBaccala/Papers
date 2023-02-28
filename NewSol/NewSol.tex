@@ -67,6 +67,7 @@ x^2 J_0''(x) + xJ_0'(x) + x^2J_0(x) = 0
 The claim is that $\Psi = J_0(2\sqrt{x+r}) = (J_0 \circ 2\sqrt{v}) (x+r)$ satisfies:
 
 \begin{equation}
+\label{claim}
 \left(\frac{\delta^2}{\delta^2 x} + \frac{\delta^2}{\delta^2 y} + \frac{\delta^2}{\delta^2 z}\right) \Psi + \frac{2}{r}\Psi = 0
 \end{equation}
 
@@ -91,9 +92,9 @@ Next we compute the partial second derivatives of $\Psi$, using the product rule
 \begin{subequations}
 \label{second partials}
 \begin{align}
-\frac{\delta^2}{\delta x^2} \Psi = \frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d x} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-3/2} \\
-\frac{\delta^2}{\delta y^2} \Psi = \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d y} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-3/2} \\
-\frac{\delta^2}{\delta z^2} \Psi = \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d z} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-3/2}
+\frac{\delta^2}{\delta x^2} \Psi = \frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d x}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d x}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
+\frac{\delta^2}{\delta y^2} \Psi = \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d y}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d y}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
+\frac{\delta^2}{\delta z^2} \Psi = \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d z}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d z}\right)^2 J_0'(2\sqrt{v}) v^{-3/2}
 \end{align}
 \end{subequations}
 
@@ -126,34 +127,84 @@ Substituting \eqref{first v} into \eqref{second partials}, and \eqref{second par
 
 \begin{equation}
 \begin{aligned}
-&\frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d x} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-3/2} \\
-+& \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d y} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-3/2} \\
-+& \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \frac{d v}{d z} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-3/2} \\
+&\frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d x}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d x}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d y}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d y}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d z}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d z}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
 +& \frac{2}{r} J_0(2\sqrt{v})
 \end{aligned}
 \end{equation}
 
 \begin{equation}
 \begin{aligned}
-=&\frac{r^2-x^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
-+& \frac{r^2-y^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \frac{y}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{y}{r} J_0'(2\sqrt{v}) v^{-3/2} \\
-+& \frac{r^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \frac{z}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \frac{z}{r} J_0'(2\sqrt{v}) v^{-3/2} \\
+=&\frac{r^2-x^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r})^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r})^2 J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{r^2-y^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{y}{r}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{y}{r}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{r^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{z}{r}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{z}{r}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
 +& \frac{2}{r} J_0(2\sqrt{v})
 \end{aligned}
 \end{equation}
 
 \begin{equation}
 \begin{aligned}
-=&\frac{3r^2-x^2-y^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
+=&\frac{3r^2-x^2-y^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+2\frac{x}{r} +\frac{x^2}{r^2} + \frac{y^2}{r^2} + \frac{z^2}{r^2}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+2\frac{x}{r} +\frac{x^2}{r^2}+ \frac{y^2}{r^2} + \frac{z^2}{r^2}) J_0'(2\sqrt{v}) v^{-3/2} \\
 +& \frac{2}{r} J_0(2\sqrt{v})
 \end{aligned}
 \end{equation}
 
 \begin{equation}
 \begin{aligned}
-=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (1+\frac{x}{r} + \frac{y}{r} + \frac{z}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
+=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (2+2\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} (2+2\frac{x}{r}) J_0'(2\sqrt{v}) v^{-3/2} \\
 +& \frac{2}{r} J_0(2\sqrt{v})
 \end{aligned}
 \end{equation}
+
+\begin{equation}
+\begin{aligned}
+=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (2+2\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{x+r}{r} J_0'(2\sqrt{v}) v^{-3/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+Remembering that $v=x+r$,
+
+\begin{equation}
+\begin{aligned}
+=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (2+2\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+=&\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + \frac{2}{r} J_0''(2\sqrt{v}) - \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2} \\
++& \frac{2}{r} J_0(2\sqrt{v})
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+=\frac{2}{r} J_0''(2\sqrt{v}) + \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2} + \frac{2}{r} J_0(2\sqrt{v})
+\end{equation}
+
+\begin{equation}
+=\frac{2}{r} J_0''(2\sqrt{v}) + \frac{2}{r\cdot2\sqrt{v}} J_0'(2\sqrt{v}) + \frac{2}{r} J_0(2\sqrt{v})
+\end{equation}
+
+\begin{equation}
+\label{last eq in derivation}
+=\frac{2}{r} \left( J_0''(2\sqrt{v}) + \frac{1}{2\sqrt{v}} J_0'(2\sqrt{v}) + J_0(2\sqrt{v})\right)
+\end{equation}
+
+Now, the ordinary Bessel function $J_0(x)$ satisfies:
+
+\begin{equation}
+x^2 J_0''(x) + xJ_0'(x) + x^2J_0(x) = 0
+\end{equation}
+
+or:
+
+\begin{equation}
+J_0''(2\sqrt{v}) + \frac{1}{2\sqrt{v}}J_0'(2\sqrt{v}) + J_0(2\sqrt{v}) = 0
+\end{equation}
+
+which shows that \eqref{last eq in derivation} is zero, and establishes the proof of \eqref{claim}.
 
 \end{document}
