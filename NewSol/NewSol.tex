@@ -1,9 +1,9 @@
 
 \documentclass{article}
+\pagestyle{empty}
 
 \title{A New Solution to Hydrogen}
 \author{Brent Baccala}
-\date{February 8, 2023}
 
 \usepackage{amsmath}
 
@@ -62,50 +62,56 @@ The claim is that $\Psi = J_0(2\sqrt{x+r}) = (J_0 \circ 2\sqrt{v}) (x+r)$ satisf
 \left(\frac{\delta^2}{\delta^2 x} + \frac{\delta^2}{\delta^2 y} + \frac{\delta^2}{\delta^2 z}\right) \Psi + \frac{2}{r}\Psi = 0
 \end{equation}
 
+\vskip 12pt
+
 Letting $v=x+r$, we compute the first partial derivatives of $\Psi$:
 
-%\begin{equation}
-%\frac{\delta}{\delta x} \Psi = \frac{d v}{d x} \frac{d}{d v}  \Psi = \frac{d v}{d x} J_0'(v) x^{-1/2}
-%\end{equation}
-
-\begin{subequations}
-\begin{align}
+\begin{equation}
+\begin{gathered}
 \frac{\delta \Psi}{\delta x} = \frac{d v}{d x} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d x} J_0'(2\sqrt{v}) v^{-1/2} \\
 \frac{\delta \Psi}{\delta y} = \frac{d v}{d y} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d y} J_0'(2\sqrt{v}) v^{-1/2} \\
 \frac{\delta \Psi}{\delta z} = \frac{d v}{d z} \frac{d}{d v} \left(J_0 \circ 2\sqrt{v}\right) = \frac{d v}{d z} J_0'(2\sqrt{v}) v^{-1/2}
-\end{align}
-\end{subequations}
+\end{gathered}
+\end{equation}
+
+\vskip 12pt
 
 Next we compute the partial second derivatives of $\Psi$:
 
-\begin{subequations}
+\begin{equation}
 \label{second partials}
-\begin{align}
+\begin{gathered}
 \frac{\delta^2 \Psi}{\delta x^2} = \frac{d^2 v}{d x^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d x}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d x}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
 \frac{\delta^2 \Psi}{\delta y^2} = \frac{d^2 v}{d y^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d y}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d y}\right)^2 J_0'(2\sqrt{v}) v^{-3/2} \\
 \frac{\delta^2 \Psi}{\delta z^2} = \frac{d^2 v}{d z^2} J_0'(2\sqrt{v}) v^{-1/2} + \left(\frac{d v}{d z}\right)^2 J_0''(2\sqrt{v}) v^{-1} - \frac{1}{2} \left(\frac{d v}{d z}\right)^2 J_0'(2\sqrt{v}) v^{-3/2}
-\end{align}
-\end{subequations}
+\end{gathered}
+\end{equation}
+
+\vskip 12pt
 
 We need to know the derivatives of $v=r+x$ with respect to the coordinates:
 
-\begin{subequations}
-\label{first v}
-\begin{align}
-\frac{d v}{d x} = & \frac{d}{d x} (x+r) = 1 + \frac{x}{r} \\
-\frac{d v}{d y} = & \frac{d}{d y} (x+r) = \frac{y}{r} \\
-\frac{d v}{d z} = & \frac{d}{d z} (x+r) = \frac{z}{r}
-\end{align}
-\end{subequations}
+\vskip 12pt
 
-\begin{subequations}
+\begin{equation}
+\label{first v}
+\begin{gathered}
+\frac{d v}{d x} = \frac{d}{d x} (x+r) = 1 + \frac{x}{r} \\
+\frac{d v}{d y} = \frac{d}{d y} (x+r) = \frac{y}{r} \\
+\frac{d v}{d z} = \frac{d}{d z} (x+r) = \frac{z}{r}
+\end{gathered}
+\end{equation}
+
+\vskip 12pt
+
+\begin{equation}
 \label{second v}
-\begin{align}
-\frac{d^2 v}{d x^2} = \frac{d}{d x} \left(1 + \frac{x}{r}\right) = & \frac{r - x(x/r)}{r^2} = \frac{r^2 - x^2}{r^3} \\
-\frac{d^2 v}{d y^2} = & \frac{r^2 - y^2}{r^3} \\
-\frac{d^2 v}{d z^2} = & \frac{r^2 - z^2}{r^3}
-\end{align}
-\end{subequations}
+\begin{gathered}
+\frac{d^2 v}{d x^2} = \frac{d}{d x} \left(1 + \frac{x}{r}\right) = \frac{r - x(x/r)}{r^2} = \frac{r^2 - x^2}{r^3} \\
+\frac{d^2 v}{d y^2} = \frac{r^2 - y^2}{r^3} \\
+\frac{d^2 v}{d z^2} = \frac{r^2 - z^2}{r^3}
+\end{gathered}
+\end{equation}
 
 \vskip 20pt
 
@@ -133,8 +139,8 @@ into the LHS of \eqref{claim}, we obtain:
 \begin{equation*}
 \begin{aligned}
 =&\frac{3r^2-x^2-y^2-z^2}{r^3} J_0'(2\sqrt{v}) v^{-1/2} + (1+2\frac{x}{r} +\frac{x^2}{r^2} + \frac{y^2}{r^2} + \frac{z^2}{r^2}) J_0''(2\sqrt{v}) v^{-1} \\
-&- \frac{1}{2} (1+2\frac{x}{r} +\frac{x^2}{r^2}+ \frac{y^2}{r^2} + \frac{z^2}{r^2}) J_0'(2\sqrt{v}) v^{-3/2} \\
-&+ \frac{2}{r} J_0(2\sqrt{v})
+&- \frac{1}{2} (1+2\frac{x}{r} +\frac{x^2}{r^2}+ \frac{y^2}{r^2} + \frac{z^2}{r^2}) J_0'(2\sqrt{v}) v^{-3/2}
++ \frac{2}{r} J_0(2\sqrt{v})
 \end{aligned}
 \end{equation*}
 
@@ -143,16 +149,16 @@ into the LHS of \eqref{claim}, we obtain:
 \end{equation*}
 
 \begin{equation*}
-=\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (2+2\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{x+r}{r} J_0'(2\sqrt{v}) v^{-3/2}
+=\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + 2\frac{x+r}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{x+r}{r} J_0'(2\sqrt{v}) v^{-3/2}
 + \frac{2}{r} J_0(2\sqrt{v})
 \end{equation*}
 
 Remembering that $v=x+r$,
 
-\begin{equation*}
-=\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + (2+2\frac{x}{r}) J_0''(2\sqrt{v}) v^{-1} - \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2}
-+ \frac{2}{r} J_0(2\sqrt{v})
-\end{equation*}
+%%\begin{equation*}
+%%=\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + 2\frac{x+r}{r} J_0''(2\sqrt{v}) v^{-1} - \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2}
+%%+ \frac{2}{r} J_0(2\sqrt{v})
+%%\end{equation*}
 
 \begin{equation*}
 =\frac{2}{r} J_0'(2\sqrt{v}) v^{-1/2} + \frac{2}{r} J_0''(2\sqrt{v}) - \frac{1}{r} J_0'(2\sqrt{v}) v^{-1/2}
