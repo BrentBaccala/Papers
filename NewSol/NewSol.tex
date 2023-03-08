@@ -1,6 +1,5 @@
 
 \documentclass{article}
-\pagestyle{empty}
 
 \title{A New Solution of Hydrogen}
 \author{Brent Baccala}
@@ -193,6 +192,7 @@ J_0''(2\sqrt{v}) + \frac{1}{2\sqrt{v}}J_0'(2\sqrt{v}) + J_0(2\sqrt{v}) = 0
 which shows that \eqref{last eq in derivation} is zero, and establishes the proof of \eqref{claim}.
 
 \subsection*{Generalization}
+\parskip 12pt
 
 The choice of $x$ is arbitrary, and any ordinary Bessel function can be used:
 
@@ -212,6 +212,174 @@ and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
 \vskip 12pt
 
 Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
+
+\subsection*{Discovery}
+
+% I used a Sage-based computer program with the following ansatz.
+
+I found this solution roughly as follows.\footnote{
+I discovered an alternate form of this solution using a somewhat more complex ansatz
+on January 24, 2023.  By January 26, I had established the solution in its current form.
+The original ansatz produced a rational function with
+a 1254 term numerator and a 36 term denominator, that gave rise to a system of 224 equations.
+}
+
+Use Cartesian coordinates.  Let $v$ be a linear polynomial in the coordinates and the root $r=\sqrt{x^2+y^2+z^2}$,
+with the following form (the $v_i$ are constants):
+
+\begin{equation}
+\label{v ansatz}
+v = v_0 r + v_1 x + v_2 y + v_3 z
+\end{equation}
+
+Assume the solution to the input PDE \eqref{schrodinger}
+is a linear second-order ODE w.r.t. $v$ with linear coefficeints,
+with the following form:
+
+\begin{equation}
+\label{psi ansatz}
+(d_0 + d_1 v) \frac{\delta^2\Psi}{\delta v^2} - (m_0 + m_1 v) \frac{\delta\Psi}{\delta v} - (n_0 + n_1 v) \Psi = 0
+\end{equation}
+
+or:
+
+\begin{equation}
+\label{psi ansatz sub}
+(d_0 + d_1 v) \frac{\delta^2\Psi}{\delta v^2} = (m_0 + m_1 v) \frac{\delta\Psi}{\delta v} + (n_0 + n_1 v) \Psi
+\end{equation}
+
+Substituting \eqref{v ansatz} into \eqref{psi ansatz sub}, expanding derivatives in \eqref{schrodinger},
+substituting the RHS of \eqref{psi ansatz sub} into \eqref{schrodinger} where the LHS of
+\eqref{psi ansatz sub} appears,
+replacing all instances of $r^2$ with $x^2+y^2+z^2$, and canceling GCDs, we obtain a rational function
+with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
+
+\begin{equation}
+%% -8r\Psi x^5 b_1 b_2^2 n_1 - r\Psi x^5 b_1 b_4^2 n_1 - r \Psi x^5 b_1 b_6^2 n_1 - 2r\Psi x^5 b_2 b_3 b_4 n_1 - \cdots
+-2r\Psi x^3 E d_1 v_1 - 3r\Psi x^3 n_1 v_0^2 v_1 - r\Psi x^3 n_1 v_1^3 - r\Psi x^3 n_1 v_1 v_2^2 - r\Psi x^3 n_1 v_1 v_3^2 - \cdots
+\end{equation}
+
+We collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
+
+\begin{equation}
+%%\left(-8 b_1 b_2^2 n_1 - b_1 b_4^2 n_1 - b_1 b_6^2 n_1 - 2 b_2 b_3 b_4 n_1 - 2b_2 b_5 b_6 n_1 \right) r\Psi x^5 - \cdots
+r\Psi x^3 \left(-2 E d_1 v_1 - 3 n_1 v_0^2 v_1 - n_1 v_1^3 - n_1 v_1 v_2^2 - n_1 v_1 v_3^2\right) - \cdots
+\end{equation}
+
+The expressions in parenthesis gives us a system of equations (only one is shown)
+involving the $v_i$, $d_i$, $m_i$ and $n_i$ variables that, if satisfied,
+will yield a solution to \eqref{schrodinger} in the form \eqref{v ansatz} and \eqref{psi ansatz}.  Once
+duplicate equations are dropped, the system has 34 equations.
+
+Several solution techniques are available to solve a system of polynomial equations; I used
+a numerical approximation technique.  A laptop computer finds the following approximate solution
+in less than three seconds:
+
+\begin{equation}
+\label{witness point}
+\addtolength{\jot}{-3pt}
+\begin{aligned}
+&\verb!(E, 1.2793593235207163e-32)!\\
+&\verb!(d0, 1.4231937528298923e-43)!\\
+&\verb!(d1, 1.0)!\\
+&\verb!(m0, -1.0)!\\
+&\verb!(m1, 5.0839108285704363e-42)!\\
+&\verb!(n0, -1.0)!\\
+&\verb!(n1, -8.795561312674161e-33)!\\
+&\verb!(v0, 1.0)!\\
+&\verb!(v1, 0.47255672374941904)!\\
+&\verb!(v2, 0.5379975369878418)!\\
+&\verb!(v3, 0.6980320859632679)!
+\end{aligned}
+\end{equation}
+
+This is a {\it witness point}, a term common in the literature, an approximate solution accurate enough
+to recover an exact solution.
+
+In this case, exactness recovery is simple and straightforward.  $E$, $d_0$, $m_1$ and $n_1$ are all quite small,
+so we set them to zero, while $d_1$, $m_0$, $n_0$ and $v_0$ already have their exact values and:
+
+\begin{equation*}
+0.4725567237^2 + 0.5379975369^2 + 0.6980320859^2 \approx  1.0000000000
+\end{equation*}
+
+so we add $v_1^2 + v_2^2 + v_3^2 = 1$ to our solution and conclude that our witness point lies approximately
+on the following algebraic variety:
+
+\begin{equation}
+\begin{gathered}
+E = 0 \\
+d_0 = 0 \qquad
+d_1 = 1 \\
+m_0 = -1 \qquad
+m_1 = 0 \\
+n_0 = -1 \qquad
+n_1 = 0 \\
+v_0 = 1 \qquad
+v_1^2 + v_2^2 + v_3^2 = 1
+\end{gathered}
+\end{equation}
+
+Substituting these values back into our ansatz, we conclude that $\Psi(v)$
+is a solution of \eqref{schrodinger} under these conditions:
+
+\begin{equation}
+\label{related solution}
+\begin{gathered}
+v \frac{\delta^2\Psi}{\delta v^2} + \frac{\delta\Psi}{\delta v} + \Psi = 0 \\
+v = v_1 x+ v_2 y+ v_3 z+r \\
+v_1^2 + v_2^2 + v_3^2 = 1
+\end{gathered}
+\end{equation}
+
+We now have to solve a second order ODE:
+
+\begin{equation}
+v \Psi''(v) + \Psi'(v) + \Psi(v) = 0
+\end{equation}
+
+Wolfram Mathematica\footnote{I originally used Wolfram Alpha} can now
+analyze this equation and determine that it is equivalent
+to the Bessel function \eqref{solution}.
+
+\includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
+
+\subsection*{Software}
+
+The program used to find the witness point is available here:
+
+\centerline{\url{https://github.com/BrentBaccala/helium}}
+
+It's a Sage script that works fine with Sage 9.0 on Ubuntu 20.
+
+Use it to find the witness point \eqref{witness point} by
+running Sage as follows:
+
+\begin{verbatim}
+load('helium.sage')     # loads the script
+prep_hydrogen(5)        # select PDE:hydrogen and ansatz:5
+multi_init()            # form the equation
+multi_expand()          # expand out the numerator and collect like terms into a matrix
+random_numerical()      # run numerical optimizer
+\end{verbatim}
+
+Here are some other convenient variables and functions in the script:
+
+\begin{verbatim}
+V, D, N, M              # trial forms of various polynomials
+eq_a                    # PDE with ansatz substituted in and r^2 simplified
+R                       # polynomial ring over integers
+F                       # fraction field of R
+F_eq_a                  # eq_a expanded out (in F)
+F_eq_a_n                # expanded numerator (in R)
+F_eq_a_d                # expanded denominator (in R)
+eqns()                  # system of equations to solve
+SciMin                  # solution from scipy.optimize.root
+\end{verbatim}
+
+\subsection*{Draft Status}
+
+This paper is still a draft and is being updated regularly.
 
 \subsection*{Contact}
 
