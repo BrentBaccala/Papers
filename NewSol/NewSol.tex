@@ -213,7 +213,7 @@ and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
 
 Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
 
-\subsection*{Discovery}
+\subsection*{Solution Method}
 
 % I used a Sage-based computer program with the following ansatz.
 
@@ -270,6 +270,48 @@ The expressions in parenthesis gives us a system of equations (only one is shown
 involving the $v_i$, $d_i$, $m_i$ and $n_i$ variables that, if satisfied,
 will yield a solution to \eqref{schrodinger} in the form \eqref{v ansatz} and \eqref{psi ansatz}.  Once
 duplicate equations are dropped, the system has 34 equations.
+
+
+%%sage: latex(matrix(eqns()).transpose())
+\begin{equation}
+\label{polynomial system}
+\left(\begin{array}{r}
+-2.0 \, n_{1} v_{0}^{3} - 4.0 \, n_{1} v_{0} v_{1}^{2} - 4.0 \, n_{1} v_{0} v_{2}^{2} - 2.0 \, n_{1} v_{0} v_{3}^{2} - 4.0 \, E d_{1} v_{0} \\
+-2.0 \, n_{1} v_{0}^{3} - 4.0 \, n_{1} v_{0} v_{1}^{2} - 2.0 \, n_{1} v_{0} v_{2}^{2} - 4.0 \, n_{1} v_{0} v_{3}^{2} - 4.0 \, E d_{1} v_{0} \\
+-2.0 \, n_{1} v_{0}^{3} - 2.0 \, n_{1} v_{0} v_{1}^{2} - 4.0 \, n_{1} v_{0} v_{2}^{2} - 4.0 \, n_{1} v_{0} v_{3}^{2} - 4.0 \, E d_{1} v_{0} \\
+-4.0 \, m_{1} v_{0} v_{1} v_{2} \\
+-4.0 \, m_{1} v_{0} v_{1} v_{3} \\
+-4.0 \, m_{1} v_{0} v_{2} v_{3} \\
+-4.0 \, n_{1} v_{0} v_{1} v_{2} \\
+-4.0 \, n_{1} v_{0} v_{1} v_{3} \\
+-4.0 \, n_{1} v_{0} v_{2} v_{3} \\
+-3.0 \, m_{1} v_{0}^{2} v_{1} - 1.0 \, m_{1} v_{1}^{3} - 1.0 \, m_{1} v_{1} v_{2}^{2} - 1.0 \, m_{1} v_{1} v_{3}^{2} \\
+-3.0 \, m_{1} v_{0}^{2} v_{2} - 1.0 \, m_{1} v_{1}^{2} v_{2} - 1.0 \, m_{1} v_{2}^{3} - 1.0 \, m_{1} v_{2} v_{3}^{2} \\
+-3.0 \, m_{1} v_{0}^{2} v_{3} - 1.0 \, m_{1} v_{1}^{2} v_{3} - 1.0 \, m_{1} v_{2}^{2} v_{3} - 1.0 \, m_{1} v_{3}^{3} \\
+-2.0 \, m_{1} v_{0}^{3} - 4.0 \, m_{1} v_{0} v_{1}^{2} - 4.0 \, m_{1} v_{0} v_{2}^{2} - 2.0 \, m_{1} v_{0} v_{3}^{2} \\
+-2.0 \, m_{1} v_{0}^{3} - 4.0 \, m_{1} v_{0} v_{1}^{2} - 2.0 \, m_{1} v_{0} v_{2}^{2} - 4.0 \, m_{1} v_{0} v_{3}^{2} \\
+-3.0 \, n_{1} v_{0}^{2} v_{1} - 1.0 \, n_{1} v_{1}^{3} - 1.0 \, n_{1} v_{1} v_{2}^{2} - 1.0 \, n_{1} v_{1} v_{3}^{2} - 2.0 \, E d_{1} v_{1} \\
+-3.0 \, n_{1} v_{0}^{2} v_{2} - 1.0 \, n_{1} v_{1}^{2} v_{2} - 1.0 \, n_{1} v_{2}^{3} - 1.0 \, n_{1} v_{2} v_{3}^{2} - 2.0 \, E d_{1} v_{2} \\
+-3.0 \, n_{1} v_{0}^{2} v_{3} - 1.0 \, n_{1} v_{1}^{2} v_{3} - 1.0 \, n_{1} v_{2}^{2} v_{3} - 1.0 \, n_{1} v_{3}^{3} - 2.0 \, E d_{1} v_{3} \\
+-2.0 \, m_{1} v_{0}^{3} - 2.0 \, m_{1} v_{0} v_{1}^{2} - 4.0 \, m_{1} v_{0} v_{2}^{2} - 4.0 \, m_{1} v_{0} v_{3}^{2} \\
+-1.0 \, n_{0} v_{0}^{2} - 1.0 \, n_{0} v_{1}^{2} - 1.0 \, n_{0} v_{2}^{2} - 1.0 \, n_{0} v_{3}^{2} - 2.0 \, E d_{0} - 2.0 \, d_{1} v_{0} \\
+-2.0 \, n_{0} v_{0} v_{1} - 2.0 \, d_{1} v_{1} \\
+-2.0 \, n_{0} v_{0} v_{2} - 2.0 \, d_{1} v_{2} \\
+-2.0 \, n_{0} v_{0} v_{3} - 2.0 \, d_{1} v_{3} \\
+-2.0 \, d_{1} v_{0} v_{1} - 2.0 \, m_{0} v_{0} v_{1} \\
+-2.0 \, d_{1} v_{0} v_{2} - 2.0 \, m_{0} v_{0} v_{2} \\
+-2.0 \, d_{1} v_{0} v_{3} - 2.0 \, m_{0} v_{0} v_{3} \\
+-1.0 \, n_{1} v_{0}^{3} - 3.0 \, n_{1} v_{0} v_{1}^{2} - 1.0 \, n_{1} v_{0} v_{2}^{2} - 1.0 \, n_{1} v_{0} v_{3}^{2} - 2.0 \, E d_{1} v_{0} \\
+-1.0 \, n_{1} v_{0}^{3} - 1.0 \, n_{1} v_{0} v_{1}^{2} - 3.0 \, n_{1} v_{0} v_{2}^{2} - 1.0 \, n_{1} v_{0} v_{3}^{2} - 2.0 \, E d_{1} v_{0} \\
+-1.0 \, n_{1} v_{0}^{3} - 1.0 \, n_{1} v_{0} v_{1}^{2} - 1.0 \, n_{1} v_{0} v_{2}^{2} - 3.0 \, n_{1} v_{0} v_{3}^{2} - 2.0 \, E d_{1} v_{0} \\
+-2.0 \, d_{1} v_{0}^{2} - 1.0 \, m_{0} v_{0}^{2} - 1.0 \, m_{0} v_{1}^{2} - 1.0 \, m_{0} v_{2}^{2} - 1.0 \, m_{0} v_{3}^{2} \\
+-2.0 \, d_{0} \\
+-2.0 \, d_{0} v_{0} \\
+-1.0 \, m_{1} v_{0}^{3} - 3.0 \, m_{1} v_{0} v_{1}^{2} - 1.0 \, m_{1} v_{0} v_{2}^{2} - 1.0 \, m_{1} v_{0} v_{3}^{2} \\
+-1.0 \, m_{1} v_{0}^{3} - 1.0 \, m_{1} v_{0} v_{1}^{2} - 3.0 \, m_{1} v_{0} v_{2}^{2} - 1.0 \, m_{1} v_{0} v_{3}^{2} \\
+-1.0 \, m_{1} v_{0}^{3} - 1.0 \, m_{1} v_{0} v_{1}^{2} - 1.0 \, m_{1} v_{0} v_{2}^{2} - 3.0 \, m_{1} v_{0} v_{3}^{2}
+\end{array}\right)
+\end{equation}
 
 Several solution techniques are available to solve a system of polynomial equations; I used
 a numerical approximation technique.  A laptop computer finds the following approximate solution
@@ -376,6 +418,108 @@ F_eq_a_d                # expanded denominator (in R)
 eqns()                  # system of equations to solve
 SciMin                  # solution from scipy.optimize.root
 \end{verbatim}
+
+\subsection*{Exact Methods}
+
+I used a numerical algorithm to solve the system of equations in expectation
+of it being faster for larger systems, but the system \eqref{polynomial system}
+is small enough that exact methods are usable.  In particular, we can form
+an ideal $I$ in $\mathbf{Q}[v_0,...,m_1,E]$ from \eqref{polynomial system}.
+Sage can calculate a Gr\"obner basis for the radical $I$ in less than a second.
+While we could work with the Gr\"obner basis directly\footnote{A Gr\"obner basis
+of the solution ideal in lexicographic order $E>d_i>m_i>n_i>v_i$ contains 65 polynomials.}
+, I find it more
+useful to study the primary decomposition, which Sage computes using
+the Shimoyama-Yokoyama algorithm\footnote{Localization and Primary Decomposition of
+Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277}
+as implemented in Singular.  Gr\"obner basis calculations are done
+as a subalgorithm of Shimoyama-Yokoyama.
+
+\begin{subequations}
+%% sage: list(map(latex, I.radical().primary_decomposition()))
+%% \Bold.* -> \\
+\begin{align}
+& \left(v_{0}^{2} - v_{1}^{2} - v_{2}^{2} - v_{3}^{2}, n_{1}, m_{1}, m_{0} - n_{0} v_{0}, d_{1} + n_{0} v_{0}, d_{0}, E\right)\label{ideal:1} \\
+& \left(v_{3}, v_{2}, v_{1}, m_{1}, m_{0} - n_{0} v_{0}, 2 d_{1} + n_{0} v_{0}, d_{0}, E n_{0} - n_{1} v_{0}\right)\label{ideal:2}\\
+& \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2}, v_{0}, d_{1}, d_{0}\right)\label{ideal:3}\\
+& \left(v_{3}, v_{2}, v_{1}, v_{0}, d_{0}\right)\label{ideal:4}\\
+& \left(n_{1}, n_{0}, m_{1}, m_{0}, d_{1}, d_{0}\right)\label{ideal:5}
+\end{align}
+\end{subequations}
+
+Several of these varieties solve the system of equations, but do not lead to a meaningful solution to the differential equation.
+Ideal \eqref{ideal:5} sets all coefficients of the ODE to zero, so we discard it.  Likewise, ideal \eqref{ideal:4} sets the variable $v$ to zero, so we discard it.  Ideal \eqref{ideal:3} sets the coefficient of
+%$\frac{d^2\Psi}{dv^2}$
+$D^2\Psi$
+in the ODE to zero, resulting in a first-order ODE, so we discard it, too.
+
+Ideal \eqref{ideal:1} contains our solution.  Does it contain any additional solutions?  $d_0$ is an ideal generator,
+so $d_0=0$, and we can always multiply our DE by a constant without affecting our result, so we can set $d_1=1$.
+Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants.
+Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
+be positive, and since $v_0^2-v_1^2-v_2^2-v_3^3=0$, $v_0$ must be non-zero.  So we can normalize by setting $v_0=1$.
+That simplifies \eqref{ideal:1} to this:
+
+\begin{equation}
+\left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_{0} - 1, n_{1}, n_{0} + 1, m_{1}, m_{0} + 1, d_{1} - 1, d_{0}, E\right)
+\end{equation}
+
+So we conclude that \eqref{ideal:1} contains only our solution and simple variants thereof.
+
+Ideal \eqref{ideal:2} is also interesting.  Setting $d_1=1$ and $v_0=1$ (same logic as above), it simplies to:
+
+\begin{equation}
+\left(v_{3}, v_{2}, v_{1}, v_{0} - 1, n_{0} + 2, m_{1}, m_{0} + 2, d_{1} - 1, d_{0}, 2 E + n_{1}\right)
+\end{equation}
+
+\begin{equation}
+\begin{gathered}
+v=r \\
+v \Psi'' + 2 \Psi' + 2(1 + E v) \Psi = 0
+\end{gathered}
+\end{equation}
+
+The only special energy levels were 0 (ordinary Bessel funcs alpha=1), -1/2 ($e^{-v}$ and Ei), -1/8 ($e^{v/2}$ and Ei), and -2 (BesselI).
+
+A good question to ask is if any of these solutions are in $L^2$.  Remember that these are radial solutions,
+so we expect to find our classical solutions in the bunch!
+
+Mathematica finds solutions using hypergeometry series:
+
+\includegraphics[page=1, clip, trim=1in 8.5in 1in 1in, width=\textwidth]{ideal 2.pdf}
+
+I checked all energy levels from -10 to 10 in steps of 1/8.  Only these four had special forms:
+
+\includegraphics[page=1, clip, trim=1in 5.75in 1in 3.25in, width=\textwidth]{ideal 2.pdf}
+
+We see our classical solutions of $e^{-r}$ for energy $-\frac{1}{2}$ and $(2-r)e^{-r/2}$
+for energy $-\frac{1}{8}$  How did we get $e^{-2r}$ for $-2$?
+
+Why is $e^{-r}$ paired with some weird Ei integral?
+
+The pattern: -1/2 maps to $e^{-r}$ and -1/8 maps to $e^{-r/2}$ generalized as E maps to $e^{-\sqrt{2E}r}$.
+
+The corresponding differential operator is $D+\sqrt{-2E}I$.  Squaring this we get $D^2 + 2\sqrt{-2E}D - 2E$.
+This operator contains a $\sqrt{E}$ in the coefficient of the first-order term.  So we can't construct
+a second-order differential operator that gives us $e^{-\sqrt{-2E}r}$ with multiplicity two unless we
+allow $\sqrt{E}$ into our coefficients, which this ansatz does not.
+
+We {\it can} however, pair $D+\sqrt{-2E}I$ with a different solution and obtain a suitable operator
+that gives us the solution pair found by Mathematica.
+
+Factoring in the Weyl algebra, we obtain:
+
+\begin{equation}
+vD^2 + 2D + (2+2Ev) I = (vD + (2-\sqrt{-2E}v)I) (D+\sqrt{-2E}I) + (2-2\sqrt{-2E})I
+\end{equation}
+
+so the factorization is only exact if E=-1/2.  In that case:
+
+\begin{equation}
+vD^2 + 2D + (2-v) I = (vD + (2-v)I) (D+I)
+\end{equation}
+
+\subsection*{The Rosenfeld-Gr\"obner algorithm}
 
 \subsection*{Draft Status}
 
