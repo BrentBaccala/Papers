@@ -448,10 +448,20 @@ as a subalgorithm of Shimoyama-Yokoyama.
 \end{subequations}
 
 Several of these varieties solve the system of equations, but do not lead to a meaningful solution to the differential equation.
-Ideal \eqref{ideal:5} sets all coefficients of the ODE to zero, so we discard it.  Likewise, ideal \eqref{ideal:4} sets the variable $v$ to zero, so we discard it.  Ideal \eqref{ideal:3} sets the coefficient of
+In brief,
+
+\begin{itemize}
+\item[\eqref{ideal:1}] contains our solution and simple variants of it;
+\item[\eqref{ideal:2}] contains more solutions, and is even more difficult to understand that \eqref{ideal:1};
+\item[\eqref{ideal:3}] sets the coefficient of
 %$\frac{d^2\Psi}{dv^2}$
 $D^2\Psi$
-in the ODE to zero, resulting in a first-order ODE, so we discard it, too.
+in the ODE to zero, resulting in a first-order ODE, so we discard it;
+\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it;
+\item[\eqref{ideal:5}] sets all coefficients of the ODE to zero, so we discard it, too.
+
+\end{itemize}
+
 
 Ideal \eqref{ideal:1} contains our solution.  Does it contain any additional solutions?  $d_0$ is an ideal generator,
 so $d_0=0$, and we can always multiply our DE by a constant without affecting our result, so we can set $d_1=1$.
@@ -479,16 +489,52 @@ v \Psi'' + 2 \Psi' + 2(1 + E v) \Psi = 0
 \end{gathered}
 \end{equation}
 
-The only special energy levels were 0 (ordinary Bessel funcs alpha=1), -1/2 ($e^{-v}$ and Ei), -1/8 ($e^{v/2}$ and Ei), and -2 (BesselI).
-
 A good question to ask is if any of these solutions are in $L^2$.  Remember that these are radial solutions,
 so we expect to find our classical solutions in the bunch!
 
-Mathematica finds solutions using hypergeometry series:
+Mathematica finds solutions using hypergeometric series:
 
 \includegraphics[page=1, clip, trim=1in 8.5in 1in 1in, width=\textwidth]{ideal 2.pdf}
 
-I checked all energy levels from -10 to 10 in steps of 1/8.  Only these four had special forms:
+{\tt Hypergeometric1F1} and {\tt HypergeometricU} are ${}_1F_1(a;b;z)$ and $U$,
+the confluent hypergeometric functions of the first and second kind,
+respectively.  Both are solutions to Kummer's equation:
+
+\begin{equation}
+z\frac{d^2w}{dz^2} + (b-z)\frac{dw}{dz} - aw = 0
+\end{equation}
+
+Kummer's solution to this equation is ${}_1F_1(a;b;z)$:
+
+\begin{equation}
+{}_1F_1(a;b;z) = \sum_{n=0}^\infty \frac{a^{(n)}z^n}{b^{(n)}n!}
+\end{equation}
+
+(it's the rising factorial)
+
+Since Kummer's equation is a second-order linear ODE, we expect two linearly independent
+solutions.  Tricomi's solution $U(a;b;z)$ not only solves Kummer's equation, but
+for many values of $a$ and $b$, is linearly independent of Kummer's solution:
+
+\begin{equation}
+U(a;b;z) = \frac{\Gamma(1-b)}{\Gamma(a+1-b)} {}_1F_1(a;b;z) + \frac{\Gamma(b-1)}{\Gamma(a)} z^{1-b} {}_1F_1(a-1-b;2-b;z)
+\end{equation}
+
+Their presence here isn't too surprising.  A quick skim of Kunwar and van Hoeij,
+{\it Second Order Differential Equations with Hypergeometric Solutions of Degree Three}
+\url{https://www.math.fsu.edu/~hoeij/papers/issac13/2.pdf}
+left me with the impression that many, but by no means all, second-order linear ODEs have
+solutions with hypergeometric functions.
+
+The major advantage possessed by all of these solutions, indeed the reason they are sought,
+is that they are linear ODEs that solve a PDE.  In many ways, a hypergeometric series
+is an even better form for the solution than a linear ODE.
+We no longer need to use the second-order differential equation
+form at all, as a series expansion is now available.  What are its convergence properties?
+According to Mathematica public docs, it can be approximated to any precision.
+
+I checked all energy levels from -10 to 10 in steps of 1/8.  For only these four did
+Mathematica find any special simplification of the hypergeometric series:
 
 \includegraphics[page=1, clip, trim=1in 5.75in 1in 3.25in, width=\textwidth]{ideal 2.pdf}
 
