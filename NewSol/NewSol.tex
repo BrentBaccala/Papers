@@ -543,7 +543,8 @@ for energy $-\frac{1}{8}$  How did we get $e^{-2r}$ for $-2$?
 
 Why is $e^{-r}$ paired with some weird Ei integral?
 
-The pattern: -1/2 maps to $e^{-r}$ and -1/8 maps to $e^{-r/2}$ generalized as E maps to $e^{-\sqrt{2E}r}$.
+The pattern: -1/2 maps to $e^{-r}$; -1/8 maps to $e^{-r/2}$; -1/18 maps to $e^{-r/3}$;
+generalized as E maps to $e^{-\sqrt{2E}r}$.
 
 The corresponding differential operator is $D+\sqrt{-2E}I$.  Squaring this we get $D^2 + 2\sqrt{-2E}D - 2E$.
 This operator contains a $\sqrt{E}$ in the coefficient of the first-order term.  So we can't construct
@@ -562,8 +563,22 @@ vD^2 + 2D + (2+2Ev) I = (vD + (2-\sqrt{-2E}v)I) (D+\sqrt{-2E}I) + (2-2\sqrt{-2E}
 so the factorization is only exact if E=-1/2.  In that case:
 
 \begin{equation}
+\label{Weyl algebra}
 vD^2 + 2D + (2-v) I = (vD + (2-v)I) (D+I)
 \end{equation}
+
+Makes sense because only in the E=-1/2 case does a simple exponential solve the PDE.  In
+higher energy cases we have to multiply by a Laguerre function like $(2-r)$.
+
+Why isn't $(D+I)^2 = (D^2+2D+I)$ represented in our solution ideal?
+
+Traditional methods\footnote{\url{https://dec41.user.srcf.net/h/IA_M/differential_equations/5_1}}
+of solving second-order linear ODEs with constant coefficients tell us that degenerate
+solutions like this yield both $e^{-r}$ and $re^{-r}$ as solutions.
+
+So, we've introduced a new solution $y=re^{-r}$ that satisfies $Dy=e^{-r}-re^{-r}=(1-r)y$.
+
+Is $D+(v-1)I$ a divisor of \eqref{Weyl algebra}?  How?
 
 \subsection*{The Rosenfeld-Gr\"obner algorithm}
 
