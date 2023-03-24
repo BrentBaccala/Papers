@@ -496,7 +496,7 @@ Mathematica finds solutions using hypergeometric series:
 
 \includegraphics[page=1, clip, trim=1in 8.5in 1in 1in, width=\textwidth]{ideal 2.pdf}
 
-{\tt Hypergeometric1F1} and {\tt HypergeometricU} are ${}_1F_1(a;b;z)$ and $U$,
+{\tt Hypergeometric1F1} and {\tt HypergeometricU} are ${}_1F_1(a;b;z)$ and $U(a;b;z)$,
 the confluent hypergeometric functions of the first and second kind,
 respectively.  Both are solutions to Kummer's equation:
 
@@ -510,7 +510,7 @@ Kummer's solution to this equation is ${}_1F_1(a;b;z)$:
 {}_1F_1(a;b;z) = \sum_{n=0}^\infty \frac{a^{(n)}z^n}{b^{(n)}n!}
 \end{equation}
 
-(it's the rising factorial)
+(n) is the rising factorial.
 
 Since Kummer's equation is a second-order linear ODE, we expect two linearly independent
 solutions.  Tricomi's solution $U(a;b;z)$ not only solves Kummer's equation, but
@@ -581,6 +581,66 @@ So, we've introduced a new solution $y=re^{-r}$ that satisfies $Dy=e^{-r}-re^{-r
 Is $D+(v-1)I$ a divisor of \eqref{Weyl algebra}?  How?
 
 \subsection*{The Rosenfeld-Gr\"obner algorithm}
+
+\subsection*{The Ansatzen}
+
+These are current and future ansatzen for the form of the ODE:
+
+For hydrogen, the PDE is always $\nabla^2 \Psi - \frac{1}{r} \Psi = E \Psi$
+
+\begin{itemize}
+\item[Ansatz 1:] Exponential of a first degree polynomial times a first degree polynomial
+
+Expected to find 1s and 2s levels of hydrogen, $e^{-r}$ and $(2-r)e^{r/2}$
+
+$A,B \in \mathbf{C}[x,y,z,r]; \deg A \le 1; \deg B \le 1$
+
+$\Psi = A F; F' = F; F_x = B_x F'; F_y = B_y F'; F_z = B_z F'$
+
+or just: $\Psi = A F; F_x = B_x F; F_y = B_y F; F_z = B_z F$
+
+Example: $B=-r; A=1; E=-1/2$ $\qquad\Rightarrow\qquad$ $e^{-r}$
+
+Example: $B=-r/2; A=r-2; E=-1/8$ $\qquad\Rightarrow\qquad$ $(2-r)e^{-r/2}$
+
+\item[Ansatz 2:] Logarithm of a first degree polynomial times a first degree polynomial
+
+$A,B \in \mathbf{C}[x,y,z,r]; \deg A \le 1; \deg B \le 1$
+
+$\Psi = A F; F' = 1/F; F_x = B_x F'; F_y = B_y F'; F_z = B_z F'$
+
+or just: $\Psi = A F; F_x = B_x / F; F_y = B_y / F; F_z = B_z / F$
+
+\item[Ansatz 3,4:] Unused
+
+\item[Ansatz 5:] Second-order ODE with linear coefficients and a linear variable
+
+Expected to find 1s level of hydrogen, $e^{-r}$
+
+$A,B,C,V \in \mathbf{C}[x,y,z,r]; \deg A \le 1; \deg B \le 1; \deg C \le 1; \deg V \le 1$
+
+$\Psi = F; A F'' + B F' + C F = 0; F_x = V_x F'; F_y = V_y F'; F_z = V_z F'$
+
+Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}$
+
+\item[Ansatz 6:] Second-order ODE with linear coefficients and a first-degree rational function variable
+
+\item[Ansatz 7:] Second-order ODE with second-degree coefficients and a second-degree rational function variable
+
+\item[Ansatz 8:] (logically before ansatz 5) First-order ODE with linear coefficients and a linear polynomial variable
+
+\item[Ansatz 9:] (logically before ansatz 8) First-order ODE with constant coefficients and a linear polynomial variable
+
+\item[Ansatz 10:] (logically before ansatz 7) Second-order ODE with second-degree coefficients and a second-degree polynomial variable
+
+\item[Ansatz 11:] An second-degree algebraic extension with second-degree coefficients (involving $E$?),
+followed by ansatz 7 (second-order ODE with second-degree coefficients and a second-degree rational function variable)
+
+\item[Ansatz 12:] Two nested second-order ODEs with second-degree coefficients and a second-degree rational function variable (ansatz 7 twice)
+
+\item[Ansatz 13:] Ansatz 11 twice
+
+\end{itemize}
 
 \subsection*{Draft Status}
 
