@@ -451,8 +451,8 @@ Several of these varieties solve the system of equations, but do not lead to a m
 In brief,
 
 \begin{itemize}
-\item[\eqref{ideal:1}] contains our solution and simple variants of it;
-\item[\eqref{ideal:2}] contains more solutions, and is even more difficult to understand that \eqref{ideal:1};
+\item[\eqref{ideal:1}] contains our new solution and simple variants of it;
+\item[\eqref{ideal:2}] corresponds to the classical solutions
 \item[\eqref{ideal:3}] sets the coefficient of
 %$\frac{d^2\Psi}{dv^2}$
 $D^2\Psi$
@@ -483,14 +483,28 @@ Ideal \eqref{ideal:2} is also interesting.  Setting $d_1=1$ and $v_0=1$ (same lo
 \end{equation}
 
 \begin{equation}
+\label{classical eq in ideal}
 \begin{gathered}
 v=r \\
 v \Psi'' + 2 \Psi' + 2(1 + E v) \Psi = 0
 \end{gathered}
 \end{equation}
 
-A good question to ask is if any of these solutions are in $L^2$.  Remember that these are radial solutions,
-so we expect to find our classical solutions in the bunch!
+This is the classical radial equation obtained by seperation of variables\footnote{See
+Pauling and Wilson or
+\url{http://hyperphysics.phy-astr.gsu.edu/hbase/quantum/hydrad.html}}.  We use
+spherical coordinates, set $\Psi = R(r)P(\theta)F(\psi)$, and obtain the above equation for $R(r)$,
+though it is more commonly written in this form:
+
+\begin{equation}
+\frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r) = l(l+1)
+\end{equation}
+
+where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ and $\Psi=R$ and
+expand out the derivative to obtain \eqref{classical eq in ideal}.
+
+%% A good question to ask is if any of these solutions are in $L^2$.  Remember that these are radial solutions,
+%% so we expect to find our classical solutions in the bunch!
 
 Mathematica finds solutions using hypergeometric series:
 
