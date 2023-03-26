@@ -462,21 +462,10 @@ in the ODE to zero, resulting in a first-order ODE, so we discard it;
 
 \end{itemize}
 
-
-Ideal \eqref{ideal:1} contains our solution.  Does it contain any additional solutions?  $d_0$ is an ideal generator,
+What solutions correspond to ideal \eqref{ideal:2}?  $d_0$ is an ideal generator,
 so $d_0=0$, and we can always multiply our DE by a constant without affecting our result, so we can set $d_1=1$.
-Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants.
-Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
-be positive, and since $v_0^2-v_1^2-v_2^2-v_3^3=0$, $v_0$ must be non-zero.  So we can normalize by setting $v_0=1$.
-That simplifies \eqref{ideal:1} to this:
-
-\begin{equation}
-\left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_{0} - 1, n_{1}, n_{0} + 1, m_{1}, m_{0} + 1, d_{1} - 1, d_{0}, E\right)
-\end{equation}
-
-So we conclude that \eqref{ideal:1} contains only our solution and simple variants thereof.
-
-Ideal \eqref{ideal:2} is also interesting.  Setting $d_1=1$ and $v_0=1$ (same logic as above), it simplies to:
+Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants,
+and $v_1=v_2=v_3=0$, so we can normalize by setting $v_0=1$.  This simplifies ideal \eqref{ideal:2} to:
 
 \begin{equation}
 \left(v_{3}, v_{2}, v_{1}, v_{0} - 1, n_{0} + 2, m_{1}, m_{0} + 2, d_{1} - 1, d_{0}, 2 E + n_{1}\right)
@@ -501,98 +490,21 @@ though it is more commonly written in this form:
 \end{equation}
 
 where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ and $\Psi=R$ and
-expand out the derivative to obtain \eqref{classical eq in ideal}.
+expand out the derivative to obtain \eqref{classical eq in ideal}.  Its presence here was
+expected and won't be commented on further.
 
-%% A good question to ask is if any of these solutions are in $L^2$.  Remember that these are radial solutions,
-%% so we expect to find our classical solutions in the bunch!
-
-Mathematica finds solutions using hypergeometric series:
-
-\includegraphics[page=1, clip, trim=1in 8.5in 1in 1in, width=\textwidth]{ideal 2.pdf}
-
-{\tt Hypergeometric1F1} and {\tt HypergeometricU} are ${}_1F_1(a;b;z)$ and $U(a;b;z)$,
-the confluent hypergeometric functions of the first and second kind,
-respectively.  Both are solutions to Kummer's equation:
+Ideal \eqref{ideal:1} not expected, and contains our new solution.  Does it contain any additional solutions?
+$d_0$ is an ideal generator,
+so $d_0=0$, and we can set $d_1=1$, by the same logic as above.
+Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
+be positive, and since $v_0^2-v_1^2-v_2^2-v_3^3=0$, $v_0$ must be non-zero.  So we can normalize by setting $v_0=1$.
+That simplifies \eqref{ideal:1} to this:
 
 \begin{equation}
-z\frac{d^2w}{dz^2} + (b-z)\frac{dw}{dz} - aw = 0
+\left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_{0} - 1, n_{1}, n_{0} + 1, m_{1}, m_{0} + 1, d_{1} - 1, d_{0}, E\right)
 \end{equation}
 
-Kummer's solution to this equation is ${}_1F_1(a;b;z)$:
-
-\begin{equation}
-{}_1F_1(a;b;z) = \sum_{n=0}^\infty \frac{a^{(n)}z^n}{b^{(n)}n!}
-\end{equation}
-
-(n) is the rising factorial.
-
-Since Kummer's equation is a second-order linear ODE, we expect two linearly independent
-solutions.  Tricomi's solution $U(a;b;z)$ not only solves Kummer's equation, but
-for many values of $a$ and $b$, is linearly independent of Kummer's solution:
-
-\begin{equation}
-U(a;b;z) = \frac{\Gamma(1-b)}{\Gamma(a+1-b)} {}_1F_1(a;b;z) + \frac{\Gamma(b-1)}{\Gamma(a)} z^{1-b} {}_1F_1(a-1-b;2-b;z)
-\end{equation}
-
-Their presence here isn't too surprising.  A quick skim of Kunwar and van Hoeij,
-{\it Second Order Differential Equations with Hypergeometric Solutions of Degree Three}
-\url{https://www.math.fsu.edu/~hoeij/papers/issac13/2.pdf}
-left me with the impression that many, but by no means all, second-order linear ODEs have
-solutions with hypergeometric functions.
-
-The major advantage possessed by all of these solutions, indeed the reason they are sought,
-is that they are linear ODEs that solve a PDE.  In many ways, a hypergeometric series
-is an even better form for the solution than a linear ODE.
-We no longer need to use the second-order differential equation
-form at all, as a series expansion is now available.  What are its convergence properties?
-According to Mathematica public docs, it can be approximated to any precision.
-
-I checked all energy levels from -10 to 10 in steps of 1/8.  For only these four did
-Mathematica find any special simplification of the hypergeometric series:
-
-\includegraphics[page=1, clip, trim=1in 5.75in 1in 3.25in, width=\textwidth]{ideal 2.pdf}
-
-We see our classical solutions of $e^{-r}$ for energy $-\frac{1}{2}$ and $(2-r)e^{-r/2}$
-for energy $-\frac{1}{8}$  How did we get $e^{-2r}$ for $-2$?
-
-Why is $e^{-r}$ paired with some weird Ei integral?
-
-The pattern: -1/2 maps to $e^{-r}$; -1/8 maps to $e^{-r/2}$; -1/18 maps to $e^{-r/3}$;
-generalized as E maps to $e^{-\sqrt{2E}r}$.
-
-The corresponding differential operator is $D+\sqrt{-2E}I$.  Squaring this we get $D^2 + 2\sqrt{-2E}D - 2E$.
-This operator contains a $\sqrt{E}$ in the coefficient of the first-order term.  So we can't construct
-a second-order differential operator that gives us $e^{-\sqrt{-2E}r}$ with multiplicity two unless we
-allow $\sqrt{E}$ into our coefficients, which this ansatz does not.
-
-We {\it can} however, pair $D+\sqrt{-2E}I$ with a different solution and obtain a suitable operator
-that gives us the solution pair found by Mathematica.
-
-Factoring in the Weyl algebra, we obtain:
-
-\begin{equation}
-vD^2 + 2D + (2+2Ev) I = (vD + (2-\sqrt{-2E}v)I) (D+\sqrt{-2E}I) + (2-2\sqrt{-2E})I
-\end{equation}
-
-so the factorization is only exact if E=-1/2.  In that case:
-
-\begin{equation}
-\label{Weyl algebra}
-vD^2 + 2D + (2-v) I = (vD + (2-v)I) (D+I)
-\end{equation}
-
-Makes sense because only in the E=-1/2 case does a simple exponential solve the PDE.  In
-higher energy cases we have to multiply by a Laguerre function like $(2-r)$.
-
-Why isn't $(D+I)^2 = (D^2+2D+I)$ represented in our solution ideal?
-
-Traditional methods\footnote{\url{https://dec41.user.srcf.net/h/IA_M/differential_equations/5_1}}
-of solving second-order linear ODEs with constant coefficients tell us that degenerate
-solutions like this yield both $e^{-r}$ and $re^{-r}$ as solutions.
-
-So, we've introduced a new solution $y=re^{-r}$ that satisfies $Dy=e^{-r}-re^{-r}=(1-r)y$.
-
-Is $D+(v-1)I$ a divisor of \eqref{Weyl algebra}?  How?
+So we conclude that \eqref{ideal:1} contains only our new solution and simple variants thereof.
 
 \subsection*{The Rosenfeld-Gr\"obner algorithm}
 
@@ -655,6 +567,8 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 \item[Ansatz 13:] Ansatz 11 twice
 
 \end{itemize}
+
+
 
 \subsection*{Draft Status}
 
