@@ -14,6 +14,15 @@
 
 \usepackage{tabularx}
 
+% For drawing ansatz diagrams
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+
+\def\coeff{\framebox(10,10){}}
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+
 \begin{document}
 \parindent 0pt
 
@@ -568,6 +577,22 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 
 \end{itemize}
 
+\subsection*{Ansatz Diagrams}
+
+\tikzstyle{block}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
+
+%\begin{equation}
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm]
+    \node [block, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\Psi'' + \framebox(10,10){}\tikzmark{b}\Psi' + \coeff\tikzmark{c}$};
+    \node (Qv) [block, below of=a, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [block, right=of Qv] {$v$};
+    \draw[red] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[red] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[red] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {1};
+    \node (base) [block, below of=Qv, text width=200pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[red] (v.south) -- (v.south|-base.north) node[right,pos=0.6] {1};
+  \end{tikzpicture}
+%\end{equation}
 
 
 \subsection*{Draft Status}
