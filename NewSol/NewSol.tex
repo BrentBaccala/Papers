@@ -207,7 +207,7 @@ in less than three seconds:
 \end{aligned}
 \end{equation}
 
-This is a {\it witness point}\footnote{a term common in the literature}, an approximate solution accurate enough
+This is a {\it witness point},\footnote{a term common in the literature} an approximate solution accurate enough
 to recover an exact solution.
 
 In this case, exactness recovery is simple and straightforward.  $E$, $d_0$, $m_1$ and $n_1$ are all quite small,
@@ -323,18 +323,18 @@ Several of these varieties solve the system of equations, but do not lead to a m
 In brief,
 
 \begin{itemize}
-\item[\eqref{ideal:1}] contains our new solution and simple variants of it;
-\item[\eqref{ideal:2}] corresponds to the classical solutions
+\item[\eqref{ideal:1}] corresponds to our new solution (see below),
+\item[\eqref{ideal:2}] corresponds to the classical solutions (see below),
 \item[\eqref{ideal:3}] sets the coefficient of
 %$\frac{d^2\Psi}{dv^2}$
 $D^2\Psi$
-in the ODE to zero, resulting in a first-order ODE, so we discard it;
-\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it;
+in the ODE to zero, resulting in a first-order ODE, so we discard it,
+\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it,
 \item[\eqref{ideal:5}] sets all coefficients of the ODE to zero, so we discard it, too.
 
 \end{itemize}
 
-What solutions correspond to ideal \eqref{ideal:2}?  $d_0$ is an ideal generator,
+How to understand ideal \eqref{ideal:2}?  $d_0$ is an ideal generator,
 so $d_0=0$, and we can always multiply our DE by a constant without affecting our result, so we can set $d_1=1$.
 Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants,
 and $v_1=v_2=v_3=0$, so we can normalize by setting $v_0=1$.  This simplifies ideal \eqref{ideal:2} to:
@@ -365,7 +365,7 @@ where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ an
 expand out the derivative to obtain \eqref{classical eq in ideal}.  Its presence here was
 expected and won't be commented on further.
 
-Ideal \eqref{ideal:1} not expected, and contains our new solution.  Does it contain any additional solutions?
+Ideal \eqref{ideal:1} was not expected, and contains our new solution.  Does it contain any additional solutions?
 $d_0$ is an ideal generator,
 so $d_0=0$, and we can set $d_1=1$, by the same logic as above.
 Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
@@ -497,6 +497,7 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
   \end{tikzpicture}
 
+\vbox{
 {\bf Ansatz 6}
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
@@ -513,6 +514,7 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
     \node (base) [ring, node distance=70pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1/1};
   \end{tikzpicture}
+}
 
 {\bf Ansatz 7}
 
@@ -576,6 +578,38 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
     \draw[degree] (c.west) -- (c.west|-base.north) node[right,pos=0.8] {2};
   \end{tikzpicture}
 }
+
+{\bf Ansatz 12}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (Qv) [ring, below of=Psi, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element] {};
+        %\node (Psi field) [ring, fill=none, fit=(Psi block), text width=250pt] {};
+    \end{scope}
+
+    \node (Theta) [poly, node distance=110pt, below of=Psi, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Theta'' + \framebox(10,10){}\tikzmark{b}\,\Theta' + \coeff\tikzmark{c}\,\Theta$};
+    \node (Qu) [ring, below of=Theta, text width=100pt] {$\mathbf{Q}[u]$};
+    \node (u) [poly, right=of Qu] {$u$};
+    \draw[degree] (a.west) -- (a.west|-Qu.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-Qu.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-Qu.north) node[right,pos=0.6] {2};
+    \node (Theta label) [at=(v.east|-Theta.north), anchor=north east] {\Large$\Theta$};
+    \begin{scope}[on background layer]
+        \node (Theta block)[fit=(Theta) (Qu) (u), inner sep=10pt, element] {};
+        \node (Theta field) [ring, fill=none, fit=(Theta block), text width=250pt] {};
+    \end{scope}
+
+    \node (base) [ring, node distance=70pt, below=of Theta field.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-Theta field.north) node[right,pos=0.7] {2/2};
+    \draw[degree] (u.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
+  \end{tikzpicture}
 
 \subsection*{Draft Status}
 
