@@ -207,7 +207,7 @@ in less than three seconds:
 \end{aligned}
 \end{equation}
 
-This is a {\it witness point}, a term common in the literature, an approximate solution accurate enough
+This is a {\it witness point}\footnote{a term common in the literature}, an approximate solution accurate enough
 to recover an exact solution.
 
 In this case, exactness recovery is simple and straightforward.  $E$, $d_0$, $m_1$ and $n_1$ are all quite small,
@@ -445,6 +445,7 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 \tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
 \tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
 \tikzstyle{element}=[rectangle, draw=orange, thick, fill=orange!20, align=center, rounded corners, minimum height=2em]
+\tikzstyle{algebraic}=[rectangle, draw=green, thick, fill=green!20, align=center, rounded corners, minimum height=2em]
 \tikzstyle{degree}=[]
 
 {\bf Ansatz 9}
@@ -530,6 +531,51 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
   \end{tikzpicture}
 
+{\bf Ansatz 10}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (Qv) [ring, below of=Psi, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element] {};
+    \end{scope}
+    \node (base) [ring, node distance=70pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2};
+  \end{tikzpicture}
+
+
+\vbox{
+{\bf Ansatz 11}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (Qv) [ring, below of=Psi, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element] {};
+    \end{scope}
+    \node (alg ext) [poly, node distance=150pt, below=of Psi.east, anchor=east, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\gamma^2 + \framebox(10,10){}\tikzmark{b}\,\gamma + \coeff\tikzmark{c}$};
+    \begin{scope}[on background layer]
+        \node (alg ext element) [algebraic, fit=(alg ext) (Psi label.east|-alg ext.north), inner sep=10pt] {};
+        \node (alg ext title) [node distance=20pt, above=of alg ext element.north, anchor=center, text centered, text width=250pt] {$\mathbf{Q}[x,y,z,r,\gamma]/(r^2-x^2-y^2-z^2, \framebox(10,10){}\,\gamma^2 + \framebox(10,10){}\,\gamma + \coeff\,)$};
+        \node (alg ext field) [ring, fill=none, fit=(alg ext title) (alg ext element), node distance=70pt, text width=250pt] {};
+    \end{scope}
+    \draw[degree] (v.south) -- (v.south|-alg ext field.north) node[right,pos=0.7] {2/2};
+    \node (base) [ring, below=of alg ext field.south east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (a.west) -- (a.west|-base.north) node[right,pos=0.8] {2};
+    \draw[degree] (b.west) -- (b.west|-base.north) node[right,pos=0.8] {2};
+    \draw[degree] (c.west) -- (c.west|-base.north) node[right,pos=0.8] {2};
+  \end{tikzpicture}
+}
 
 \subsection*{Draft Status}
 
