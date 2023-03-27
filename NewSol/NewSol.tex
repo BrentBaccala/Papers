@@ -611,6 +611,87 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
     \draw[degree] (u.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
   \end{tikzpicture}
 
+\vbox{
+   {\bf Ansatz 13}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (alg ext) [poly, node distance=50pt, below=of Psi.east, anchor=east, text width=90pt] {$\framebox(10,10){}\tikzmark{aa}\,\gamma^2 + \framebox(10,10){}\tikzmark{bb}\,\gamma + \coeff\tikzmark{cc}$};
+    \begin{scope}[on background layer]
+        \node (alg ext element) [algebraic, fit=(alg ext), inner sep=5pt] {};
+        \node (alg ext field) [ring, fill=none, fit=(alg ext element), node distance=70pt] {};
+    \end{scope}
+    \node (Qv) [ring, below of=alg ext, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-alg ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-alg ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-alg ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (aa.west) -- (aa.west|-Qv.north) node[right,pos=0.8] {2};
+    \draw[degree] (bb.west) -- (bb.west|-Qv.north) node[right,pos=0.8] {2};
+    \draw[degree] (cc.west) -- (cc.west|-Qv.north) node[right,pos=0.8] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element, fill=none] {};
+    \end{scope}
+    \node (base) [ring, node distance=100pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
+  \end{tikzpicture}
+}
+
+\vskip 12pt
+\vbox{
+   {\bf Ansatz 14}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (ode ext) [poly, node distance=50pt, below=of Psi.east, anchor=east, text width=80pt] {$\theta' = \coeff\tikzmark{cc}$};
+    \begin{scope}[on background layer]
+        \node (ode ext element) [element, fit=(ode ext), inner sep=10pt] {};
+        \node (ode ext field) [ring, fill=none, fit=(ode ext element), node distance=70pt] {};
+    \end{scope}
+    \node (Qv) [ring, node distance=50pt, below of=ode ext field, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (cc.west) -- (cc.west|-Qv.north) node[right,pos=0.8] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element, fill=none] {};
+    \end{scope}
+    \node (base) [ring, node distance=100pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
+  \end{tikzpicture}
+}
+
+\vskip 12pt
+\vbox{
+   {\bf Ansatz 15}
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (ode ext) [poly, node distance=50pt, below=of Psi.east, anchor=east, text width=80pt] {$\framebox(10,10){}\tikzmark{aa}\,\theta'' + \framebox(10,10){}\tikzmark{bb}\,\theta' + \coeff\tikzmark{cc}\,\theta$};
+    \begin{scope}[on background layer]
+        \node (ode ext element) [element, fit=(ode ext), inner sep=10pt] {};
+        \node (ode ext field) [ring, fill=none, fit=(ode ext element), node distance=70pt] {};
+    \end{scope}
+    \node (Qv) [ring, node distance=50pt, below of=ode ext, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (b.west) -- (b.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (c.west) -- (c.west|-ode ext field.north) node[right,pos=0.6] {2};
+    \draw[degree] (aa.west) -- (aa.west|-Qv.north) node[right,pos=0.8] {2};
+    \draw[degree] (bb.west) -- (bb.west|-Qv.north) node[right,pos=0.8] {2};
+    \draw[degree] (cc.west) -- (cc.west|-Qv.north) node[right,pos=0.8] {2};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element, fill=none] {};
+    \end{scope}
+    \node (base) [ring, node distance=100pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
+  \end{tikzpicture}
+}
+
 \subsection*{Draft Status}
 
 This paper is still a draft and is being updated regularly.
