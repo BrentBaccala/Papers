@@ -793,6 +793,23 @@ denominator.
   \end{tikzpicture}
 }
 
+\begin{comment}
+%% An attempt to reform this tikz from the "bottom up" to make it easier
+\vskip 12pt
+\vbox{
+   {\bf Ansatz 15}
+
+  \begin{tikzpicture}
+
+    \node (base) [ring, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \node (ll-psi-a) at ($(base.west)!0.1!(base.east)$) {};
+    \node (ll-psi) [above=of ll-psi-a] {.};
+    \node (Qv) [ring, right of=ll-psi] {$\mathbf{Q}[v]$};
+    \node (ode ext) [poly, above=of Qv.east, anchor=east, text width=80pt] {$\framebox(10,10){}\tikzmark{aa}\,\theta'' + \framebox(10,10){}\tikzmark{bb}\,\theta' + \coeff\tikzmark{cc}\,\theta$};
+  \end{tikzpicture}
+}
+\end{comment}
+
 \subsection*{Draft Status}
 
 This paper is still a draft and is being updated regularly.
