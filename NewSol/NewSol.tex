@@ -31,11 +31,76 @@
 \maketitle
 
 \begin{abstract}
+The author has developed a technique for finding exact solutions of partial
+differential equations that does not require separation of variables
+and is not a transform method.  As an illustration of the method,
 I show a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
 The solution involves a Bessel function, is not separable, and is not in $L^2$.
 \end{abstract}
 
+\subsection*{Introduction}
+\parskip 12pt
+
+The Schr\"odinger equation is the quantum mechanical equivalent of Newton's second law.
+Both Newton's equation and Schr\"odinger's equation,
+given a system of particles interacting under the influence of some force,
+describe the time evolution of the system.  Newton's classical second law $F=ma$
+describes the time evolution of the position and velocity of each particle.
+Schr\"odinger's quantum mechanical formulation $H\Psi=i\frac{\delta}{\delta t} \Psi$
+describes the time evolution
+of the wavefunction $\Psi$, which is a complex-valued function of particle position
+that encodes a probability density function for
+the particle positions as $|\Psi|^2$ and a probability density function
+for the particle momenta as $|\hat{\Psi}|^2$.
+
+There is no one Schr\"odinger equation any more than there is one $F=ma$.
+Each physical system under consideration gives rise to a different collection
+of particles and interacting forces, and a different Hamiltonian operator $H$.
+Indeed, even the approximations we
+make strongly determine the form of the equation for a given system.
+
+One of the simplest Schr\"odinger equations is for the hydrogen atom,
+considering the electric force attraction between the nucleus and
+the electronic, and ignoring all other effects.  It has the following form:
+
+\begin{equation*}
+%\label{schrodinger}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = i \frac{\delta}{\delta t} \Psi
+\end{equation*}
+
+where $\Psi$ is the wavefunction, $\nabla^2$ is the Laplacian,
+$r$ is the distance between the two particles, and $E$ is the
+state's energy.
+
+We can further simplify the general, time-dependent Schr\"odinger equation
+by requiring that the position and momentum probability density functions
+each be time-independent.  This restricts the solution to stable states
+of the hydrogen atom, settles the wavefunction up to a multiple of $e^{itE}$,
+and leads to the time-independent Schr\"odinger equation for hydrogen:
+
+\begin{equation*}
+%\label{schrodinger}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation*}
+
+This equation is amenable to seperation of variables, leading to the
+classical solutions, which have been known for a century:
+
+TABLE
+
+The classical solutions, in short, are separable, are in $L^2$, are in $C^\infty$,
+and are each paired with a negative energy value, of which $-\frac{1}{2}$ is the lowest,
+and corresponds to the 1s or ground state.
+
+Yet the existance of separable solutions leaves open the existance of non-separable solutions.
+
+The author has developed an algorithm to solve certain classes of ODEs
+
+It is perhaps surprising that such a well-studied equation would have fairly simple, previously
+undiscovered, non-separable solutions.
+
 \subsection*{Theorem}
+\parskip 0pt
 
 Consider the following simple Sch\"odinger equation for the hydrogen atom:
 
@@ -440,7 +505,43 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 
 \end{itemize}
 
+\subsection*{The Algorithm}
+
+Given a PDE defined by Ritt-type differential polynomials, attempt the following:
+
+1. Select an ansatz that defines a differential space parameterized by constants (see next section)
+
+2. Reduce the PDE modulo the differential ideal that characterizes the differential space (differential elimination step)
+
+3. Construct a system of polynomial equations in the constants by collecting like terms in the remaining variables
+
+4. Construct the ideal I defined by that system of polynomial equations as generators
+
+5. Are there any zero divisors in the differential space? (probably not)  If not, take the radical of I.
+
+6. Construct the primary decomposition (prime decomposition if I is radical)
+
+7. Each ideal in the primary/prime decomposition corresponds to a variety in the space of constants,
+the union of which form the solution space of the PDE in the differential space.
+
 \subsection*{Ansatz Diagrams}
+
+The algorithm requires selection of an {\bf ansatz}, which is a differential
+algebraic function space, based on the coefficient ring used to define the PDE,
+and built using a finite sequence of ODE and algebraic extensions.  An
+ansatz is also required to be parametized by a finite number of constants,
+so degree bounds, for example, are required for most polynomials.
+
+I've developed a graphical notation to describe an ansatz.  Blue-purple boxes
+denote rings, orange boxes (whether shaded orange or not) denote ODE extensions, and green boxes denote
+algebraic extensions.  A blue box drawn immediately around an orange or green box
+denote the ring formed by adjoining the element defined by the orange or green box.
+Polynomials are drawn as a square white box and are
+connected by a line to the ring to which they belong.  A number next to
+the line indicates a degree bound on the polynomial, and two numbers
+separated by a slash denote a rational function.  For example, 2/2 denotes
+a rational function with a second degree numerator and a second degree
+denominator.
 
 \tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
 \tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
