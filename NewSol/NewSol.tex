@@ -810,6 +810,34 @@ denominator.
 }
 \end{comment}
 
+\subsection*{Performance}
+
+Ansatz 5    Hydrogen        Differential Elimination  Rosenfeld-Groebner     memory exhaustion on 96 GB machine after 30 hours
+                                                      Manual                 quick
+                            Sol of constant system    Bertini                8.33 hours (laptop); only four components (why?)
+                                                      Singular radical       quick
+                                                      Singular prime decomp  quick
+
+Ansatz 5.1  Hydrogen        Differential Elimination  Manual                 quick
+                            Sol of constant system    Singular radical       quick
+                                                      Singular prime decomp  quick
+
+Ansatz 5.2  Hydrogen        Differential Elimination  Manual                 quick
+                            Sol of constant system    Singular radical       quick
+                                                      Singular prime decomp  quick
+
+Ansatz 5.3  Hydrogen        Differential Elimination  Manual                 quick
+                            Sol of constant system    Singular radical       5 minutes
+                                                      Singular prime decomp  quick
+
+Ansatz 6    Helium          Differential Elimination  Manual                 10 seconds
+                            Sol of constant system    Singular radical       in progress (both laptop and ragazzo)
+                                                      Bertini                in progress (laptop)
+
+Ansatz 11   Hydrogen        Differential Elimination  Manual                 18 hours (laptop)
+                            Sol of constant system    Singular radical       oom, 96 GB, 39 hours, c200-1
+                                                      Singular primary dec   in progress (c200-1)
+
 \subsection*{Draft Status}
 
 This paper is still a draft and is being updated regularly.
