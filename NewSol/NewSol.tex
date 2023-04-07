@@ -544,10 +544,34 @@ a rational function with a second degree numerator and a second degree
 denominator.
 
 \tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
+\tikzstyle{poly2}=[rectangle, draw, thick, fill=white, align=center, rounded corners, minimum height=2em]
 \tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
 \tikzstyle{element}=[rectangle, draw=orange, thick, fill=orange!20, align=center, rounded corners, minimum height=2em]
 \tikzstyle{algebraic}=[rectangle, draw=green, thick, fill=green!20, align=center, rounded corners, minimum height=2em]
 \tikzstyle{degree}=[]
+
+{\bf Ansatz 1}
+
+  \begin{tikzpicture}
+    \node (1base) [ring, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \node (ll-psi-a) at ($(1base.west)!0.1!(1base.east)$) {};
+    \node (ll-psi) [above=of ll-psi-a.center] {.};
+    \node (lr-psi) [above=of 1base.east] {.};
+    \node (ur-psi) [above=of lr-psi.center] {.};
+    \begin{scope}[on background layer]
+        \node (Psi block)[inner sep=0pt, fit=(ll-psi.center) (ur-psi.center), element] {};
+    \end{scope}
+    \node (Psi) [poly2, right=of Psi block.west] {$\Psi' = \coeff\tikzmark{aa}\,\Psi$};
+    \node (Psi label) [left=of Psi block.east] {\Large$\Psi$};
+    \node (output) [above=of Psi.west] {\Large\fbox{$\Psi$}\tikzmark{1b}};
+    \draw[degree] (Psi) -- (Psi|-1base.north) node[right,pos=0.6] {1};
+    \draw[degree] (output) -- (output|-Psi block.north);
+  \end{tikzpicture}
+  \begin{tikzpicture}
+    \node (ring) [ring, text width=50pt] {ring};
+    \node (ODE extension) [element, below=of ring, text width=50pt] {ODE extension};
+    \node (algebraic extension) [algebraic, below=of ODE extension, text width=50pt] {algebraic extension};
+  \end{tikzpicture}
 
 {\bf Ansatz 9}
 
