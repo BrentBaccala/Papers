@@ -46,19 +46,31 @@ A short list of methods to find exact solutions to PDEs:
 
 \begin{itemize}
 \item separation of variables
-\item transform methods
+\item method of characteristics
+\item transform methods (Fourier transform on space variables)
+\item symmetry methods
+\item calculus of variations
+\item Evans: Laplace's eq is invariant under rotations, so look for functions of r; this is a variant of sep of var
+\item Evans: Poisson's eq: Green's function is constructed from radially symmetric solution to Laplace's eq
+\item Evans: Poisson's eq: calculus of variations; show that solution minimizes a functional
+\item Evans: heat eq: uses several scaling symmetries to justify solution form depending on a single expression
+\item Evans: Duhamel's principle: separate out one variable (t) that appears like $u_t - Lu = f$ (L has no time deriv);
+      form the ``retarded solution'' that represents the effect of an infinitesimal $f$, then integrate over time
+\item Evans: heat eq: scaling symmetry $\rightarrow$ fundamental sol $\rightarrow$ convolution to handle arbitrary initial condition
+      $\rightarrow$ Duhamel's principle to handle the inhomogenous component
 \end{itemize}
 
 The author has developed another exact solution technique based on differential algebra
-and has used it to find a new solution to one of the most heavily studied equations
+and has used it to find a new solution to one of the most well-studied equations
 in mathematical physics, the Schr\"odinger equation for hydrogen.
 
 
 
-The Schr\"odinger equation is the quantum mechanical equivalent of Newton's second law.
-Both Newton's equation and Schr\"odinger's equation,
-given a system of particles interacting under the influence of some force,
-describe the time evolution of the system.  Newton's classical second law $F=ma$
+The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
+Both Newton's equation and Schr\"odinger's equation
+describe the time evolution of a system
+of particles interacting under the influence of forces.
+Newton's classical second law $F=ma$
 describes the time evolution of the position and velocity of each particle.
 Schr\"odinger's quantum mechanical formulation $H\Psi=i\frac{\delta}{\delta t} \Psi$
 describes the time evolution
@@ -73,6 +85,15 @@ of particles and interacting forces, and a different Hamiltonian operator $H$.
 Indeed, even the approximations we
 make strongly determine the form of the equation for a given system.
 
+The Hamiltonian operator $H$, so named because of its connection to Hamiltonian
+mechanics, is most typically given in the form $H=T-V$, where $T$ is the
+sum of the kinetic energy of all particles and $V$ is the potential energy
+of the system, due to its forces.
+
+\begin{equation*}
+H=T-V
+\end{equation*}
+
 One of the simplest Schr\"odinger equations is for the hydrogen atom,
 considering the electric force attraction between the nucleus and
 the electronic, and ignoring all other effects.  It has the following form:
@@ -83,32 +104,73 @@ the electronic, and ignoring all other effects.  It has the following form:
 \end{equation*}
 
 where $\Psi$ is the wavefunction, $\nabla^2$ is the Laplacian,
-$r$ is the distance between the two particles, and $E$ is the
-state's energy.
+and $r$ is the distance between the two particles.  We use Hartree atomic units,
+a system of units in which four fundamental physical constants\footnote{the reduced Planck
+constant, the elementary charge, the electron mass, and the Coulumb constant} are
+assigned the value of 1, in order to eliminate the need for any
+conversion constants in the equation.  The unit of distance, in particular,
+is {\it Bohr radii}, approximately half an Angstr\"om, a
+Angstr\"om being $10^{-10}$ meters.  The first term, $-\frac{1}{2}\nabla^2 \Psi$,
+is the kinetic energy operator, and the second term, $-\frac{1}{r}\Psi$, is
+the potential energy term.
 
 We can further simplify the general, time-dependent Schr\"odinger equation
 by requiring that the position and momentum probability density functions
 each be time-independent.  This restricts the solution to stable states
 of the hydrogen atom, settles the wavefunction up to a multiple of $e^{itE}$,
+where $E$ is the state's energy in Hartrees (approximately 27 eV),
 and leads to the time-independent Schr\"odinger equation for hydrogen:
 
-\begin{equation*}
-%\label{schrodinger}
+\begin{equation}
+\label{schrodinger hydrogen}
 -\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation}
+
+This equation is amenable to seperation of variables.
+Using spherical coordinates and writing $\Psi$ as $\Psi=R(r)Y(\theta, \psi) = R(r)P(\theta)F(\psi)$,
+substituting into \eqref{schrodinger hydrogen}, we obtain the following expansion\footnote{hyperphysics}:
+
+\begin{equation*}
+\frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r)
++ \left[\frac{1}{P\sin\theta} \frac{d}{d\theta}\left[\sin\theta\frac{dP}{d\theta}\right]+\frac{1}{F\sin^2\theta}\frac{d^2 F}{d\psi^2}\right] = 0
 \end{equation*}
 
-This equation is amenable to seperation of variables, leading to the
-classical solutions, which have been known for a century:
+The first part, dependant on $r$, is the {\it radical equation}, whose solutions are, in general.
+hypergeometric functions, but which, in the case of specific energy values,
+simplify to polynomials in $r$
+times an exponential of $r$.  It is these solutions, combined with the solution
+of the second part of the equation (the colatitude equation, solved by the associated Laguerre polynomials,
+and the azimuthal equation), which have been known for a hundred years, and are
+hence referred to as the {\it classical solutions} to hydrogen.
 
-TABLE
+\begin{figure}
+\begin{center}
+\begin{tabular}{ccc}
+{\bf Energy}		& {\bf Wavefunction}		& {\bf Shell} \\
+{\bf (Hartrees)}	& & \\
+\\
+$-\frac{1}{2}$		& $e^{-r}$			& 1s \\
+$-\frac{1}{8}$		& $(2-r)e^{-r/2}$		& 2s \\
+			& $xe^{-r/2}$			& 2p \\
+			& $ye^{-r/2}$			\\
+			& $ze^{-r/2}$			\\
+$-\frac{1}{18}$		& $(27-18r+2r^2)e^{-r/3}$	& 3s \\
+			& $(6-r)xe^{-r/3}$		& 3p \\
+			& $(6-r)ye^{-r/3}$		\\
+			& $(6-r)ze^{-r/3}$		\\
+%%			& $(xy)e^{-r/3}$		& 3d \\
+\end{tabular}
+\end{center}
+\end{figure}
 
-The classical solutions, in short, are separable, are in $L^2$, are in $C^\infty$,
+The associated energy levels are negative because these are bound states.  Zero energy
+would correspond to an electron and a proton at rest an (infinitely) large distance apart.
+
+The classical solutions are separable, are in $L^2$, are in $C^\infty$,
 and are each paired with a negative energy value, of which $-\frac{1}{2}$ is the lowest,
 and corresponds to the 1s or ground state.
 
 Yet the existance of separable solutions leaves open the existance of non-separable solutions.
-
-The author has developed an algorithm to solve certain classes of ODEs
 
 It is perhaps surprising that such a well-studied equation would have fairly simple, previously
 undiscovered, non-separable solutions.
@@ -164,7 +226,108 @@ and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
 
 Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
 
-\subsection*{Solution Method}
+\subsection*{Solution Algorithm}
+
+Given a PDE defined by Ritt-type differential polynomials, attempt the following:
+
+1. Select an ansatz that defines a differential space parameterized by constants (see next section)
+
+2. Reduce the PDE modulo the differential ideal that characterizes the differential space (differential elimination step)
+
+3. Construct a system of polynomial equations in the constants by collecting like terms in the remaining variables
+
+4. Construct the ideal I defined by that system of polynomial equations as generators
+
+5. Are there any zero divisors in the differential space? (probably not)  If not, take the radical of I.
+
+6. Construct the primary decomposition (prime decomposition if I is radical)
+
+7. Each ideal in the primary/prime decomposition corresponds to a variety in the space of constants,
+the union of which form the solution space of the PDE in the differential space.
+
+\subsection*{The Ansatz}
+
+The algorithm requires selection of an {\bf ansatz}, which is a differential
+algebraic function space, based on the coefficient ring used to define the PDE,
+and built using a finite sequence of ODE and algebraic extensions.  An
+ansatz is also required to be parametized by a finite number of constants,
+so degree bounds, for example, are required for most polynomials.  No
+algorithm is presently available to select an ansatz.
+
+I've developed a graphical notation to describe an ansatz.  Blue-purple boxes
+denote rings, orange boxes (whether shaded orange or not) denote ODE extensions, and green boxes denote
+algebraic extensions.  A blue box drawn immediately around an orange or green box
+denote the ring formed by adjoining the element defined by the orange or green box.
+Polynomials are drawn as a square white box and are
+connected by a line to the ring to which they belong.  A number next to
+the line indicates a degree bound on the polynomial, and two numbers
+separated by a slash denote a rational function.  For example, 2/2 denotes
+a rational function with a second degree numerator and a second degree
+denominator.
+
+I also use a numbering system to identify the ansatzen.  This is ansatz number 5.
+
+\tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
+\tikzstyle{poly2}=[rectangle, draw, thick, fill=white, align=center, rounded corners, minimum height=2em]
+\tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
+\tikzstyle{element}=[rectangle, draw=orange, thick, fill=orange!20, align=center, rounded corners, minimum height=2em]
+\tikzstyle{algebraic}=[rectangle, draw=green, thick, fill=green!20, align=center, rounded corners, minimum height=2em]
+\tikzstyle{degree}=[]
+
+{\bf Ansatz 5}
+
+Ansatz 5 is a second-order ODE with linear coefficients and a linear variable, i.e:
+
+  \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
+    \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
+    \node (Qv) [ring, below of=Psi, text width=100pt] {$\mathbf{Q}[v]$};
+    \node (v) [poly, right=of Qv] {$v$};
+    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {1};
+    \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
+    \begin{scope}[on background layer]
+        \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element] {};
+    \end{scope}
+    \node (base) [ring, node distance=70pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
+    \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
+  \end{tikzpicture}
+  \begin{tikzpicture}
+    \node (ring) [ring, text width=50pt] {ring};
+    \node (ODE extension) [element, below=of ring, text width=50pt] {ODE extension};
+    \node (algebraic extension) [algebraic, below=of ODE extension, text width=50pt] {algebraic extension};
+  \end{tikzpicture}
+
+The structure of ansatz 5 can be described using differential polynomials and jet notation (subscripts indicate differentiation):
+
+\begin{equation}
+\label{ansatz 5}
+\begin{gathered}
+\begin{comment}
+\Psi_x = \frac{\Psi'}{v_x} \qquad
+\Psi_y = \frac{\Psi'}{v_y} \qquad
+\Psi_z = \frac{\Psi'}{v_z} \\
+\Psi'_x = \frac{\Psi''}{v_x} \qquad
+\Psi'_y = \frac{\Psi''}{v_y} \qquad
+\Psi'_z = \frac{\Psi''}{v_z} \\
+\end{comment}
+\Psi_x = \Psi' v_x \qquad
+\Psi_y = \Psi' v_y \qquad
+\Psi_z = \Psi' v_z \\
+\Psi'_x = \Psi'' v_x \qquad
+\Psi'_y = \Psi'' v_y \qquad
+\Psi'_z = \Psi'' v_z \\
+(a_0 + a_1 v) \Psi'' + (b_0 + b_1 v) \Psi' + (c_0 + c_1 v) \Psi = 0 \\
+v = v_1 x + v_2 y + v_3 z + v_4 r
+\end{gathered}
+\end{equation}
+
+Essentially we introduce a new derivation with respect to $v$.
+$\Psi'$ and $\Psi''$ are new indeterminates.
+
+\subsection*{Differential Reduction Step}
+
+The Rosenfeld-Gr\"obner algorithm.
 
 % I used a Sage-based computer program with the following ansatz.
 
@@ -172,43 +335,21 @@ I found this solution roughly as follows.\footnote{
 I discovered an alternate form of this solution using a somewhat more complex ansatz
 on January 24, 2023.  By January 26, I had established the solution in its current form.
 The original ansatz produced a rational function with
-a 1254 term numerator and a 36 term denominator, that gave rise to a system of 224 equations.
+a 1254 term numerator and a 36 term denominator, that gave rise to a system of 224 equations,
+and was first solved using numerical approximation (scipy.optimize.root).
 }
 
 Use Cartesian coordinates.  Let $v$ be a linear polynomial in the coordinates and the root $r=\sqrt{x^2+y^2+z^2}$,
-with the following form (the $v_i$ are constants):
-
-\begin{equation}
-\label{v ansatz}
-v = v_0 r + v_1 x + v_2 y + v_3 z
-\end{equation}
-
-Assume the solution to the input PDE \eqref{schrodinger}
-is a linear second-order ODE w.r.t. $v$ with linear coefficeints,
-with the following form:
-
-\begin{equation}
-\label{psi ansatz}
-(d_0 + d_1 v) \frac{\delta^2\Psi}{\delta v^2} - (m_0 + m_1 v) \frac{\delta\Psi}{\delta v} - (n_0 + n_1 v) \Psi = 0
-\end{equation}
-
-or:
-
-\begin{equation}
-\label{psi ansatz sub}
-(d_0 + d_1 v) \frac{\delta^2\Psi}{\delta v^2} = (m_0 + m_1 v) \frac{\delta\Psi}{\delta v} + (n_0 + n_1 v) \Psi
-\end{equation}
-
-Substituting \eqref{v ansatz} into \eqref{psi ansatz sub}, expanding derivatives in \eqref{schrodinger},
-substituting the RHS of \eqref{psi ansatz sub} into \eqref{schrodinger} where the LHS of
-\eqref{psi ansatz sub} appears,
-replacing all instances of $r^2$ with $x^2+y^2+z^2$, and canceling GCDs, we obtain a rational function
+Reduce the input PDE \eqref{schrodinger} modulo differential ideal \eqref{ansatz 5}, obtaining
+a rational function
 with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
 \begin{equation}
 %% -8r\Psi x^5 b_1 b_2^2 n_1 - r\Psi x^5 b_1 b_4^2 n_1 - r \Psi x^5 b_1 b_6^2 n_1 - 2r\Psi x^5 b_2 b_3 b_4 n_1 - \cdots
 -2r\Psi x^3 E d_1 v_1 - 3r\Psi x^3 n_1 v_0^2 v_1 - r\Psi x^3 n_1 v_1^3 - r\Psi x^3 n_1 v_1 v_2^2 - r\Psi x^3 n_1 v_1 v_3^2 - \cdots
 \end{equation}
+
+\subsection*{Projection Step}
 
 We collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
 
@@ -226,7 +367,7 @@ duplicate equations are dropped, the system has 34 equations.
 %%sage: latex(matrix(eqns()).transpose())
 \begin{equation}
 \label{polynomial system}
-\left(\begin{array}{r}
+\begin{array}{r}
 -2 \, n_{1} v_{0}^{3} - 4 \, n_{1} v_{0} v_{1}^{2} - 4 \, n_{1} v_{0} v_{2}^{2} - 2 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
 -2 \, n_{1} v_{0}^{3} - 4 \, n_{1} v_{0} v_{1}^{2} - 2 \, n_{1} v_{0} v_{2}^{2} - 4 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
 -2 \, n_{1} v_{0}^{3} - 2 \, n_{1} v_{0} v_{1}^{2} - 4 \, n_{1} v_{0} v_{2}^{2} - 4 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
@@ -261,114 +402,8 @@ duplicate equations are dropped, the system has 34 equations.
 - \, m_{1} v_{0}^{3} - 3 \, m_{1} v_{0} v_{1}^{2} -  \, m_{1} v_{0} v_{2}^{2} -  \, m_{1} v_{0} v_{3}^{2} \\
 - \, m_{1} v_{0}^{3} -  \, m_{1} v_{0} v_{1}^{2} - 3 \, m_{1} v_{0} v_{2}^{2} -  \, m_{1} v_{0} v_{3}^{2} \\
 - \, m_{1} v_{0}^{3} -  \, m_{1} v_{0} v_{1}^{2} -  \, m_{1} v_{0} v_{2}^{2} - 3 \, m_{1} v_{0} v_{3}^{2}
-\end{array}\right)
+\end{array}
 \end{equation}
-
-Several solution techniques are available to solve a system of polynomial equations; I used
-a numerical approximation technique.  A laptop computer finds the following approximate solution
-in less than three seconds:
-
-\begin{equation}
-\label{witness point}
-\addtolength{\jot}{-3pt}
-\begin{aligned}
-&\verb!(E, 1.2793593235207163e-32)!\\
-&\verb!(d0, 1.4231937528298923e-43)!\\
-&\verb!(d1, 1.0)!\\
-&\verb!(m0, -1.0)!\\
-&\verb!(m1, 5.0839108285704363e-42)!\\
-&\verb!(n0, -1.0)!\\
-&\verb!(n1, -8.795561312674161e-33)!\\
-&\verb!(v0, 1.0)!\\
-&\verb!(v1, 0.47255672374941904)!\\
-&\verb!(v2, 0.5379975369878418)!\\
-&\verb!(v3, 0.6980320859632679)!
-\end{aligned}
-\end{equation}
-
-This is a {\it witness point},\footnote{a term common in the literature} an approximate solution accurate enough
-to recover an exact solution.
-
-In this case, exactness recovery is simple and straightforward.  $E$, $d_0$, $m_1$ and $n_1$ are all quite small,
-so we set them to zero, while $d_1$, $m_0$, $n_0$ and $v_0$ already have their exact values and:
-
-\begin{equation*}
-0.4725567237^2 + 0.5379975369^2 + 0.6980320859^2 \approx  1.0000000000
-\end{equation*}
-
-so we add $v_1^2 + v_2^2 + v_3^2 = 1$ to our solution and conclude that our witness point lies approximately
-on the following algebraic variety:
-
-\begin{equation}
-\begin{gathered}
-E = 0 \\
-d_0 = 0 \qquad
-d_1 = 1 \\
-m_0 = -1 \qquad
-m_1 = 0 \\
-n_0 = -1 \qquad
-n_1 = 0 \\
-v_0 = 1 \qquad
-v_1^2 + v_2^2 + v_3^2 = 1
-\end{gathered}
-\end{equation}
-
-Substituting these values back into our ansatz, we conclude that $\Psi(v)$
-is a solution of \eqref{schrodinger} under these conditions:
-
-\begin{equation}
-\label{related solution}
-\begin{gathered}
-v \frac{\delta^2\Psi}{\delta v^2} + \frac{\delta\Psi}{\delta v} + \Psi = 0 \\
-v = v_1 x+ v_2 y+ v_3 z+r \\
-v_1^2 + v_2^2 + v_3^2 = 1
-\end{gathered}
-\end{equation}
-
-We now have to solve a second order ODE:
-
-\begin{equation}
-v \Psi''(v) + \Psi'(v) + \Psi(v) = 0
-\end{equation}
-
-Wolfram Mathematica\footnote{I originally used Wolfram Alpha} can now
-analyze this equation and determine that it is equivalent
-to the Bessel function \eqref{solution}.
-
-\includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
-
-\subsection*{Software}
-
-The program used to find the witness point is available here:
-
-\centerline{\url{https://github.com/BrentBaccala/helium}}
-
-It's a Sage script that works fine with Sage 9.0 on Ubuntu 20.
-
-Use it to find the witness point \eqref{witness point} by
-running Sage as follows:
-
-\begin{verbatim}
-load('helium.sage')     # loads the script
-prep_hydrogen(5)        # select PDE:hydrogen and ansatz:5
-multi_init()            # form the equation
-multi_expand()          # expand out the numerator and collect like terms into a matrix
-random_numerical()      # run numerical optimizer
-\end{verbatim}
-
-Here are some other convenient variables and functions in the script:
-
-\begin{verbatim}
-V, D, N, M              # trial forms of various polynomials
-eq_a                    # PDE with ansatz substituted in and r^2 simplified
-R                       # polynomial ring over integers
-F                       # fraction field of R
-F_eq_a                  # eq_a expanded out (in F)
-F_eq_a_n                # expanded numerator (in R)
-F_eq_a_d                # expanded denominator (in R)
-eqns()                  # system of equations to solve
-SciMin                  # solution from scipy.optimize.root
-\end{verbatim}
 
 \subsection*{Exact Methods}
 
@@ -390,11 +425,11 @@ as a subalgorithm of Shimoyama-Yokoyama.
 %% sage: list(map(latex, I.radical().primary_decomposition()))
 %% \Bold.* -> \\
 \begin{align}
-& \left(v_{0}^{2} - v_{1}^{2} - v_{2}^{2} - v_{3}^{2}, n_{1}, m_{1}, m_{0} - n_{0} v_{0}, d_{1} + n_{0} v_{0}, d_{0}, E\right)\label{ideal:1} \\
-& \left(v_{3}, v_{2}, v_{1}, m_{1}, m_{0} - n_{0} v_{0}, 2 d_{1} + n_{0} v_{0}, d_{0}, E n_{0} - n_{1} v_{0}\right)\label{ideal:2}\\
-& \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2}, v_{0}, d_{1}, d_{0}\right)\label{ideal:3}\\
+& \left(n_{1}, n_{0}, m_{1}, m_{0}, d_{1}, d_{0}\right)\label{ideal:5} \\
 & \left(v_{3}, v_{2}, v_{1}, v_{0}, d_{0}\right)\label{ideal:4}\\
-& \left(n_{1}, n_{0}, m_{1}, m_{0}, d_{1}, d_{0}\right)\label{ideal:5}
+& \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2}, v_{0}, d_{1}, d_{0}\right)\label{ideal:3}\\
+& \left(v_{3}, v_{2}, v_{1}, m_{1}, m_{0} - n_{0} v_{0}, 2 d_{1} + n_{0} v_{0}, d_{0}, E n_{0} - n_{1} v_{0}\right)\label{ideal:2}\\
+& \left(v_{0}^{2} - v_{1}^{2} - v_{2}^{2} - v_{3}^{2}, n_{1}, m_{1}, m_{0} - n_{0} v_{0}, d_{1} + n_{0} v_{0}, d_{0}, E\right)\label{ideal:1}
 \end{align}
 \end{subequations}
 
@@ -402,14 +437,14 @@ Several of these varieties solve the system of equations, but do not lead to a m
 In brief,
 
 \begin{itemize}
-\item[\eqref{ideal:1}] corresponds to our new solution (see below),
-\item[\eqref{ideal:2}] corresponds to the classical solutions (see below),
+\item[\eqref{ideal:5}] sets all coefficients of the ODE to zero, so we discard it,
+\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it,
 \item[\eqref{ideal:3}] sets the coefficient of
 %$\frac{d^2\Psi}{dv^2}$
 $D^2\Psi$
-in the ODE to zero, resulting in a first-order ODE, so we discard it,
-\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it,
-\item[\eqref{ideal:5}] sets all coefficients of the ODE to zero, so we discard it, too.
+in the ODE to zero, resulting in a first-order ODE, so we discard it, too,
+\item[\eqref{ideal:2}] corresponds to the classical solutions (see below), and
+\item[\eqref{ideal:1}] corresponds to our new solution (see below).
 
 \end{itemize}
 
@@ -449,15 +484,89 @@ $d_0$ is an ideal generator,
 so $d_0=0$, and we can set $d_1=1$, by the same logic as above.
 Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
 be positive, and since $v_0^2-v_1^2-v_2^2-v_3^3=0$, $v_0$ must be non-zero.  So we can normalize by setting $v_0=1$.
-That simplifies \eqref{ideal:1} to this:
+That simplifies \eqref{ideal:1} to this ideal:
 
 \begin{equation}
 \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_{0} - 1, n_{1}, n_{0} + 1, m_{1}, m_{0} + 1, d_{1} - 1, d_{0}, E\right)
 \end{equation}
 
-So we conclude that \eqref{ideal:1} contains only our new solution and simple variants thereof.
+This ideal corresponds to the following system of equations:
 
-\subsection*{The Rosenfeld-Gr\"obner algorithm}
+\begin{equation}
+\begin{gathered}
+E = 0 \\
+d_0 = 0 \qquad
+d_1 = 1 \\
+m_0 = -1 \qquad
+m_1 = 0 \\
+n_0 = -1 \qquad
+n_1 = 0 \\
+v_0 = 1 \qquad
+v_1^2 + v_2^2 + v_3^2 = 1
+\end{gathered}
+\end{equation}
+
+Substituting these values back into our ansatz, we conclude that $\Psi(v)$
+is a solution of \eqref{schrodinger} under these conditions:
+
+\begin{equation}
+\label{related solution}
+\begin{gathered}
+v \frac{\delta^2\Psi}{\delta v^2} + \frac{\delta\Psi}{\delta v} + \Psi = 0 \\
+v = v_1 x+ v_2 y+ v_3 z+r \\
+v_1^2 + v_2^2 + v_3^2 = 1
+\end{gathered}
+\end{equation}
+
+The expression $v_1 x + v_2 y + v_3 z$ is easily identified as a dot product between
+the coordinate $(x,y,z)$ and the unit vector $(v_1, v_2, v_3)$ (remembering
+that $v_1^2 + v_2^2 + v_3^2 = 1$).  The direction of this vector is arbitrary,
+so we can orient the $x$-axis in this direction and set $(v_1, v_2, v_3) = (1,0,0)$
+without loss of generality.
+
+We now have to solve a second order ODE:
+
+\begin{equation}
+v \Psi''(v) + \Psi'(v) + \Psi(v) = 0
+\end{equation}
+
+Wolfram Mathematica\footnote{I originally used Wolfram Alpha} can now
+analyze this equation and determine that it is equivalent
+to the Bessel function \eqref{solution}.
+
+\includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
+
+\subsection*{Software}
+
+The program used to construct the system of equations is available here:
+
+\centerline{\url{https://github.com/BrentBaccala/helium}}
+
+It's a Sage script that works fine with Sage 9.0 on Ubuntu 20.
+
+Use it to find the witness point \eqref{witness point} by
+running Sage as follows:
+
+\begin{verbatim}
+load('helium.sage')     # loads the script
+prep_hydrogen(5)        # select PDE:hydrogen and ansatz:5
+init()                  # finish setting everything up
+random_numerical()      # run numerical optimizer
+\end{verbatim}
+
+Here are some other convenient variables and functions in the script:
+
+\begin{verbatim}
+V, D, N, M              # trial forms of various polynomials
+eq_a                    # PDE with ansatz substituted in and r^2 simplified
+R                       # polynomial ring over integers
+F                       # fraction field of R
+F_eq_a                  # eq_a expanded out (in F)
+F_eq_a_n                # expanded numerator (in R)
+F_eq_a_d                # expanded denominator (in R)
+eqns()                  # system of equations to solve
+SciMin                  # solution from scipy.optimize.root
+\end{verbatim}
 
 \subsection*{The Ansatzen}
 
@@ -518,25 +627,6 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 \item[Ansatz 13:] Ansatz 11 twice
 
 \end{itemize}
-
-\subsection*{The Algorithm}
-
-Given a PDE defined by Ritt-type differential polynomials, attempt the following:
-
-1. Select an ansatz that defines a differential space parameterized by constants (see next section)
-
-2. Reduce the PDE modulo the differential ideal that characterizes the differential space (differential elimination step)
-
-3. Construct a system of polynomial equations in the constants by collecting like terms in the remaining variables
-
-4. Construct the ideal I defined by that system of polynomial equations as generators
-
-5. Are there any zero divisors in the differential space? (probably not)  If not, take the radical of I.
-
-6. Construct the primary decomposition (prime decomposition if I is radical)
-
-7. Each ideal in the primary/prime decomposition corresponds to a variety in the space of constants,
-the union of which form the solution space of the PDE in the differential space.
 
 \subsection*{Ansatz Diagrams}
 
