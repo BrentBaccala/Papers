@@ -33,8 +33,7 @@
 \begin{abstract}
 The author has developed a novel technique, based on differential algebra,
 for finding exact solutions of partial
-differential equations.  Separation of variables is not required,
-and it is not a transform method.  As an illustration of the method,
+differential equations.  As an illustration of the method,
 I derive a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
 The solution, $J_0(2\sqrt{x+r})$, involves a Bessel function, is not separable, and is not in $L^2$.
 \end{abstract}
@@ -42,6 +41,7 @@ The solution, $J_0(2\sqrt{x+r})$, involves a Bessel function, is not separable, 
 \subsection*{Introduction}
 \parskip 12pt
 
+\begin{comment}
 A short list of methods to find exact solutions to PDEs:
 
 \begin{itemize}
@@ -59,12 +59,14 @@ A short list of methods to find exact solutions to PDEs:
 \item Evans: heat eq: scaling symmetry $\rightarrow$ fundamental sol $\rightarrow$ convolution to handle arbitrary initial condition
       $\rightarrow$ Duhamel's principle to handle the inhomogenous component
 \end{itemize}
+\end{comment}
 
+A short list of methods to find exact solutions to PDEs includes separation of variables,
+the method of characteristics, transform methods (including Fourier transforms),
+symmetry methods, Green's functions, Duhamel's principle, and the calculus of variations.
 The author has developed another exact solution technique based on differential algebra
 and has used it to find a new solution to one of the most well-studied equations
 in mathematical physics, the Schr\"odinger equation for hydrogen.
-
-
 
 The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
 Both Newton's equation and Schr\"odinger's equation
@@ -175,56 +177,7 @@ Yet the existance of separable solutions leaves open the existance of non-separa
 It is perhaps surprising that such a well-studied equation would have fairly simple, previously
 undiscovered, non-separable solutions.
 
-\subsection*{Theorem}
-\parskip 0pt
-
-Consider the following simple Sch\"odinger equation for the hydrogen atom:
-
-\begin{equation}
-\label{schrodinger}
--\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
-\end{equation}
-
-Let $J_0$ be the ordinary Bessel function $J_0$, and set
-
-\begin{equation}
-\label{solution}
-\Psi = J_0(2\sqrt{x+r})
-\end{equation}
-
-where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$.
-
-\vskip 12pt
-
-Then \eqref{solution} is an exact solution to \eqref{schrodinger}, with $E=0$.
-
-\subsection*{Verification}
-
-The result can be easily verified using Mathematica\footnote{A manual verification is presented in an appendix}, as follows:
-
-\includegraphics[page=1, clip, trim=1in 7in 1in 1in, width=\textwidth]{improved.pdf}
-
-\subsection*{Generalization}
-\parskip 12pt
-
-The choice of $x$ is arbitrary, and any ordinary Bessel function can be used:
-
-\begin{equation}
-\label{generalized solution}
-\Psi = F(2\sqrt{a_1 x+ a_2 y+ a_3 z+r})
-\end{equation}
-
-where
-
-\begin{equation*}
-a_1^2+a_2^2+a_3^2=1
-\end{equation*}
-
-and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
-
-\vskip 12pt
-
-Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
+I now describe the algorithm used to find the new solution of hydrogen.
 
 \subsection*{Solution Algorithm}
 
@@ -234,7 +187,7 @@ Given a PDE defined by Ritt-type differential polynomials, attempt the following
 
 2. Reduce the PDE modulo the differential ideal that characterizes the differential space (differential elimination step)
 
-3. Construct a system of polynomial equations in the constants by collecting like terms in the remaining variables
+3. Construct a system of polynomial equations in the constants by collecting like terms in the remaining variables (projection step)
 
 4. Construct the ideal I defined by that system of polynomial equations as generators
 
@@ -247,12 +200,36 @@ the union of which form the solution space of the PDE in the differential space.
 
 \subsection*{The Ansatz}
 
-The algorithm requires selection of an {\bf ansatz}, which is a differential
-algebraic function space, based on the coefficient ring used to define the PDE,
-and built using a finite sequence of ODE and algebraic extensions.  An
-ansatz is also required to be parametized by a finite number of constants,
-so degree bounds, for example, are required for most polynomials.  No
-algorithm is presently available to select an ansatz.
+Rather than attempt to derive differential equations that apply to all solutions
+of the PDE, we restrict our attention to an {\bf ansatz}, which is a family of extensions
+to the differential ring used to define the PDE.  These are the primary requirements
+for an {\bf ansatz}:
+
+\begin{itemize}
+\item it must be formed from a finite sequence of linear ODE and algebraic extensions, and
+\item it must be expressed using differential polynomials, and
+\item it must be parametized only by constants
+\end{itemize}
+
+The first requirement arises because I am specifically looking for ODE based solutions,
+simply because our ODE theory and practice is far beyond our PDE theory and practice.
+One of the most fundamental questions to ask of a PDE, in my opinion, is can it
+be solved using ODEs?  I further restrict to linear ODEs because their theory
+and practice is even more refined.  Since algebraic extensions lead naturally
+to nonlinear ODE extensions, if I wish to include algebraic extensions with
+linear ODE, they must be included explicitly (and are).
+
+The second requirement is natural within the context of differential algebra,
+but is even more important if we wish to systematize this algorithm using
+something like Rosenfeld-Gr\"obner to perform the differential reduction step.
+
+The final requirement is meant to ensure that we can ultimately reduce this
+problem to a finite-dimensional space of constants, and as we use differential
+algebra throughout, we expect a system of polynomial equations in those
+constants, which will be
+amenable to the techniques of classical and modern algebraic geometry.
+
+No algorithm is presently available to select an ansatz.
 
 I've developed a graphical notation to describe an ansatz.  Blue-purple boxes
 denote rings, orange boxes (whether shaded orange or not) denote ODE extensions, and green boxes denote
@@ -265,8 +242,6 @@ separated by a slash denote a rational function.  For example, 2/2 denotes
 a rational function with a second degree numerator and a second degree
 denominator.
 
-I also use a numbering system to identify the ansatzen.  This is ansatz number 5.
-
 \tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
 \tikzstyle{poly2}=[rectangle, draw, thick, fill=white, align=center, rounded corners, minimum height=2em]
 \tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
@@ -274,9 +249,25 @@ I also use a numbering system to identify the ansatzen.  This is ansatz number 5
 \tikzstyle{algebraic}=[rectangle, draw=green, thick, fill=green!20, align=center, rounded corners, minimum height=2em]
 \tikzstyle{degree}=[]
 
+  \begin{tikzpicture}[remember picture]
+    \node (oPsi) [poly, text width=200pt] {Polynomial selected from ring: $\framebox(10,10){}\tikzmark{a}$};
+    \node (ring) [ring, node distance=50pt, below of=oPsi, text width=200pt] {ring, labeled with something like\\${\mathbf C}[x,y,z]$};
+    \draw[degree] (a.west) -- (a.west|-ring.north) node[right,pos=0.6] {1 (degree bound on polynomial)};
+
+    \node (ODE extension) [element, below=of ring, text width=200pt] {ODE extension\\described by an equation and a variable};
+    \node (ODE extension 2) [element, below=of ODE extension, text width=200pt] {ring generated by adjoining element\\described with an ODE};
+    \node (ODE ring) [ring, fill=none, fit=(ODE extension 2)] {};
+    \node (algebraic extension) [algebraic, below=of ODE extension 2, text width=200pt] {algebraic extension\\described by minimal polynomial};
+    \node (algebraic extension 2) [algebraic, below=of algebraic extension, text width=200pt] {ring generated by adjoining element\\described by an algebraic extension};
+    \node (algebraic ring) [ring, fill=none, fit=(algebraic extension 2), text width=200pt] {};
+  \end{tikzpicture}
+
+%%I also use a numbering system to identify the ansatzen.  This is ansatz number 5.
+
+
 {\bf Ansatz 5}
 
-Ansatz 5 is a second-order ODE with linear coefficients and a linear variable, i.e:
+Ansatz 5, used to find the new solution of hydrogen, is a second-order ODE with linear coefficients and a linear variable, i.e:
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
     \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
@@ -291,11 +282,6 @@ Ansatz 5 is a second-order ODE with linear coefficients and a linear variable, i
     \end{scope}
     \node (base) [ring, node distance=70pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
-  \end{tikzpicture}
-  \begin{tikzpicture}
-    \node (ring) [ring, text width=50pt] {ring};
-    \node (ODE extension) [element, below=of ring, text width=50pt] {ODE extension};
-    \node (algebraic extension) [algebraic, below=of ODE extension, text width=50pt] {algebraic extension};
   \end{tikzpicture}
 
 The structure of ansatz 5 can be described using differential polynomials and jet notation (subscripts indicate differentiation):
@@ -323,14 +309,32 @@ v = v_1 x + v_2 y + v_3 z + v_4 r
 \end{equation}
 
 Essentially we introduce a new derivation with respect to $v$.
-$\Psi'$ and $\Psi''$ are new indeterminates.
+We're only interested in how $\Psi$ differentiates with this new derivation,
+and that's what $\Psi'$ and $\Psi''$ tell us.  
+We do not have to modify the original differential ring, except
+to add $\Psi$, $\Psi'$, and $\Psi''$ as new indeterminates.
+The first
+two lines of equations in \eqref{ansatz 5} show how to evaluate
+the derivatives of $\Psi$ and $\Psi'$ with respect to the
+derivations in the differential ring (it's just the chain rule), and the third line
+shows how to eliminate $\Psi''$ wherever it appears
+and and replace it with an expression in $\Psi$ and $\Psi''$.
+The final equation is there because $v$, too, must be degree bounded.
 
 \subsection*{Differential Reduction Step}
 
-The Rosenfeld-Gr\"obner algorithm.
+I attempted to use the Rosenfeld-Gr\"obner algorithm to reduce equation \eqref{schrodinger hydrogen}
+modulo \eqref{ansatz 5}, but it ultimately ran out of memory on a 96 GB computer after
+30 hours.  Instead, I used Sage to construct a polynomial ring modulo the ideal
+$r^2-x^2-y^2-z^2$ to handle the algebraic extension (present not in the ansatz proper,
+but in the original ring used to construct the PDE).  Next I directed the software
+to expand the derivatives in \eqref{schrodinger hydrogen} and substitute for $\Psi''$ and $v$
+according to the ansatz.  The result is
+a rational function
+with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
 % I used a Sage-based computer program with the following ansatz.
-
+\begin{comment}
 I found this solution roughly as follows.\footnote{
 I discovered an alternate form of this solution using a somewhat more complex ansatz
 on January 24, 2023.  By January 26, I had established the solution in its current form.
@@ -341,8 +345,7 @@ and was first solved using numerical approximation (scipy.optimize.root).
 
 Use Cartesian coordinates.  Let $v$ be a linear polynomial in the coordinates and the root $r=\sqrt{x^2+y^2+z^2}$,
 Reduce the input PDE \eqref{schrodinger} modulo differential ideal \eqref{ansatz 5}, obtaining
-a rational function
-with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
+\end{comment}
 
 \begin{equation}
 %% -8r\Psi x^5 b_1 b_2^2 n_1 - r\Psi x^5 b_1 b_4^2 n_1 - r \Psi x^5 b_1 b_6^2 n_1 - 2r\Psi x^5 b_2 b_3 b_4 n_1 - \cdots
@@ -351,7 +354,11 @@ with a 228 term numerator and an 18 term denominator.  We ignore the denominator
 
 \subsection*{Projection Step}
 
-We collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
+Having reduced our PDE \eqref{schrodinger} by the differential ideal defined by \eqref{ansatz 5},
+we now wish to project our solution onto the subspace of the constants.  We're looking for
+constants that will solve equation \eqref{schrodinger} for all values of $x$, $y$, $z$, $r$,
+$\Psi$, and $\Psi'$, so
+we collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
 
 \begin{equation}
 %%\left(-8 b_1 b_2^2 n_1 - b_1 b_4^2 n_1 - b_1 b_6^2 n_1 - 2 b_2 b_3 b_4 n_1 - 2b_2 b_5 b_6 n_1 \right) r\Psi x^5 - \cdots
@@ -405,12 +412,15 @@ duplicate equations are dropped, the system has 34 equations.
 \end{array}
 \end{equation}
 
-\subsection*{Exact Methods}
+\subsection*{Prime Decomposition}
 
+\begin{comment}
 I used a numerical algorithm to solve the system of equations in expectation
 of it being faster for larger systems, but the system \eqref{polynomial system}
-is small enough that exact methods are usable.  In particular, we can form
-an ideal $I$ in $\mathbf{Q}[v_0,...,m_1,E]$ from \eqref{polynomial system}.
+is small enough that exact methods are usable.
+\end{comment}
+\eqref{polynomial system} is simple enough that we can form
+an ideal $I$ in $\mathbf{Q}[v_0,...,m_1,E]$ from \eqref{polynomial system}, and
 Sage can calculate a Gr\"obner basis for the radical $I$ in less than a second.
 While we could work with the Gr\"obner basis directly\footnote{A Gr\"obner basis
 of the solution ideal in lexicographic order $E>d_i>m_i>n_i>v_i$ contains 65 polynomials.}
@@ -421,9 +431,20 @@ Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277}
 as implemented in Singular.  Gr\"obner basis calculations are done
 as a subalgorithm of Shimoyama-Yokoyama.
 
+Taking the radical of the ideal simplifies both the theory and the application,
+and can be justified because there are no nilpotent elements in our solution
+space, which is just 11-dimensional complex space ${\mathbf C}^{11}$.  The
+primary decomposition of a radical ideal is also a prime decomposition,
+as the distinction between primary and prime ideals is only significant
+for non-radical ideals with nilpotent elements.  Sage/Singular computes
+the following decomposition into prime ideals:
+
+\begin{verbatim}
+sage: I.radical().primary_decomposition()
+\end{verbatim}
+
 \begin{subequations}
-%% sage: list(map(latex, I.radical().primary_decomposition()))
-%% \Bold.* -> \\
+\label{ideal}
 \begin{align}
 & \left(n_{1}, n_{0}, m_{1}, m_{0}, d_{1}, d_{0}\right)\label{ideal:5} \\
 & \left(v_{3}, v_{2}, v_{1}, v_{0}, d_{0}\right)\label{ideal:4}\\
@@ -536,6 +557,59 @@ to the Bessel function \eqref{solution}.
 
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
+leading to...
+
+\subsection*{The Main Result}
+\parskip 0pt
+
+Consider the following simple Sch\"odinger equation for the hydrogen atom:
+
+\begin{equation}
+\label{schrodinger}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation}
+
+Let $J_0$ be the ordinary Bessel function $J_0$, and set
+
+\begin{equation}
+\label{solution}
+\Psi = J_0(2\sqrt{x+r})
+\end{equation}
+
+where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$.
+
+\vskip 12pt
+
+Then \eqref{solution} is an exact solution to \eqref{schrodinger}, with $E=0$.
+
+\subsection*{Verification}
+
+The result can be easily verified using Mathematica\footnote{A manual verification is presented in an appendix}, as follows:
+
+\includegraphics[page=1, clip, trim=1in 7in 1in 1in, width=\textwidth]{improved.pdf}
+
+\subsection*{Generalization}
+\parskip 12pt
+
+The choice of $x$ is arbitrary, and any ordinary Bessel function can be used:
+
+\begin{equation}
+\label{generalized solution}
+\Psi = F(2\sqrt{a_1 x+ a_2 y+ a_3 z+r})
+\end{equation}
+
+where
+
+\begin{equation*}
+a_1^2+a_2^2+a_3^2=1
+\end{equation*}
+
+and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
+
+\vskip 12pt
+
+Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
+
 \subsection*{Software}
 
 The program used to construct the system of equations is available here:
@@ -544,28 +618,30 @@ The program used to construct the system of equations is available here:
 
 It's a Sage script that works fine with Sage 9.0 on Ubuntu 20.
 
-Use it to find the witness point \eqref{witness point} by
+%Use it to find the witness point \eqref{witness point} by
+%running Sage as follows:
+Use it to find ideal \eqref{ideal} by
 running Sage as follows:
 
 \begin{verbatim}
 load('helium.sage')     # loads the script
 prep_hydrogen(5)        # select PDE:hydrogen and ansatz:5
 init()                  # finish setting everything up
-random_numerical()      # run numerical optimizer
+I=ideal(eqns_RQQ)       # constuct ideal from equations
+I.radical().primary_decomposition()
 \end{verbatim}
 
 Here are some other convenient variables and functions in the script:
 
 \begin{verbatim}
-V, D, N, M              # trial forms of various polynomials
-eq_a                    # PDE with ansatz substituted in and r^2 simplified
+A, B, C, V              # trial forms of various polynomials
+eq_a                    # the PDE in its original form
 R                       # polynomial ring over integers
 F                       # fraction field of R
-F_eq_a                  # eq_a expanded out (in F)
+F_eq_a                  # the PDE modulo the ansatz
 F_eq_a_n                # expanded numerator (in R)
 F_eq_a_d                # expanded denominator (in R)
-eqns()                  # system of equations to solve
-SciMin                  # solution from scipy.optimize.root
+eqns_RQQ                # system of equations to solve
 \end{verbatim}
 
 \subsection*{The Ansatzen}
@@ -573,6 +649,8 @@ SciMin                  # solution from scipy.optimize.root
 These are current and future ansatzen for the form of the ODE:
 
 For hydrogen, the PDE is always $\nabla^2 \Psi - \frac{1}{r} \Psi = E \Psi$
+
+For helium, the PDE is always $\nabla_1^2 \Psi + \nabla_2^2 \Psi - \frac{2}{r_1} - \Psi \frac{2}{r_2} - \Psi \frac{1}{r_{12}} \Psi = E \Psi$
 
 \begin{itemize}
 \item[Ansatz 1:] Exponential of a first degree polynomial times a first degree polynomial
@@ -628,32 +706,6 @@ followed by ansatz 7 (second-order ODE with second-degree coefficients and a sec
 
 \end{itemize}
 
-\subsection*{Ansatz Diagrams}
-
-The algorithm requires selection of an {\bf ansatz}, which is a differential
-algebraic function space, based on the coefficient ring used to define the PDE,
-and built using a finite sequence of ODE and algebraic extensions.  An
-ansatz is also required to be parametized by a finite number of constants,
-so degree bounds, for example, are required for most polynomials.
-
-I've developed a graphical notation to describe an ansatz.  Blue-purple boxes
-denote rings, orange boxes (whether shaded orange or not) denote ODE extensions, and green boxes denote
-algebraic extensions.  A blue box drawn immediately around an orange or green box
-denote the ring formed by adjoining the element defined by the orange or green box.
-Polynomials are drawn as a square white box and are
-connected by a line to the ring to which they belong.  A number next to
-the line indicates a degree bound on the polynomial, and two numbers
-separated by a slash denote a rational function.  For example, 2/2 denotes
-a rational function with a second degree numerator and a second degree
-denominator.
-
-\tikzstyle{poly}=[rectangle, draw, thick, fill=white, text width=5em, align=center, rounded corners, minimum height=2em]
-\tikzstyle{poly2}=[rectangle, draw, thick, fill=white, align=center, rounded corners, minimum height=2em]
-\tikzstyle{ring}=[rectangle, draw=blue, thick, fill=blue!20, text width=5em,align=center, rounded corners, minimum height=2em]
-\tikzstyle{element}=[rectangle, draw=orange, thick, fill=orange!20, align=center, rounded corners, minimum height=2em]
-\tikzstyle{algebraic}=[rectangle, draw=green, thick, fill=green!20, align=center, rounded corners, minimum height=2em]
-\tikzstyle{degree}=[]
-
 {\bf Ansatz 1}
 
   \begin{tikzpicture}
@@ -670,11 +722,6 @@ denominator.
     \node (output) [above=of Psi.west] {\Large\fbox{$\Psi$}\tikzmark{1b}};
     \draw[degree] (Psi) -- (Psi|-1base.north) node[right,pos=0.6] {1};
     \draw[degree] (output) -- (output|-Psi block.north);
-  \end{tikzpicture}
-  \begin{tikzpicture}
-    \node (ring) [ring, text width=50pt] {ring};
-    \node (ODE extension) [element, below=of ring, text width=50pt] {ODE extension};
-    \node (algebraic extension) [algebraic, below=of ODE extension, text width=50pt] {algebraic extension};
   \end{tikzpicture}
 
 \begin{equation*}
