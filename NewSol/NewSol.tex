@@ -894,9 +894,9 @@ v = v_1 x + v_2 y + v_3 z + v_4 r
     \node (Psi) [poly, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Psi'' + \framebox(10,10){}\tikzmark{b}\,\Psi' + \coeff\tikzmark{c}\,\Psi$};
     \node (Qv) [ring, below of=Psi, text width=100pt] {$\mathbf{Q}[v]$};
     \node (v) [poly, right=of Qv] {$v$};
-    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {2};
-    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {2};
-    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {2};
+    \draw[degree] (a.west) -- (a.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[degree] (b.west) -- (b.west|-Qv.north) node[right,pos=0.6] {1};
+    \draw[degree] (c.west) -- (c.west|-Qv.north) node[right,pos=0.6] {1};
     \node (Psi label) [at=(v.east|-Psi.north), anchor=north east] {\Large$\Psi$};
     \begin{scope}[on background layer]
         \node (Psi block)[fit=(Psi) (Qv) (v), inner sep=10pt, element] {};
@@ -906,9 +906,9 @@ v = v_1 x + v_2 y + v_3 z + v_4 r
     \node (Theta) [poly, node distance=110pt, below of=Psi, text width=100pt] {$\framebox(10,10){}\tikzmark{a}\,\Theta'' + \framebox(10,10){}\tikzmark{b}\,\Theta' + \coeff\tikzmark{c}\,\Theta$};
     \node (Qu) [ring, below of=Theta, text width=100pt] {$\mathbf{Q}[u]$};
     \node (u) [poly, right=of Qu] {$u$};
-    \draw[degree] (a.west) -- (a.west|-Qu.north) node[right,pos=0.6] {2};
-    \draw[degree] (b.west) -- (b.west|-Qu.north) node[right,pos=0.6] {2};
-    \draw[degree] (c.west) -- (c.west|-Qu.north) node[right,pos=0.6] {2};
+    \draw[degree] (a.west) -- (a.west|-Qu.north) node[right,pos=0.6] {1};
+    \draw[degree] (b.west) -- (b.west|-Qu.north) node[right,pos=0.6] {1};
+    \draw[degree] (c.west) -- (c.west|-Qu.north) node[right,pos=0.6] {1};
     \node (Theta label) [at=(v.east|-Theta.north), anchor=north east] {\Large$\Theta$};
     \begin{scope}[on background layer]
         \node (Theta block)[fit=(Theta) (Qu) (u), inner sep=10pt, element] {};
@@ -916,8 +916,8 @@ v = v_1 x + v_2 y + v_3 z + v_4 r
     \end{scope}
 
     \node (base) [ring, node distance=70pt, below=of Theta field.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
-    \draw[degree] (v.south) -- (v.south|-Theta field.north) node[right,pos=0.7] {2/2};
-    \draw[degree] (u.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
+    \draw[degree] (v.south) -- (v.south|-Theta field.north) node[right,pos=0.7] {1};
+    \draw[degree] (u.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
   \end{tikzpicture}
 
 \vbox{
