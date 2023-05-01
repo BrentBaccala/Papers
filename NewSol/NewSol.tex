@@ -5,6 +5,7 @@
 \author{Brent Baccala}
 
 \usepackage{amsmath}
+\usepackage{amsfonts}
 
 \usepackage{xcolor}
 \usepackage{comment}
@@ -1024,38 +1025,38 @@ v = v_1 x + v_2 y + v_3 z + v_4 r
 Ansatz 5   &Hydrogen       &Differential Elimination &Rosenfeld-Groebner    &oom, 96 GB, 30 hours\\
            &               &                         &Manual                &quick\\
            &               &Sol of constant system   &Bertini               &8.33 hours (laptop); only four components (why?)\\
-           &               &                         &Q radical             &quick\\
-           &               &                         &Q prime decomp        &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{5 ideals; 3 extraneous; 1 known; 1 new}\\
+           &               &                         &$\mathbb{Q}$ radical             &quick\\
+           &               &                         &$\mathbb{Q}$ prime decomp        &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{5 ideals; 3 extraneous; 1 known; 1 new}\\
            &               &                         &                      &\\
            &Helium         &Differential Elimination &Manual                &30 s\\
-           &               &Sol of constant system   &Q radical            &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{7 ideals; all extraneous}\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical            &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{7 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 5.1 &Hydrogen       &Differential Elimination &Manual                &quick\\
-\multicolumn{2}{l}{(2$^{\rm nd}$ degree $v$)} &Sol of constant system   &Q radical            &quick\\
-           &               &                         &Q prime decomp        &quick\\
+\multicolumn{2}{l}{(2$^{\rm nd}$ degree $v$)} &Sol of constant system   &$\mathbb{Q}$ radical            &quick\\
+           &               &                         &$\mathbb{Q}$ prime decomp        &quick\\
            &               &                         &                      &\\
            &Helium         &Differential Elimination &Manual                &killed after 29 hrs; 1 GB\\
            &               &                         &                      &\\
 Ansatz 5.2 &Hydrogen       &Differential Elimination &Manual                &quick\\
-\multicolumn{2}{l}{(2$^{\rm nd}$ degree ODE)} &Sol of constant system   &Q radical            &quick\\
-           &               &                         &Q prime decomp        &quick\\
+\multicolumn{2}{l}{(2$^{\rm nd}$ degree ODE)} &Sol of constant system   &$\mathbb{Q}$ radical            &quick\\
+           &               &                         &$\mathbb{Q}$ prime decomp        &quick\\
            &               &                         &                      &\\
 Ansatz 5.3 &Hydrogen       &Differential Elimination &Manual                &quick\\
-\multicolumn{2}{l}{(both 2$^{\rm nd}$ degree)}   &Sol of constant system   &Q radical            &5 minutes\\
-           &               &                         &Q prime decomp        &quick\\
+\multicolumn{2}{l}{(both 2$^{\rm nd}$ degree)}   &Sol of constant system   &$\mathbb{Q}$ radical            &5 minutes\\
+           &               &                         &$\mathbb{Q}$ prime decomp        &quick\\
            &               &                         &                      &\\
            &Helium         &Differential Elimination &Manual                &killed after 29 hrs; 18.6 GB\\
            &               &                         &                      &\\
 Ansatz 6   &Helium         &Differential Elimination &Manual                &10 seconds\\
-           &               &Sol of constant system   &Q radical             &laptop crashed after $\sim$ 1 week\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &laptop crashed after $\sim$ 1 week\\
            &               &                         &Bertini               &laptop crashed after $\sim$ 1 week\\
            &               &                         &\R32003 radical        &13 min; Apr 27\\
            &               &\R32003 result            &\multicolumn{2}{l}{4 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 11  &Hydrogen       &Differential Elimination &Manual                &18 hours (laptop)\\
-           &               &Sol of constant system   &Q radical             &oom, 96 GB, 39 hours, c200-1\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &oom, 96 GB, 39 hours, c200-1\\
            &               &                         &Singular primary dec  &oom, 96 GB, c200-1\\
            &Helium         &Differential Elimination &Manual                &19 min\\
            &               &                         &                      &\\
@@ -1064,22 +1065,22 @@ Ansatz 12  &Hydrogen       &Differential Elimination &Manual                &qui
            &               &\R32003 result            &\multicolumn{2}{l}{11 ideals; not yet analyzed}\\
            &               &                         &                      &\\
 Ansatz 13  &Hydrogen       &Differential Elimination &Manual                &quick\\
-           &               &Sol of constant system   &Q radical             &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
            &Helium         &Differential Elimination &Manual                &quick\\
-           &               &Sol of constant system   &Q radical             &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 13.3&Hydrogen       &Differential Elimination &Manual                &quick\\
-           &               &Sol of constant system   &Q radical             &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
            &Helium         &Differential Elimination &Manual                &quick\\
-           &               &Sol of constant system   &Q radical             &quick\\
-           &               &Q result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
+           &               &Sol of constant system   &$\mathbb{Q}$ radical             &quick\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{3 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 13.6&Helium         &Differential Elimination &Manual                &quick\\
            &               &Sol of constant system   &\R32003 radical             &7 min\\
-           &               &Q result                 &\multicolumn{2}{l}{4 ideals; all extraneous}\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{4 ideals; all extraneous}\\
 
 \end{longtable}
 
