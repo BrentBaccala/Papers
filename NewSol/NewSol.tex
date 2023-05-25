@@ -647,13 +647,56 @@ F_eq_a_d                # expanded denominator (in R)
 eqns_RQQ                # system of equations to solve
 \end{verbatim}
 
+\subsection*{Further Work}
+
+The algorithm presented above can be used to check any PDE to see if any of its solutions
+can be expressed using an ODE structured according to a specific ansatz.  This technique
+is complementary to separation of variables, where we check a PDE to see if any of
+its solutions can be expressed as a product of factors, each depending on only
+a single variable.
+
+As my primary interest lies in quantum mechanics, I have investigated the PDEs
+that model hydrogen and helium.
+
+For hydrogen, the PDE is $\nabla^2 \Psi - \frac{1}{r} \Psi = E \Psi$
+
+For helium, the PDE is $\nabla_1^2 \Psi + \nabla_2^2 \Psi - \frac{2}{r_1} - \Psi \frac{2}{r_2} - \Psi \frac{1}{r_{12}} \Psi = E \Psi$,
+where $\Psi=\Psi(r_1,r_2,r_{12})$ and $\nabla_i$ is the Laplacian with respect to the $i^{\rm th}$ electron.
+$\Psi$ is assumed to have no angular dependence, which has been known since
+at least the time of Hylleraas to be a valid assumption for the ground state.
+
+In both cases, I use Hartree atomic units to render the equations dimensionless.
+
+Once the PDEs have been reduced modulo the differential ideal corresponding to a selected ansatz,
+the resulting system of polynomial equations must be solved.  The major techniques available are:
+
+\begin{enumerate}
+\item Exact primary decomposition
+
+This requires the computation of Gr\"obner bases, which often fails due to memory exhaustion
+(oom - out of memory) and the limitations of current
+
+\item Numerical approximation (gradient descent / Levenberg-Marquardt)
+
+This requires extraneous ideals/varieties to be removed as they are identified.
+I'm currently exploring this approach, as it is the fastest of the three,
+using the DHOST algorithm to compute Euclidean Distance polynomials for
+identified varieties and use this information to drive the solutions
+away from identified varieties in an attempt to find new ones.
+
+Note that this approach, while faster than the others, will never guarantee that all solutions
+to the polynomial system have been found.
+
+\item Homotopy continuation
+
+Bertini is a major software program, but Macaulay 2 also supports homotopy continuation.
+This technique is slow but, in principle, will identify all irreducible varieties.
+In practice, Bertini did not identify all five irreducible varieties for hydrogen Ansatz 5.
+\end{enumerate}
+
 \subsection*{The Ansatzen}
 
 These are current and future ansatzen for the form of the ODE:
-
-For hydrogen, the PDE is always $\nabla^2 \Psi - \frac{1}{r} \Psi = E \Psi$
-
-For helium, the PDE is always $\nabla_1^2 \Psi + \nabla_2^2 \Psi - \frac{2}{r_1} - \Psi \frac{2}{r_2} - \Psi \frac{1}{r_{12}} \Psi = E \Psi$
 
 \begin{itemize}
 \item[Ansatz 1:] Exponential of a first degree polynomial times a first degree polynomial
@@ -1077,7 +1120,7 @@ Ansatz 5.3 &Hydrogen       &Differential Elimination &Manual                &qui
            &               &                         &                      &\\
            &Helium         &Differential Elimination &Manual                &quick\\
            &               &Sol of constant system   &$\mathbb{Q}$ radical            &quick\\
-           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{4 ideals; not yet analyzed}\\
+           &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{4 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 6   &Helium         &Differential Elimination &Manual                &10 seconds\\
            &               &Sol of constant system   &$\mathbb{Q}$ radical             &laptop crashed after $\sim$ 1 week\\
@@ -1113,10 +1156,18 @@ Ansatz 13.6&Helium         &Differential Elimination &Manual                &qui
            &               &$\mathbb{Q}$ result                 &\multicolumn{2}{l}{4 ideals; all extraneous}\\
            &               &                         &                      &\\
 Ansatz 16  &Hydrogen       &Differential Elimination &Manual                &30 sec\\
-
+           &               &                         &                      &\\
+Ansatz 16.6&Helium         &Differential Elimination &Manual                &10 min\\
+           &               &Build System of Eqns     &                      &3 hours\\
 \end{longtable}
 
 \begin{comment}
+Helium 5.3: (second degree ODE coeffs and v; 6060 terms; 412 eqns; 5 min to compute radical)
+   (v7, v5, v4, v3 + v6 + 2*v8, v2, v1, v0, d2, d1, d0, v6^2 + 2*v6*v8 + 2*v8^2) - leading ODE coeff zero
+   (v8, v7, v5, v3 + v6, v2, d2, d1, d0, v4^2 + 4*v6^2, v1*v4 - 2*v0*v6, v0*v4 + 2*v1*v6, v0^2 + v1^2) - leading ODE coeff zero
+   (v8, v7, v6, v5, v4, v3, v2, v1, v0, d0) - variable zero
+   (n2, n1, n0, m2, m1, m0, d2, d1, d0) - all coeffs zero
+
 Helium 6 R32003:
 
  Ideal (c3*d0 + b3*d1, c2*d0 + b2*d1, c1*d0 + b1*d1, c0*d0 + b0*d1,
