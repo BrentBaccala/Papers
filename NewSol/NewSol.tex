@@ -39,10 +39,10 @@ The author has developed a novel technique, based on differential algebra,
 for finding exact solutions of partial
 differential equations.  As an illustration of the method,
 I derive a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
-The solution, $J_0(2\sqrt{x+r})$, involves a Bessel function, is not separable, and is not in $L^2$.
+The solution is $J_0(2\sqrt{x+r})$ where $J_0$ is the Bessel function $J_0$.
 \end{abstract}
 
-\section*{The Algorithm}
+%%\section*{The Algorithm}
 
 \subsection*{Introduction}
 \parskip 12pt
@@ -87,8 +87,7 @@ D(ab) = (Da)b + a(Db)
 
 Various notations are in common use for the derivations, including
 the letter $D$, apostrophes and/or superscripted numbers if only
-a single derivation is in use, or ``jet notation'', which I adopt
-in this paper, where multiple derivations are specified (the PDE case)
+a single derivation is in use (the ODE case), or ``jet notation'' where multiple derivations are specified (the PDE case)
 and they are denoted by subscripted letters, i.e, $\Psi_x$
 is the result of applying derivation $x$ (a unary operator)
 to $\Psi$.  We will always interpret this as the derivative
@@ -120,7 +119,7 @@ Rarely do we get a nice set of equations that easily represent all of our soluti
 and for good reason.  In the differential algebraic geometry setting, remember that the indeterminates
 take on values in some function field.  Otherwise, how could derivation be expressed?
 The best we're likely to reduce to is an equation like $\Psi=\Psi_x$, and it's up to us
-to figure out that $\Psi$ is a multiple of the exponential of $x$.
+to solve the corresponding analytic equation and conclude that $\Psi$ is a multiple of the exponential of $x$.
 
 The picture, in my mind, starts to look like this:
 
@@ -165,10 +164,13 @@ utility of algebraic geometry in the differential algebra setting by parameteriz
 the function field using only a finite number of constants, and doing so in such
 a way that the constants can be isolated into a system of polynomial equations,
 which can then be solving using algebraic geometry.  If, for example, we expect
-our solution to be in $C^2(\mathbf{R})$, then we try parameterize a subset of
+our solution to be in $C^2(\mathbf{R})$, then we parameterize a subset of
 $C^2(\mathbf{R})$ using some number of complex variables, say twenty, so that our resulting
-equations are polynomials in $\mathbf{C}[a,..,t]$ and their common
+equations are polynomials in $\mathbf{C}[c_0,..,c_{19}]$ and their common
 solutions describe an algebraic variety in $\mathbf{C}^{20}$.
+Unfortunately, degree bounds seem necessary on almost everything in order
+to achieve this, and no matter how big and complicated our equations become,
+we're only searching part of the function space.
 
 In short, rather than attempt to derive differential equations that apply to all solutions
 of the PDE, we restrict our attention to an {\bf ansatz}, a subset of the function
@@ -185,16 +187,18 @@ for an {\bf ansatz}:
 
 \begin{itemize}
 %% \item it must be formed from a finite sequence of linear ODE and algebraic extensions, and
+\item it expresses a restricted form for the solution to the PDE
 \item it must be expressed using differential polynomials,
 \item it must be parametized only by constants, and
 \item those constants must appear only as coefficients of the differential polynomials
 \end{itemize}
 
-The first requirement is a natural one within the context of differential algebra,
+Expressing an ansatz using differential polynomials seems natural within the context of differential algebra,
 but is even more important if we wish to systematize this algorithm using
-something like Rosenfeld-Gr\"obner to perform the differential reduction step.
+something like the Rosenfeld-Gr\"obner algorithm to perform a differential reduction step.
 
-The next two requirements ensure that we can ultimately reduce the problem
+Requiring the parameters to be constants and placing them only in the coefficients
+of the differential polynomials ensures that we can ultimately reduce the problem
 of finding solutions within this parametized function space to systems
 of polynomial equations
 amenable to the techniques of algebraic geometry.
@@ -202,24 +206,85 @@ amenable to the techniques of algebraic geometry.
 Additionally, I am specifically looking for solutions that can be constructed using ODEs.
 % simply because our ODE theory and practice is far beyond our PDE theory and practice.
 In my opinion, one of the most fundamental questions to ask of a PDE is whether can it
-be solved using ODEs?  I can't definitely answer this question using
+be solved using ODEs.  I can't definitely answer this question using
 this algorithm, but as these are the types of solutions I am interested in,
-my sole objects of study are ansatzen constructed from a finite number of holonomic
-extensions.
+all of the current ansatzen attempt to express solutions to the PDE using
+a finite tower of ODE-based field extensions.
 
-A holonomic extension of 
+Futhermore, I restrict to linear ODEs, first because their theory
+and practice is more refined,
+and second because the PDEs I am primarily interested in solving (Schr\"odinger's equation)
+are linear, so I'm hopeful that linear ODEs will suffice to solve them.
+
+We start with the base ring/field that is used to construct the PDE itself, then form
+a finite tower of field extensions in which we will search for our solution.  This
+is totally in the spirit of Liouville's theorem, which uses a finite tower
+of algebraic/exponential/logarithmic extensions to define an elementary differential
+extension, and differential Galois theory, which uses a finite tower of
+algebraic/exponential/integral extensions to define a liouvillian extension.
+
+For our tower, there are two types of admissible extensions: algebraic and holonomic.
+
+Algebraic extensions are formed by adjoining a primitive element which solves
+an irreducible algebraic equation (the minimal polynomial) with coefficients
+in the underlying field.  An algebraic extension of a differential field
+admits only a single unique way of extending the derivations, so the minimal
+polynomial is the only information required to specify the extension.
+Since algebraic extensions lead naturally
+to nonlinear ODE extensions, if I wish to include algebraic extensions with
+linear ODEs, they must be included explicitly (and are).
+
+A {\it holonomic extension} of differential field is a transcendental (i.e, non-algebraic)
+extension constructed by adjoining a primitive element that is defined using a minimal differential polynomial
+whose derivatives and coefficients are all univariate functions of a single {\it distinguished variable}.
+This distinguished variable
+is also specified as part of the definition of the extension, and is selected from the
+underlying field.  The coefficients are
+selected not from the field we are extending, but rather from ${\mathbf Q}(v)$, an auxiliary field
+constructed using a placeholder indeterminate that corresponds to the distinguished variable.
+We expect to also consider coefficients selected from an extension (algebraic or holonomic)
+of ${\mathbf Q}(v)$, but that is not required for the present work.
 
 Note: This definition of holonomic extension may not match with the D-module literature.  Check this.
 
-I further restrict to linear ODEs because their theory
-and practice is even more refined.  Since algebraic extensions lead naturally
-to nonlinear ODE extensions, if I wish to include algebraic extensions with
-linear ODE, they must be included explicitly (and are).
+Example: Over the rational function field $\mathbf{C}(x)$, we can construct an holonomic
+extension specified by the primitive element $\Psi$, minimial differential polynomial
+$\Psi' = \Psi$, and distinguished variable $x+r$.  This is a differential polynomial
+that maps to the analytic equation $\frac{d\Psi}{dv}=\Psi$ and is solved
+by the analytic functions $Ae^v$.  Substituting in for $v$, we see that
+the functions $Ae^{x+r}$ are solutions to this holonomic extension.
+
+I used an apostrophe when writing
+the minimial differential polynomial because this is the ODE case; there is only
+a single derivation allowed in minimial differential polynomials.  This new derivation
+(not present in the underlying field) is with respect to the distinguished variable.
+
+The presence of a new derivation isn't a cause for concern.  Since a distinguished
+variable is also specified, we can express all of our previously existing derivations
+in terms of the new one using the chain rule.
+
+\begin{comment}
+\begin{equation*}
+\Psi' = \Psi_v = \Psi_x
+\end{equation*}
+\end{comment}
+
+%We tend to take the algebraic view, extract as much information as possible,
+%then switch to analysis.
+
+A {\it holonomic tower} is a differential field extension
+constructed from a finite number of algebraic and/or holonomic
+extensions.
+
+Our ansatzen are formed from holonomic towers with degree bounds on all
+distinguished variables and coefficients.  Other ansatzen can be
+conceived of using non-linear ODEs or non-ODE extensions; they
+are outside the scope of the present work.
 
 No algorithm is presently available to select an ansatz.
 
-I've developed a graphical notation to describe an ansatz.  Blue-purple boxes
-denote rings, orange boxes (whether shaded orange or not) denote ODE extensions, and green boxes denote
+I use a graphical notation to describe an ansatz.  Blue-purple boxes
+denote rings, orange boxes (whether shaded orange or not) denote holonomic extensions, and green boxes denote
 algebraic extensions.  A blue box drawn immediately around an orange or green box
 denote the ring formed by adjoining the element defined by the orange or green box.
 Polynomials are drawn as a square white box and are
@@ -241,13 +306,15 @@ denominator.
     \node (ring) [ring, node distance=50pt, below of=oPsi, text width=200pt] {ring, labeled with something like\\${\mathbf C}[x,y,z]$};
     \draw[degree] (a.west) -- (a.west|-ring.north) node[right,pos=0.6] {1 (degree bound on polynomial)};
 
-    \node (ODE extension) [element, below=of ring, text width=200pt] {ODE extension\\described by an equation and a variable};
-    \node (ODE extension 2) [element, below=of ODE extension, text width=200pt] {ring generated by adjoining element\\described with an ODE};
+    \node (ODE extension) [element, below=of ring, text width=200pt] {holonomic element\\described by a minimal differential equation and a distinguished variable};
+    \node (ODE extension 2) [element, below=of ODE extension, text width=200pt] {holonomic extension\\generated by adjoining holonomic element\\and forming the ring so generated};
     \node (ODE ring) [ring, fill=none, fit=(ODE extension 2)] {};
     \node (algebraic element) [algebraic, below=of ODE extension 2, text width=200pt] {algebraic element\\described by minimal polynomial};
     \node (algebraic extension) [algebraic, below=of algebraic element, text width=200pt] {algebraic extension\\generated by adjoining algebraic element\\and forming the ring so generated};
     \node (algebraic ring) [ring, fill=none, fit=(algebraic extension), text width=200pt] {};
   \end{tikzpicture}
+
+\vfill\eject
 
 For example, consider Ansatz 5:
 
@@ -268,60 +335,73 @@ For example, consider Ansatz 5:
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
   \end{tikzpicture}
 
-Ansatz 5 is a second-order ODE with linear coefficients and a linear variable.
+Ansatz 5 is a second-order holonomic element with linear coefficients and a linear variable.
+Note in particular that there is no green box around the orange one.  The holonomic
+element must itself solve the PDE; we do not construct the full extension field it would naturally generate.
 
-Its structure can also be described using differential polynomials:
+The structure of Ansatz 5 can also be described using differential polynomials:
 
 \begin{equation}
-\label{ansatz 5}
+\label{ansatz 5a}
+v = v_1 x + v_2 y + v_3 z + v_4 r
+\end{equation}
+
+\begin{equation}
+\label{ansatz 5b}
+(a_0 + a_1 v) \Psi'' + (b_0 + b_1 v) \Psi' + (c_0 + c_1 v) \Psi = 0 \\
+\end{equation}
+
+\begin{equation}
+\label{ansatz 5c}
 \begin{gathered}
-\begin{comment}
-\Psi_x = \frac{\Psi'}{v_x} \qquad
-\Psi_y = \frac{\Psi'}{v_y} \qquad
-\Psi_z = \frac{\Psi'}{v_z} \\
-\Psi'_x = \frac{\Psi''}{v_x} \qquad
-\Psi'_y = \frac{\Psi''}{v_y} \qquad
-\Psi'_z = \frac{\Psi''}{v_z} \\
-\end{comment}
 \Psi_x = \Psi' v_x \qquad
 \Psi_y = \Psi' v_y \qquad
 \Psi_z = \Psi' v_z \\
 \Psi'_x = \Psi'' v_x \qquad
 \Psi'_y = \Psi'' v_y \qquad
 \Psi'_z = \Psi'' v_z \\
-(a_0 + a_1 v) \Psi'' + (b_0 + b_1 v) \Psi' + (c_0 + c_1 v) \Psi = 0 \\
-v = v_1 x + v_2 y + v_3 z + v_4 r
 \end{gathered}
 \end{equation}
 
 Our differential ring is equipped with three derivations $x$, $y$, and $z$
 (this is not apparent in the graphical representation).  Our base ring
 is $\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$, and from this we select
-a linear variable $v$.  Strictly speaking, a $v_0$ constant term
+a linear variable $v$ using equation \eqref{ansatz 5a}.
+The $v_i$'s (and the $a_i$'s, $b_i$'s and $c_i$'s) are constants.
+Strictly speaking, a $v_0$ constant term
 should also be present, but I often drop the constant term from the
 distinguished variable of a holonomic extension, because taking
 the derivative with respect to $x+3$ is no different from taking
 the derivative with respect to $x$.
 
-Next, we essentially introduce a new derivation with respect to $v$.
-We're only interested in how $\Psi$ differentiates with this new derivation,
-and that's what $\Psi'$ and $\Psi''$ tell us.  
-We do not have to modify the original differential ring, except
-to add $\Psi$, $\Psi'$, and $\Psi''$ as new indeterminates.
-The first
-two lines of equations in \eqref{ansatz 5} show how to evaluate
+Next we introduce our new holonomic element $\Psi$, which will
+also be the solution to our PDE.
+We now wish to essentially introduce a new derivation with respect to $v$.
+While I could write $\Psi_v$, I do not wish to confuse this derivation
+with the existing three derivations, plus I wish to emphasis
+that we don't need to actually introduce any new derivations,
+so I'll write this as $\Psi'$.  Treat $\Psi$, $\Psi'$, and
+$\Psi''$ as new indeterminates.
+$\Psi$ must satisfy the minimial differential polynomial, which
+we specify in equation \eqref{ansatz 5b}, also introducing
+degree bounds on the coefficients.
+
+Finally, we need to connect our new derivation with the existing derivations.
+Equations \eqref{ansatz 5c} show how to evaluate
 the derivatives of $\Psi$ and $\Psi'$ with respect to the
-derivations in the differential ring (it's just the chain rule), and the third line
-shows how to eliminate $\Psi''$ wherever it appears
-and and replace it with an expression in $\Psi$ and $\Psi''$.
-The final equation is there because $v$, too, must be degree bounded.
+existing derivations in the differential ring (it's just the chain rule).
+Although conceptually we introduce another derivation, it is important
+to note that we do not have to add any new derivations to the original differential ring.
+All that is needed is
+to add $\Psi$, $\Psi'$, and $\Psi''$ as new indeterminates
+and specify how they behave with respect to the existing derivations.
 
 \subsection*{Solution Algorithm}
 
 Given a PDE defined by differential polynomials, attempt the following:
 
 \begin{enumerate}
-\item Select an ansatz that defines a differential space parameterized by constants (see next section)
+\item Select an ansatz that defines a differential space parameterized by constants
 
 \item Reduce the PDE modulo the differential ideal that characterizes the differential space (differential elimination step)
 
@@ -382,7 +462,8 @@ to exclude known varieties based on computing Euclidean Distance polynomials.
 
 \end{enumerate}
 
-\section*{An Example: The New Solution of Hydrogen}
+%%\section*{An Example: The New Solution of Hydrogen}
+\subsection*{An Example: A New Solution of Hydrogen}
 
 The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
 Both Newton's equation and Schr\"odinger's equation
@@ -540,7 +621,7 @@ modulo \eqref{ansatz 5}, but it ultimately ran out of memory on a 96 GB computer
 $r^2-x^2-y^2-z^2$ to handle the algebraic extension (present not in the ansatz proper,
 but in the original ring used to construct the PDE).  Next I directed the software
 to expand the derivatives in \eqref{schrodinger hydrogen} and substitute for $\Psi''$ and $v$
-according to the ansatz.  The result is
+according to the ansatz \eqref{ansatz 5}.  The result is
 a rational function
 with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
@@ -559,15 +640,19 @@ Reduce the input PDE \eqref{schrodinger} modulo differential ideal \eqref{ansatz
 \end{comment}
 
 \begin{equation}
+\label{schrodinger modulo ansatz 5}
 %% -8r\Psi x^5 b_1 b_2^2 n_1 - r\Psi x^5 b_1 b_4^2 n_1 - r \Psi x^5 b_1 b_6^2 n_1 - 2r\Psi x^5 b_2 b_3 b_4 n_1 - \cdots
 -2r\Psi x^3 E d_1 v_1 - 3r\Psi x^3 n_1 v_0^2 v_1 - r\Psi x^3 n_1 v_1^3 - r\Psi x^3 n_1 v_1 v_2^2 - r\Psi x^3 n_1 v_1 v_3^2 - \cdots
 \end{equation}
 
+In this run of the program, I was using different names for the constants than
+I use in the paper.  $d_i$, $m_i$, $n_i$ instead of $a_i$, $b_i$, $c_i$.
+
 \subsection*{Projection Step}
 
-Having reduced our PDE \eqref{schrodinger} by the differential ideal defined by \eqref{ansatz 5},
+Having reduced our PDE \eqref{schrodinger hydrogen} by the differential ideal defined by \eqref{ansatz 5},
 we now wish to project our solution onto the subspace of the constants.  We're looking for
-constants that will solve equation \eqref{schrodinger} for all values of $x$, $y$, $z$, $r$,
+constants that will solve equation \eqref{schrodinger modulo ansatz 5} for all values of $x$, $y$, $z$, $r$,
 $\Psi$, and $\Psi'$, so
 we collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
 
@@ -578,7 +663,7 @@ r\Psi x^3 \left(-2 E d_1 v_1 - 3 n_1 v_0^2 v_1 - n_1 v_1^3 - n_1 v_1 v_2^2 - n_1
 
 The expressions in parenthesis gives us a system of equations (only one is shown)
 involving the $v_i$, $d_i$, $m_i$ and $n_i$ variables that, if satisfied,
-will yield a solution to \eqref{schrodinger} in the form \eqref{v ansatz} and \eqref{psi ansatz}.  Once
+will yield a solution to \eqref{schrodinger hydrogen} in the form \eqref{ansatz 5}.  Once
 duplicate equations are dropped, the system has 34 equations.
 
 
@@ -676,12 +761,12 @@ In brief,
 $D^2\Psi$
 in the ODE to zero, resulting in a first-order ODE, so we discard it, too,
 \item[\eqref{ideal:2}] corresponds to the classical solutions (see below), and
-\item[\eqref{ideal:1}] corresponds to our new solution (see below).
+\item[\eqref{ideal:1}] gives us our new solution (see below).
 
 \end{itemize}
 
 How to understand ideal \eqref{ideal:2}?  $d_0$ is an ideal generator,
-so $d_0=0$, and we can always multiply our DE by a constant without affecting our result, so we can set $d_1=1$.
+so $d_0=0$, and we can always multiply our homogenous differential polynomial by a constant without affecting our result, so we can set $d_1=1$.
 Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants,
 and $v_1=v_2=v_3=0$, so we can normalize by setting $v_0=1$.  This simplifies ideal \eqref{ideal:2} to:
 
@@ -711,7 +796,7 @@ where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ an
 expand out the derivative to obtain \eqref{classical eq in ideal}.  Its presence here was
 expected and won't be commented on further.
 
-Ideal \eqref{ideal:1} was not expected, and contains our new solution.  Does it contain any additional solutions?
+Ideal \eqref{ideal:1} was not expected, and contains our new solution.
 $d_0$ is an ideal generator,
 so $d_0=0$, and we can set $d_1=1$, by the same logic as above.
 Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
@@ -769,6 +854,8 @@ to the Bessel function \eqref{solution}.
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
 leading to...
+
+\vfill\eject
 
 \subsection*{The Main Result}
 \parskip 0pt
@@ -855,7 +942,8 @@ F_eq_a_d                # expanded denominator (in R)
 eqns_RQQ                # system of equations to solve
 \end{verbatim}
 
-\section*{Current Implementation Status}
+%%\section*{Current Implementation Status}
+\subsection*{Current Implementation Status}
 
 The algorithm presented above can be used to check any PDE to see if any of its solutions
 can be expressed using an ODE structured according to a specific ansatz.  This technique
@@ -875,6 +963,7 @@ at least the time of Hylleraas to be a valid assumption for the ground state.
 
 In both cases, I use Hartree atomic units to render the equations dimensionless.
 
+\begin{comment}
 Once the PDEs have been reduced modulo the differential ideal corresponding to a selected ansatz,
 the resulting system of polynomial equations must be solved.  The major techniques available are:
 
@@ -902,7 +991,9 @@ This technique is slow but, in principle, will identify all irreducible varietie
 In practice, Bertini did not identify all five irreducible varieties for hydrogen Ansatz 5.
 \end{enumerate}
 
-\subsection*{Performance}
+\end{comment}
+
+%%\subsection*{Performance}
 \begin{longtable}{lllll}
 Ansatz 5   &Hydrogen       &Differential Elimination &Rosenfeld-Groebner    &oom, 96 GB, 30 hours\\
            &               &                         &Manual                &quick\\
@@ -1058,12 +1149,15 @@ non-linear PDE such as Navier-Stokes, a different set of
 ansatzen formed from non-linear ODEs might be advisable.
 
 No theoretical treatment is currently available to predict
-when these ansatzen might yield solutions.
+when these ansatzen might yield solutions.  The discovery
+of a new result using such a simple ansatz suggests, however,
+that even very modest degree bounds can yield solutions.
 
 The main thrust of the author's research, however, remains
 quantum mechanics and the hope of an ODE-based solution
 to helium.  As of May 2023, the author continues to develop
-the software tools necessary to check ansatz 16.6
+the software tools necessary to check helium ansatz 16.6,
+in the hopes of finding a solution to helium's ground state.
 
 \subsection*{Draft Status}
 
@@ -1079,9 +1173,9 @@ The author maintains a discussion page for this result on his personal blog at:
 \end{center}
 
 \vfill\eject
-\subsection*{The Ansatzen}
+\subsection*{Appendix: The Ansatzen}
 
-\subsection*{Ansatz 1}
+{\bf Ansatz 1}
 
   \begin{tikzpicture}[remember picture]
     \node (1base) [ring, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
@@ -1228,8 +1322,11 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \node (base) [ring, node distance=70pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1/1};
   \end{tikzpicture}
+
+Ansatz 6 extends Ansatz 5 by allowing the distinguished variable to be a linear rational function.
 }
 
+\begin{comment}
 {\bf Ansatz 7}
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
@@ -1247,6 +1344,10 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
   \end{tikzpicture}
 
+Ansatz 7 is the quadratic form of Ansatz 6, and would now be specified as a sub-ansatz of 6.
+\end{comment}
+
+\begin{comment}
 {\bf Ansatz 10}
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
@@ -1264,8 +1365,10 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2};
   \end{tikzpicture}
 
+Ansatz 10 is the quadratic form of Ansatz 5, and would now be specified as a sub-ansatz of 5 (ansatz 5.3).
 
-\vbox{
+\end{comment}
+
 {\bf Ansatz 11}
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
@@ -1291,7 +1394,11 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (b.west) -- (b.west|-base.north) node[right,pos=0.8] {1};
     \draw[degree] (c.west) -- (c.west|-base.north) node[right,pos=0.8] {1};
   \end{tikzpicture}
-}
+
+Ansatz 11 allows a second-degree algebraic extension to be used in the formation of the distinguished variable.
+
+I don't use it anymore because the quadratic formula tells us that the algebraic element is equivalent
+to a square root, which is the simpler Ansatz 16.
 
 {\bf Ansatz 12}
 
@@ -1325,7 +1432,8 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (u.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
   \end{tikzpicture}
 
-\vbox{
+Two nested holonomic extensions.
+
    {\bf Ansatz 13}
 
   \begin{tikzpicture}[remember picture,out=315,in=225,distance=0.4cm,node distance=40pt]
@@ -1350,7 +1458,8 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \node (base) [ring, node distance=100pt, below=of Psi block.east, anchor=east, text width=250pt] {$\mathbf{Q}[x,y,z,r]/(r^2-x^2-y^2-z^2)$};
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {1};
   \end{tikzpicture}
-}
+
+An algebraic extension in the coefficient ring.
 
 \vskip 12pt
 \vbox{
@@ -1377,6 +1486,8 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (v.south) -- (v.south|-base.north) node[right,pos=0.7] {2/2};
   \end{tikzpicture}
 }
+
+An exponential in the coefficient ring.
 
 \vskip 12pt
 \vbox{
@@ -1406,6 +1517,8 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
   \end{tikzpicture}
 }
 
+A second order holonomic extension in the coefficient ring.
+
 \vbox{
 {\bf Ansatz 16}
 
@@ -1431,6 +1544,26 @@ Example: $V=-r; A+C=-B; E=-1/2$ ($A, B, C \in \mathbf{C}$) $\Rightarrow$ $e^{-r}
     \draw[degree] (a.west) -- (a.west|-base.north) node[right,pos=0.8] {1};
   \end{tikzpicture}
 }
+
+An algebraic extension nested below a holonomic extension.
+
+\begin{tabular}{lccc}
+ & \multicolumn{3}{c}{\bf degree bounds} \\
+             & algebraic root & $v$ & holonomic coefficients \\
+Ansatz 16    & 1  & 1  & 1 \\
+Ansatz 16.1  & 1  & 2  & 1 \\
+Ansatz 16.2  & 1  & 1  & 2 \\
+Ansatz 16.3  & 2  & 1  & 1 \\
+Ansatz 16.4  & 1  & 2  & 2 \\
+Ansatz 16.5  & 2  & 1  & 2 \\
+Ansatz 16.6  & 2  & 2  & 2 \\
+\end{tabular}
+
+Ansatz 16.3 is expected to reproduce $r=\sqrt{x^2+y^2+z^2}$.  A second degree root
+is required.
+
+Since $r$ is required to express the known solutions to hydrogen, being able to construct
+something else like $r$ makes 16.3 and 16.6 interesting targets.
 
 \begin{comment}
 %% An attempt to reform this tikz from the "bottom up" to make it easier
