@@ -74,6 +74,115 @@ The author has developed another exact solution technique based on differential 
 and has used it to find a new solution to one of the most well-studied equations
 in mathematical physics, the Schr\"odinger equation for hydrogen.
 
+The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
+Both Newton's equation and Schr\"odinger's equation
+describe the time evolution of a system
+of particles interacting under the influence of forces.
+Newton's classical second law $F=ma$
+describes the time evolution of the position and velocity of each particle.
+Schr\"odinger's quantum mechanical formulation $H\Psi=i\frac{\delta}{\delta t} \Psi$
+describes the time evolution
+of the wavefunction $\Psi$, which is a complex-valued function of particle position
+that encodes a probability density function for
+the particle positions as $|\Psi|^2$ and a probability density function
+for the particle momenta as $|\hat{\Psi}|^2$.
+
+There is no one Schr\"odinger equation any more than there is one $F=ma$.
+Each physical system under consideration gives rise to a different collection
+of particles and interacting forces, and a different Hamiltonian operator $H$.
+Indeed, even the approximations we
+make strongly determine the form of the equation for a given system.
+
+The Hamiltonian operator $H$, so named because of its connection to Hamiltonian
+mechanics, is most typically given in the form $H=T-V$, where $T$ is the
+sum of the kinetic energy of all particles and $V$ is the potential energy
+of the system, due to its forces.
+
+\begin{equation*}
+H=T-V
+\end{equation*}
+
+One of the simplest Schr\"odinger equations is for the hydrogen atom,
+considering the electric force attraction between the nucleus and
+the electronic, and ignoring all other effects.  It has the following form:
+
+\begin{equation*}
+%\label{schrodinger}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = i \frac{\delta}{\delta t} \Psi
+\end{equation*}
+
+where $\Psi$ is the wavefunction, $\nabla^2$ is the Laplacian,
+and $r$ is the distance between the two particles.  We use Hartree atomic units,
+a system of units in which four fundamental physical constants\footnote{the reduced Planck
+constant, the elementary charge, the electron mass, and the Coulumb constant} are
+assigned the value of 1, in order to eliminate the need for any
+conversion constants in the equation.  The unit of distance, in particular,
+is {\it Bohr radii}, approximately half an Angstr\"om, a
+Angstr\"om being $10^{-10}$ meters.  The first term, $-\frac{1}{2}\nabla^2 \Psi$,
+is the kinetic energy operator, and the second term, $-\frac{1}{r}\Psi$, is
+the potential energy term.
+
+We can further simplify the general, time-dependent Schr\"odinger equation
+by requiring that the position and momentum probability density functions
+each be time-independent.  This restricts the solution to stable states
+of the hydrogen atom, settles the wavefunction up to a multiple of $e^{itE}$,
+where $E$ is the state's energy in Hartrees (approximately 27 eV),
+and leads to the time-independent Schr\"odinger equation for hydrogen:
+
+\begin{equation}
+\label{schrodinger hydrogen}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation}
+
+This equation is amenable to seperation of variables.
+Using spherical coordinates and writing $\Psi$ as $\Psi=R(r)Y(\theta, \psi) = R(r)P(\theta)F(\psi)$,
+substituting into \eqref{schrodinger hydrogen}, we obtain the following expansion\footnote{hyperphysics}:
+
+\begin{equation*}
+\frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r)
++ \left[\frac{1}{P\sin\theta} \frac{d}{d\theta}\left[\sin\theta\frac{dP}{d\theta}\right]+\frac{1}{F\sin^2\theta}\frac{d^2 F}{d\psi^2}\right] = 0
+\end{equation*}
+
+The first part, dependant on $r$, is the {\it radical equation}, whose solutions are, in general.
+hypergeometric functions, but which, in the case of specific energy values,
+simplify to polynomials in $r$
+times an exponential of $r$.  It is these solutions, combined with the solution
+of the second part of the equation (the colatitude equation, solved by the associated Laguerre polynomials,
+and the azimuthal equation), which have been known for a hundred years, and are
+hence referred to as the {\it classical solutions} to hydrogen.
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{ccc}
+{\bf Energy}		& {\bf Wavefunction}		& {\bf Shell} \\
+{\bf (Hartrees)}	& & \\
+\\
+$-\frac{1}{2}$		& $e^{-r}$			& 1s \\
+$-\frac{1}{8}$		& $(2-r)e^{-r/2}$		& 2s \\
+			& $xe^{-r/2}$			& 2p \\
+			& $ye^{-r/2}$			\\
+			& $ze^{-r/2}$			\\
+$-\frac{1}{18}$		& $(27-18r+2r^2)e^{-r/3}$	& 3s \\
+			& $(6-r)xe^{-r/3}$		& 3p \\
+			& $(6-r)ye^{-r/3}$		\\
+			& $(6-r)ze^{-r/3}$		\\
+%%			& $(xy)e^{-r/3}$		& 3d \\
+\end{tabular}
+\end{center}
+\end{figure}
+
+The associated energy levels are negative because these are bound states.  Zero energy
+would correspond to an electron and a proton at rest an (infinitely) large distance apart.
+
+The classical solutions are separable, are in $L^2$, are in $C^\infty$,
+and are each paired with a negative energy value, of which $-\frac{1}{2}$ is the lowest,
+and corresponds to the 1s or ground state.
+
+Yet the existance of separable solutions leaves open the existance of non-separable solutions.
+
+It is perhaps surprising that such a well-studied equation would have fairly simple, previously
+undiscovered, non-separable solutions.
+
 \subsection*{Differential Algebra}
 
 Given a ring $R$ (commutative, with unity) or a field $F$, we can construct a
@@ -465,114 +574,6 @@ to exclude known varieties based on computing Euclidean Distance polynomials.
 %%\section*{An Example: The New Solution of Hydrogen}
 \subsection*{An Example: A New Solution of Hydrogen}
 
-The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
-Both Newton's equation and Schr\"odinger's equation
-describe the time evolution of a system
-of particles interacting under the influence of forces.
-Newton's classical second law $F=ma$
-describes the time evolution of the position and velocity of each particle.
-Schr\"odinger's quantum mechanical formulation $H\Psi=i\frac{\delta}{\delta t} \Psi$
-describes the time evolution
-of the wavefunction $\Psi$, which is a complex-valued function of particle position
-that encodes a probability density function for
-the particle positions as $|\Psi|^2$ and a probability density function
-for the particle momenta as $|\hat{\Psi}|^2$.
-
-There is no one Schr\"odinger equation any more than there is one $F=ma$.
-Each physical system under consideration gives rise to a different collection
-of particles and interacting forces, and a different Hamiltonian operator $H$.
-Indeed, even the approximations we
-make strongly determine the form of the equation for a given system.
-
-The Hamiltonian operator $H$, so named because of its connection to Hamiltonian
-mechanics, is most typically given in the form $H=T-V$, where $T$ is the
-sum of the kinetic energy of all particles and $V$ is the potential energy
-of the system, due to its forces.
-
-\begin{equation*}
-H=T-V
-\end{equation*}
-
-One of the simplest Schr\"odinger equations is for the hydrogen atom,
-considering the electric force attraction between the nucleus and
-the electronic, and ignoring all other effects.  It has the following form:
-
-\begin{equation*}
-%\label{schrodinger}
--\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = i \frac{\delta}{\delta t} \Psi
-\end{equation*}
-
-where $\Psi$ is the wavefunction, $\nabla^2$ is the Laplacian,
-and $r$ is the distance between the two particles.  We use Hartree atomic units,
-a system of units in which four fundamental physical constants\footnote{the reduced Planck
-constant, the elementary charge, the electron mass, and the Coulumb constant} are
-assigned the value of 1, in order to eliminate the need for any
-conversion constants in the equation.  The unit of distance, in particular,
-is {\it Bohr radii}, approximately half an Angstr\"om, a
-Angstr\"om being $10^{-10}$ meters.  The first term, $-\frac{1}{2}\nabla^2 \Psi$,
-is the kinetic energy operator, and the second term, $-\frac{1}{r}\Psi$, is
-the potential energy term.
-
-We can further simplify the general, time-dependent Schr\"odinger equation
-by requiring that the position and momentum probability density functions
-each be time-independent.  This restricts the solution to stable states
-of the hydrogen atom, settles the wavefunction up to a multiple of $e^{itE}$,
-where $E$ is the state's energy in Hartrees (approximately 27 eV),
-and leads to the time-independent Schr\"odinger equation for hydrogen:
-
-\begin{equation}
-\label{schrodinger hydrogen}
--\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
-\end{equation}
-
-This equation is amenable to seperation of variables.
-Using spherical coordinates and writing $\Psi$ as $\Psi=R(r)Y(\theta, \psi) = R(r)P(\theta)F(\psi)$,
-substituting into \eqref{schrodinger hydrogen}, we obtain the following expansion\footnote{hyperphysics}:
-
-\begin{equation*}
-\frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r)
-+ \left[\frac{1}{P\sin\theta} \frac{d}{d\theta}\left[\sin\theta\frac{dP}{d\theta}\right]+\frac{1}{F\sin^2\theta}\frac{d^2 F}{d\psi^2}\right] = 0
-\end{equation*}
-
-The first part, dependant on $r$, is the {\it radical equation}, whose solutions are, in general.
-hypergeometric functions, but which, in the case of specific energy values,
-simplify to polynomials in $r$
-times an exponential of $r$.  It is these solutions, combined with the solution
-of the second part of the equation (the colatitude equation, solved by the associated Laguerre polynomials,
-and the azimuthal equation), which have been known for a hundred years, and are
-hence referred to as the {\it classical solutions} to hydrogen.
-
-\begin{figure}
-\begin{center}
-\begin{tabular}{ccc}
-{\bf Energy}		& {\bf Wavefunction}		& {\bf Shell} \\
-{\bf (Hartrees)}	& & \\
-\\
-$-\frac{1}{2}$		& $e^{-r}$			& 1s \\
-$-\frac{1}{8}$		& $(2-r)e^{-r/2}$		& 2s \\
-			& $xe^{-r/2}$			& 2p \\
-			& $ye^{-r/2}$			\\
-			& $ze^{-r/2}$			\\
-$-\frac{1}{18}$		& $(27-18r+2r^2)e^{-r/3}$	& 3s \\
-			& $(6-r)xe^{-r/3}$		& 3p \\
-			& $(6-r)ye^{-r/3}$		\\
-			& $(6-r)ze^{-r/3}$		\\
-%%			& $(xy)e^{-r/3}$		& 3d \\
-\end{tabular}
-\end{center}
-\end{figure}
-
-The associated energy levels are negative because these are bound states.  Zero energy
-would correspond to an electron and a proton at rest an (infinitely) large distance apart.
-
-The classical solutions are separable, are in $L^2$, are in $C^\infty$,
-and are each paired with a negative energy value, of which $-\frac{1}{2}$ is the lowest,
-and corresponds to the 1s or ground state.
-
-Yet the existance of separable solutions leaves open the existance of non-separable solutions.
-
-It is perhaps surprising that such a well-studied equation would have fairly simple, previously
-undiscovered, non-separable solutions.
 
 Recall that Ansatz 5 is a second-order ODE with linear coefficients and a linear variable, i.e:
 
