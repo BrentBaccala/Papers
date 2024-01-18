@@ -37,7 +37,106 @@ Here what I've learned.
 
 %%\section*{The Algorithm}
 
-%%\subsection*{Introduction}
-%%\parskip 12pt
+\parskip 12pt
+
+\subsection*{Introduction}
+
+Nobody has ever found an exact solution to helium's ground state.
+Nobody has ever proven that one does not exist.
+
+What is a ``exact'' solution?  This could mean elementary functions,
+liouvillian functions (elementary functions plus integrals), holonomic
+functions (solutions of ODEs).  Holonomic functions are the most general,
+and we have pretty good tools for testing if a holonomic function is
+liovillian and/or elementary.
+
+So, I regard holonomic functions as the holy grail; that's what I'm looking for
+to ``solve'' helium's ground state.
+
+\subsection*{The Risch Algorithm}
+
+I first read about the Risch algorithm in the book ``A equals B''.
+
+The Risch algorithm pretty much solves the problem of symbolic integration.
+Either it finds an elementary solution to an integral or proves that none exists.
+This isn't as useful as it might seem because there are plenty of non-elementary integrals,
+but it at least answers a question we've had for three hundred years:
+How do you ``do'' an integral?
+
+The Risch algorithm excludes consideration of the absolute value and modulus functions
+from consideration as elementary functions.  The modulus function fails to be analytic
+anywhere and is the obvious complex extension of the absolute value function, which
+fails to be differentiable at the origin.
+
+Richardson's theorem tells us that if we introduce absolute value and modulus,
+the integration problem rapidly becomes undecidable, so no extension of the
+Risch algorithm is feasible.
+
+A minor issue with the Risch algorithm is the decidability of the
+constant subfield.  While we've proven that both $e$ and $\pi$ are transcendental,
+it has never been proved that ${\mathcal Q}[e,\pi]$ has degree of transcendence two.
+So, it's possible that some (large) polynomial in $e$ and $\pi$ could, in fact,
+be zero.  The Risch algorithm requires us to test for constants being equal to zero.
+
+Advanced calculus courses, covering multivariate calculus and complex analysis,
+show us how to use those techniques to solve definite integrals.  We never
+see them used to solve indefinite integrals, because there's no point.
+If we could use multivariate or complex techniques to find an elementary
+solution to an indefinite integral, then we could use the Risch algorithm
+to obtain the same result.
+
+\subsection*{Differential algebra}
+
+Differential algebra has a reputation for being short on finding actual solutions.
+The reason for this is that it only finds differential polynomial relationships,
+not functions like sine and cosine, and furthermore that it only find such relationships
+that hold for all solutions of a differential equation.
+
+Further progress in differential algebra generally requires the introduction of
+additional assumptions, especially for PDEs.  Consider
+the Risch algorithm.  The additional assumption here is that the solution is elementary.
+
+\subsection*{Liovuillian solutions}
+
+$n^{\rm th}$-order linear ODEs have at most an $n$-dimensional solution space,
+the determinant of the Wronkian matrix can be used to show that $n+1$ solutions
+must be linearly dependent.  [Wikipedia on Wronkian, Singer and van der Put]
+For a suitable class of solutions (complex analytic?), the solution space
+will be exactly $n$ dimensional.
+
+For second-order linear ODEs with rational (i.e, polynomial) coefficients,
+Kovacic's algorithm gives us a constructive method to determine if
+the solutions are Liovuillian.  Either all are or none are.
+Extending Kovacic's algorithm to handle arbitrary rational coefficients
+seems like low-hanging fruit; a nice Ph.D. project, I think.
+
+For higher order (third order and higher) linear ODEs with rational coefficients, Singer and Bronstein
+developed algorithms to find a Liovuillian subspace if it exists.
+Factorization in the Weyl algebra is a useful technique here.
+
+\subsection*{Partial Differential Equations}
+
+The solutions to hydrogen's Schrodinger equation demonstrate that in general,
+solution spaces to PDEs will not have a countable basis.
+
+Consider the classical solutions to hydrogen, in the case where there
+is no angular dependence.  Then all we have is a radical equation for $\Psi(r)$:
+
+\[ r^2 \frac{d^2\Psi}{dr^2} + 2r \frac{d\Psi}{dr} + \left[2(E r^2+r)\right] \Psi = 0 \]
+
+Basic ODE theory now tells us that for {\it any} value of $E$, this equation
+will have a two-dimensional solution space, and we can express those solutions
+using hypergeometric functions.  Only by enforcing the global square integrability
+condition do we discard all but a countable infinite number of solutions, and
+these are the classical solutions to hydrogen (the atomic shells).
+
+Plus, the new pseudo-solution (a solution to the PDE that doesn't satisfy the global integrability condition)
+that I discovered in January 2023 suggests that
+there are many ODEs whose solutions will yield pseudo-solutions to the PDE.
+
+This calls into
+question the entire strategy of solving the differential equation first,
+then applying the global integrability condition.  Without the global
+condition, there are too many solutions to be easily categorized.
 
 \end{document}
