@@ -96,6 +96,60 @@ Further progress in differential algebra generally requires the introduction of
 additional assumptions, especially for PDEs.  Consider
 the Risch algorithm.  The additional assumption here is that the solution is elementary.
 
+\subsection*{Finite Fields}
+
+If you're not sure what else to do to solve a problem, you can always try reducing
+modulo a prime and working in the resulting finite field.  Basic arithmetic and
+commutative algebra works in a finite field, but can be weird.  Weird is good if
+you're looking for new and different ways to handle a problem.  The essence
+of Robert Risch's breakthrough was to reduce the problem modulo a prime,
+and nobody has found a way to solve that problem without using prime
+reduction.  Our fastest polynomial factoriation algorithms use prime
+reduction, and Gr\"obner bases can be computed this way, too.
+
+Reducing modulo a prime also limits the amount of space required to store
+results.  Working with a large prime slightly less than $2^{64}$ ensures that
+all of your numbers fit into a 64-bit integer.
+
+Lifting can sometimes be eyeballed.  If you're working modulo 32003, then
+$1/2 = 16002$, since $2\cdot 16002 = 32004 = 1 \mod 32003$.  All of the
+halfs are clustered around 16002; likewise all of the one thirds are clustered
+around 10668 and all of the two thirds are clustered around 21336.
+
+\subsection*{Exactness recovery}
+
+Using a numerical approximation doesn't preclude exact results.  A number that
+is approximately 1.00074 is very likely exactly 1.  Exactness recovery can be
+made precise if bounds can be placed on the denominators.  This is how
+homotopy continuation works; the goal is compute approximate solutions
+({\it witness points}) to systems of polynomial equations
+that are precise enough to allow exact results
+to be recovered.
+
+\subsection*{Solving systems of polynomial equations}
+
+Best done with Gr\"obner bases, if possible.  Construct the radical,
+then the primary decomposition of the ideal.
+
+Otherwise, homotopy continuation looks like a viable alternative;
+a lot of research effort has gone into it.  It's a numerical approach
+that produces witness points.
+
+Simply treating the problem as a numerical optimization problem
+doesn't work well because you tend to find a witness point to
+a single component variety, but I don't know of any good way
+to factor out component varieties to find the other solutions.
+Computing the Euclidean distance function is the best way I
+know of to do this, but it requires a Gr\"obner basis calculation
+that's too difficult to be practical.
+
+Homotopy continuation, on the other hand, finds all of your solutions (for a zero-dimensional problem),
+and finds witness points on all of the component varieties (for a positive dimensional problem).
+It's performance limitation seems to be the shear number of points
+that need to be tracked.  The Bezout bound gives the number of intersection
+points; it general it's the product of the degrees of the polynomials.
+
+
 \subsection*{Liovuillian solutions}
 
 $n^{\rm th}$-order linear ODEs have at most an $n$-dimensional solution space,
