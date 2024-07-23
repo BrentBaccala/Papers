@@ -1,7 +1,7 @@
 
 \documentclass{article}
 
-\title{A New Solution of Hydrogen}
+\title{A New Pseudo-Solution of Hydrogen}
 \author{Brent Baccala}
 
 \usepackage{amsmath}
@@ -39,13 +39,44 @@ The author has developed a novel technique, based on differential algebra,
 for finding exact solutions of partial
 differential equations.  As an illustration of the method,
 I derive a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
-The solution is $J_0(2\sqrt{x+r})$ where $J_0$ is the Bessel function $J_0$.
+The solution is $J_0(2\sqrt{x+r})$ where $J_0$ is the Bessel function $J_0$, and
+the result can be easily verified using Mathematica (p. 18).
 \end{abstract}
 
-%%\section*{The Algorithm}
+\parskip 12pt
 
 \subsection*{Introduction}
-\parskip 12pt
+
+An January 2023, I discovered a previously unknown solution to the simplest Schrödinger equation for the hydrogen atom.
+
+It turns out that this wavefunction:
+
+\begin{equation}
+\Psi = J_0(2\sqrt{x+r})
+\end{equation}
+
+where $J_0$ is the ordinary Bessel function $J_0$, solves the Schrödinger equation for hydrogen:
+
+\begin{equation}
+-\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
+\end{equation}
+
+with E=0.
+
+It does not, however, satisfy the global integrability condition required for it to be a valid wavefunction:
+
+\begin{equation}
+\int|\Psi|^2 < \infty
+\end{equation}
+
+Therefore, it is only a pseudo-solution, since it satisfies the differential equation but is not a valid wavefunction.
+
+A ``proof by Mathematica'' is on page 18.
+
+What I find surprising about the result is that it solves one of the best known equations in mathematical physics, yet has apparently remained undiscovered for over a hundred years!
+
+
+\subsection*{Schr\"odinger's Equation for Hydrogen}
 
 \begin{comment}
 A short list of methods to find exact solutions to PDEs:
@@ -67,12 +98,14 @@ A short list of methods to find exact solutions to PDEs:
 \end{itemize}
 \end{comment}
 
+\begin{comment}
 A short list of methods to find exact solutions to PDEs includes separation of variables,
 the method of characteristics, transform methods (including Fourier transforms),
 symmetry methods, Green's functions, Duhamel's principle, and the calculus of variations.
 The author has developed another exact solution technique based on differential algebra
 and has used it to find a new solution to one of the most well-studied equations
 in mathematical physics, the Schr\"odinger equation for hydrogen.
+\end{comment}
 
 The Schr\"odinger equation is the quantum mechanical analog of Newton's second law.
 Both Newton's equation and Schr\"odinger's equation
@@ -1064,7 +1097,8 @@ Ansatz 16  &Hydrogen       &Differential Elimination &Manual                &30 
            &               &                         &                      &\\
 Ansatz 16.31&Helium        &Differential Elimination &Manual                &quick\\
            &               &Build System of Eqns     &                      &quick\\
-           &               &Solve System of Eqns     &Singular radical      &work in progress\\
+           &               &Solve System of Eqns     &Singular radical      &oom, 96 GB, $\sim$ 40 hrs; Jan 19 '24\\
+           &               &                         &\R32003 radical       &work in progress\\
            &               &                         &                      &\\
 Ansatz 16.6&Helium         &Differential Elimination &Manual                &10 min\\
            &               &Build System of Eqns     &                      &3 hours\\
