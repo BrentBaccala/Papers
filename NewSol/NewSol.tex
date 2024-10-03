@@ -168,8 +168,16 @@ and leads to the time-independent Schr\"odinger equation for hydrogen:
 \end{equation}
 
 This equation is amenable to seperation of variables.
-Using spherical coordinates and writing $\Psi$ as $\Psi=R(r)Y(\theta, \psi) = R(r)P(\theta)F(\psi)$,
-substituting into \eqref{schrodinger hydrogen}, we obtain the following expansion\footnote{hyperphysics}:
+Using spherical coordinates, we write $\Psi$ as follows:
+
+\begin{equation}
+\label{separation of variables}
+\Psi=R(r)Y(\theta, \psi) = R(r)P(\theta)F(\psi)
+\end{equation}
+
+Substituting \eqref{separation of variables} into \eqref{schrodinger hydrogen},
+and expanding the Laplacian $\nabla^2$ in spherical coordinates,
+we obtain the following expansion\footnote{hyperphysics}:
 
 \begin{equation*}
 \frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r)
@@ -216,19 +224,60 @@ Yet the existance of separable solutions leaves open the existance of non-separa
 It is perhaps surprising that such a well-studied equation would have fairly simple, previously
 undiscovered, non-separable solutions.
 
-\subsection*{Differential Reduction Step}
+\subsection*{Solution Technique}
 
-I attempted to use the Rosenfeld-Gr\"obner algorithm to reduce equation \eqref{schrodinger hydrogen}
-modulo \eqref{ansatz 5}, but it ultimately ran out of memory on a 96 GB computer after
-30 hours.  Instead, I used Sage to construct a polynomial ring modulo the ideal
-$r^2-x^2-y^2-z^2$ to handle the algebraic extension (present not in the ansatz proper,
-but in the original ring used to construct the PDE).  Next I directed the software
-to expand the derivatives in \eqref{schrodinger hydrogen} and substitute for $\Psi''$ and $v$
-according to the ansatz \eqref{ansatz 5}.  The result is
-a rational function
+The separation of variables step in \eqref{separation of variables} is an arbitrary assumption
+that discards all non-separable solutions.  By making a different assumption, we can
+hope to find a non-seperable solution.
+
+Let's assume that wavefunction $\Psi$ satisfies a second-order ODE in some as yet unknown variable $v$:
+
+\begin{equation}
+a(v) \frac{\delta^2\Psi}{\delta v^2} + b(v) \frac{\delta\Psi}{\delta v} + c(v) \Psi = 0
+\end{equation}
+
+This assumption is motivation by the observation that ODEs are considerable better understood
+than PDEs.  We aim to parameterize our solution by a finite number of constants, so we
+further restrict our ODE by requiring its coefficients to be second degree polynomials in $v$
+with constant complex coefficients:
+
+\begin{equation}
+\label{v equation}
+\begin{gathered}
+(a_0 + a_1 v) \frac{\delta^2\Psi}{\delta v^2} + (b_0 + b_1 v) \frac{\delta\Psi}{\delta v} + (c_0 + c_1 v) \Psi = 0 \\
+a_0, a_1, b_0, b_1, c_0, c_1 \in \mathbf{C}
+\end{gathered}
+\end{equation}
+
+Turning our attention to $v$, we (arbitrarily) select Cartesian coordinates, (arbitrarily) add the radius $r=\sqrt{x^2+y^2+z^2}$
+to our list of coordinates, and (arbitrarily) restrict $v$ to be a first degree polynomial in these coordinates,
+with complex coefficients:
+
+\begin{equation}
+\begin{gathered}
+\label{v form}
+v = v_1 x + v_2 y + v_3 z + v_4 r \\
+v_1, v_2, v_3, v_4 \in \mathbf{C}
+\end{gathered}
+\end{equation}
+
+The constant term $v_0$ is excluded from $v$ only because adding a constant to $v$ would not meaningfully affect the
+solution.  An ODE w.r.t. $x+3$ has the same derivatives as an ODE w.r.t $x$, and the coefficients would
+only be shifted by constants, which could be absorbed into $a_0$, $b_0$, and $c_0$, so excluding $v_0$
+simplies the system by removing an unnecessary constant.
+
+Rearranging \eqref{v equation} like this:
+
+\begin{equation}
+\label{rearranged v equation}
+\frac{\delta^2\Psi}{\delta v^2} = - \frac{b_0 + b_1 v}{a_0 + a_1 v} \frac{\delta\Psi}{\delta v} - \frac{c_0 + c_1 v}{a_0 + a_1 v}\Psi
+\end{equation}
+
+and substituting into \eqref{schrodinger hydrogen} after expanding the Laplacian $\nabla^2$ in Cartesian coordinates
+using \eqref{v form} for $v$, simplifying higher powers of $r$ using $r^2=x^2+y^2+z^2$, we obtain a rational
+a rational function in $x, y, z, r, \Psi, \Psi', E, a_0, a_1, b_0, b_1, c_0, c_1, v_1, v_2, v_3, v_4$
 with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
-% I used a Sage-based computer program with the following ansatz.
 \begin{comment}
 I found this solution roughly as follows.\footnote{
 I discovered an alternate form of this solution using a somewhat more complex ansatz
@@ -251,11 +300,9 @@ Reduce the input PDE \eqref{schrodinger} modulo differential ideal \eqref{ansatz
 In this run of the program, I was using different names for the constants than
 I use in the paper.  $d_i$, $m_i$, $n_i$ instead of $a_i$, $b_i$, $c_i$.
 
-\subsection*{Projection Step}
-
-Having reduced our PDE \eqref{schrodinger hydrogen} by the differential ideal defined by \eqref{ansatz 5},
-we now wish to project our solution onto the subspace of the constants.  We're looking for
-constants that will solve equation \eqref{schrodinger modulo ansatz 5} for all values of $x$, $y$, $z$, $r$,
+We're looking for
+constants $E, a_0, a_1, b_0, b_1, c_0, c_1, v_1, v_2, v_3, v_4$
+that will solve equation \eqref{schrodinger modulo ansatz 5} for all values of $x$, $y$, $z$, $r$,
 $\Psi$, and $\Psi'$, so
 we collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
 
@@ -266,7 +313,7 @@ r\Psi x^3 \left(-2 E d_1 v_1 - 3 n_1 v_0^2 v_1 - n_1 v_1^3 - n_1 v_1 v_2^2 - n_1
 
 The expressions in parenthesis gives us a system of equations (only one is shown)
 involving the $v_i$, $d_i$, $m_i$ and $n_i$ variables that, if satisfied,
-will yield a solution to \eqref{schrodinger hydrogen} in the form \eqref{ansatz 5}.  Once
+will yield a solution to \eqref{schrodinger hydrogen} in the form \eqref{v equation} and \eqref{v form}.  Once
 duplicate equations are dropped, the system has 34 equations.
 
 
@@ -311,32 +358,19 @@ duplicate equations are dropped, the system has 34 equations.
 \end{array}
 \end{equation}
 
-\subsection*{Prime Decomposition}
-
 \begin{comment}
 I used a numerical algorithm to solve the system of equations in expectation
 of it being faster for larger systems, but the system \eqref{polynomial system}
 is small enough that exact methods are usable.
 \end{comment}
-\eqref{polynomial system} is simple enough that we can form
-an ideal $I$ in $\mathbf{Q}[v_0,...,m_1,E]$ from \eqref{polynomial system}, and
-Sage can calculate a Gr\"obner basis for the radical $I$ in less than a second.
-While we could work with the Gr\"obner basis directly\footnote{A Gr\"obner basis
-of the solution ideal in lexicographic order $E>d_i>m_i>n_i>v_i$ contains 65 polynomials.}
-, I find it more
-useful to study the primary decomposition, which Sage computes using
-the Shimoyama-Yokoyama algorithm\footnote{Localization and Primary Decomposition of
-Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277}
-as implemented in Singular.  Gr\"obner basis calculations are done
-as a subalgorithm of Shimoyama-Yokoyama.
 
-Taking the radical of the ideal simplifies both the theory and the application,
-and can be justified because there are no nilpotent elements in our solution
-space, which is just 11-dimensional complex space ${\mathbf C}^{11}$.  The
-primary decomposition of a radical ideal is also a prime decomposition,
-as the distinction between primary and prime ideals is only significant
-for non-radical ideals with nilpotent elements.  Sage/Singular computes
-the following decomposition into prime ideals:
+The system \eqref{polynomial system} describes an algebraic variety in ${\mathbf C}^{11}$.
+We can better understand its structure by decomposing it into a union
+of its irreducible subvarieties, using one of several published algorithms.
+[Shimoyama-Yokoyama algorithm\footnote{Localization and Primary Decomposition of
+Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277}, other Singular algorithms, char sets, numerical alg decomp]
+I performed this step using Sage, which uses Singular's implementation of SY
+to perform this step on ideals:
 
 \begin{verbatim}
 sage: I.radical().primary_decomposition()
@@ -427,7 +461,7 @@ v_1^2 + v_2^2 + v_3^2 = 1
 \end{equation}
 
 Substituting these values back into our ansatz, we conclude that $\Psi(v)$
-is a solution of \eqref{schrodinger} under these conditions:
+is a solution of \eqref{schrodinger hydrogen} under these conditions:
 
 \begin{equation}
 \label{related solution}
@@ -451,37 +485,19 @@ v \Psi''(v) + \Psi'(v) + \Psi(v) = 0
 \end{equation}
 
 Wolfram Mathematica\footnote{I originally used Wolfram Alpha} can now
-analyze this equation and determine that it is equivalent
-to the Bessel function \eqref{solution}.
+analyze this equation and find a solution using the ordinary Bessel functions $J_0$ and $Y_0$:
 
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
-leading to...
-
-\vfill\eject
-
-\subsection*{The Main Result}
-\parskip 0pt
-
-Consider the following simple Sch\"odinger equation for the hydrogen atom:
-
-\begin{equation}
-\label{schrodinger}
--\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
-\end{equation}
-
-Let $J_0$ be the ordinary Bessel function $J_0$, and set
+Therefore, letting $J_0$ be the ordinary Bessel function $J_0$, and setting
 
 \begin{equation}
 \label{solution}
 \Psi = J_0(2\sqrt{x+r})
 \end{equation}
 
-where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$.
-
-\vskip 12pt
-
-Then \eqref{solution} is an exact solution to \eqref{schrodinger}, with $E=0$.
+where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$, we conclude that
+\eqref{solution} is an exact solution to \eqref{schrodinger hydrogen}, with $E=0$.
 
 \subsection*{Verification}
 
@@ -510,7 +526,8 @@ and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
 
 \vskip 12pt
 
-Any finite linear combination of functions of the form \eqref{generalized solution} also solves \eqref{schrodinger}.
+By linearity of \eqref{schrodinger hydrogen}, any finite linear combination of functions of the form
+\eqref{generalized solution} also solves \eqref{schrodinger hydrogen}.
 
 \subsection*{Software}
 
