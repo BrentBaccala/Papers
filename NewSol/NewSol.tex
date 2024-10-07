@@ -35,12 +35,12 @@
 \maketitle
 
 \begin{abstract}
-The author has developed a novel technique, based on differential algebra,
-for finding exact solutions of partial
+The author has developed a simple technique
+for finding non-separable solutions of partial
 differential equations.  As an illustration of the method,
 I derive a previously unknown exact solution to the simplest time-independent Schr\"odinger equation for hydrogen.
 The solution is $J_0(2\sqrt{x+r})$ where $J_0$ is the Bessel function $J_0$, and
-the result can be easily verified using Mathematica (p. 18).
+the result can be easily verified using Mathematica (p. \pageref{verification}).
 \end{abstract}
 
 \parskip 12pt
@@ -49,13 +49,14 @@ the result can be easily verified using Mathematica (p. 18).
 
 An January 2023, I discovered a previously unknown solution to the simplest Schrödinger equation for the hydrogen atom.
 
-It turns out that this wavefunction:
+It turns out that this function:
 
 \begin{equation}
+\label{solution}
 \Psi = J_0(2\sqrt{x+r})
 \end{equation}
 
-where $J_0$ is the ordinary Bessel function $J_0$, solves the Schrödinger equation for hydrogen:
+where $J_0$ is the ordinary Bessel function $J_0$, solves the simplest Schrödinger equation for hydrogen:
 
 \begin{equation}
 -\frac{1}{2}\nabla^2 \Psi - \frac{1}{r}\Psi = E \Psi
@@ -63,7 +64,8 @@ where $J_0$ is the ordinary Bessel function $J_0$, solves the Schrödinger equat
 
 with E=0.
 
-It does not, however, satisfy the global integrability condition required for it to be a valid wavefunction:
+It does not, however, satisfy the global integrability condition required for it to be a valid wavefunction,
+i.e, it is not in $L^2$:
 
 \begin{equation}
 \int|\Psi|^2 < \infty
@@ -73,7 +75,13 @@ Therefore, it is only a pseudo-solution, since it satisfies the differential equ
 
 A ``proof by Mathematica'' is on page \pageref{verification}.
 
+\begin{comment}
 What I find surprising about the result is that it solves one of the best known equations in mathematical physics, yet has apparently remained undiscovered for over a hundred years!
+\end{comment}
+
+This paper continues with an introduction to Schr\"odinger's Equation for Hydrogen,
+then explains the solution technique used to discover \eqref{solution}
+and concludes with a discussion of generalizations and further research.
 
 
 \subsection*{Schr\"odinger's Equation for Hydrogen}
@@ -156,8 +164,9 @@ is the kinetic energy operator, and the second term, $-\frac{1}{r}\Psi$, is
 the potential energy term.
 
 We can further simplify the general, time-dependent Schr\"odinger equation
-by requiring that the position and momentum probability density functions
-each be time-independent.  This restricts the solution to stable states
+restricting our attention to solutions that where the position and
+time dependence can be separated.
+This restricts the solution to stable states
 of the hydrogen atom, settles the wavefunction up to a multiple of $e^{itE}$,
 where $E$ is the state's energy in Hartrees (approximately 27 eV),
 and leads to the time-independent Schr\"odinger equation for hydrogen:
@@ -236,10 +245,10 @@ Let's assume that wavefunction $\Psi$ satisfies a second-order ODE in some as ye
 a(v) \frac{\delta^2\Psi}{\delta v^2} + b(v) \frac{\delta\Psi}{\delta v} + c(v) \Psi = 0
 \end{equation}
 
-This assumption is motivation by the observation that ODEs are considerable better understood
+This assumption is motivated by the observation that ODEs are considerable better understood
 than PDEs.  We aim to parameterize our solution by a finite number of constants, so we
 further restrict our ODE by requiring its coefficients to be second degree polynomials in $v$
-with constant complex coefficients:
+with constant coefficients:
 
 \begin{equation}
 \label{v equation}
@@ -251,7 +260,7 @@ a_0, a_1, b_0, b_1, c_0, c_1 \in \mathbf{C}
 
 Turning our attention to $v$, we (arbitrarily) select Cartesian coordinates, (arbitrarily) add the radius $r=\sqrt{x^2+y^2+z^2}$
 to our list of coordinates, and (arbitrarily) restrict $v$ to be a first degree polynomial in these coordinates,
-with complex coefficients:
+with constant coefficients:
 
 \begin{equation}
 \begin{gathered}
@@ -261,10 +270,10 @@ v_1, v_2, v_3, v_4 \in \mathbf{C}
 \end{gathered}
 \end{equation}
 
-The constant term $v_0$ is excluded from $v$ only because adding a constant to $v$ would not meaningfully affect the
+A constant term is excluded from $v$ only because adding a constant to $v$ would not meaningfully affect the
 solution.  An ODE w.r.t. $x+3$ has the same derivatives as an ODE w.r.t $x$, and the coefficients would
-only be shifted by constants, which could be absorbed into $a_0$, $b_0$, and $c_0$, so excluding $v_0$
-simplies the system by removing an unnecessary constant.
+only be shifted by constants, which could be absorbed into $a_0$, $b_0$, and $c_0$, so excluding a constant term
+in the polynomial for $v$ simplies the system with no further loss of generality.
 
 Rearranging \eqref{v equation} like this:
 
@@ -273,8 +282,8 @@ Rearranging \eqref{v equation} like this:
 \frac{\delta^2\Psi}{\delta v^2} = - \frac{b_0 + b_1 v}{a_0 + a_1 v} \frac{\delta\Psi}{\delta v} - \frac{c_0 + c_1 v}{a_0 + a_1 v}\Psi
 \end{equation}
 
-and substituting into \eqref{schrodinger hydrogen} after expanding the Laplacian $\nabla^2$ in Cartesian coordinates
-using \eqref{v form} for $v$, simplifying higher powers of $r$ using $r^2=x^2+y^2+z^2$, we obtain a rational
+substituting into \eqref{schrodinger hydrogen} after expanding the Laplacian $\nabla^2$ in Cartesian coordinates,
+using \eqref{v form} for $v$, and simplifying higher powers of $r$ using $r^2=x^2+y^2+z^2$, we obtain
 a rational function in $x, y, z, r, \Psi, \Psi', E, a_0, a_1, b_0, b_1, c_0, c_1, v_1, v_2, v_3, v_4$
 with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
@@ -293,69 +302,72 @@ Reduce the input PDE \eqref{schrodinger} modulo differential ideal \eqref{ansatz
 
 \begin{equation}
 \label{schrodinger modulo ansatz 5}
-%% -8r\Psi x^5 b_1 b_2^2 n_1 - r\Psi x^5 b_1 b_4^2 n_1 - r \Psi x^5 b_1 b_6^2 n_1 - 2r\Psi x^5 b_2 b_3 b_4 n_1 - \cdots
--2r\Psi x^3 E d_1 v_1 - 3r\Psi x^3 n_1 v_0^2 v_1 - r\Psi x^3 n_1 v_1^3 - r\Psi x^3 n_1 v_1 v_2^2 - r\Psi x^3 n_1 v_1 v_3^2 - \cdots
+%% latex(sum(eq_a_reduceRing_n.monomials()[0:5]))
+%% then replace the name DZeta with \Psi'
+r \Psi' x^{3} v_{1}^{3} b_{1} + r \Psi' x y^{2} v_{1}^{3} b_{1} + r \Psi' x z^{2} v_{1}^{3} b_{1} + r \Psi' x^{2} y v_{1}^{2} v_{2} b_{1} + r \Psi' y^{3} v_{1}^{2} v_{2} b_{1} + \cdots
 \end{equation}
-
-In this run of the program, I was using different names for the constants than
-I use in the paper.  $d_i$, $m_i$, $n_i$ instead of $a_i$, $b_i$, $c_i$.
 
 We're looking for
 constants $E, a_0, a_1, b_0, b_1, c_0, c_1, v_1, v_2, v_3, v_4$
 that will solve equation \eqref{schrodinger modulo ansatz 5} for all values of $x$, $y$, $z$, $r$,
 $\Psi$, and $\Psi'$, so
-we collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing the numerator like this:
+we collect like terms in $x$, $y$, $z$, $r$, $\Psi$, and $\Psi'$, organizing equation \eqref{schrodinger modulo ansatz 5} like this:
 
 \begin{equation}
-%%\left(-8 b_1 b_2^2 n_1 - b_1 b_4^2 n_1 - b_1 b_6^2 n_1 - 2 b_2 b_3 b_4 n_1 - 2b_2 b_5 b_6 n_1 \right) r\Psi x^5 - \cdots
-r\Psi x^3 \left(-2 E d_1 v_1 - 3 n_1 v_0^2 v_1 - n_1 v_1^3 - n_1 v_1 v_2^2 - n_1 v_1 v_3^2\right) - \cdots
+\label{example collection of like terms}
+% i = list(system_of_like_terms.items())[0]; latex((i[0], i[1]))
+% the replace DZeta with Psi' and rearrange the parens a bit
+r \Psi' x^{3} \left( v_{1}^{3} b_{1} + v_{1} v_{2}^{2} b_{1} + v_{1} v_{3}^{2} b_{1} + 3 v_{1} v_{4}^{2} b_{1}\right) + \cdots
 \end{equation}
 
-The expressions in parenthesis gives us a system of equations (only one is shown)
-involving the $v_i$, $d_i$, $m_i$ and $n_i$ variables that, if satisfied,
+The expressions in parenthesis gives us a system of equations (only one is shown in \eqref{example collection of like terms})
+involving the $E$, $v_i$, $a_i$, $b_i$ and $c_i$ variables that, if satisfied,
 will yield a solution to \eqref{schrodinger hydrogen} in the form \eqref{v equation} and \eqref{v form}.  Once
 duplicate equations are dropped, the system has 34 equations.
 
 
-%%sage: latex(matrix(eqns()).transpose())
 \begin{equation}
 \label{polynomial system}
+{\renewcommand{\arraystretch}{1.2}
+% latex_array(eqns_RQQ)
+% then replace \\ with = 0 \\
 \begin{array}{r}
--2 \, n_{1} v_{0}^{3} - 4 \, n_{1} v_{0} v_{1}^{2} - 4 \, n_{1} v_{0} v_{2}^{2} - 2 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
--2 \, n_{1} v_{0}^{3} - 4 \, n_{1} v_{0} v_{1}^{2} - 2 \, n_{1} v_{0} v_{2}^{2} - 4 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
--2 \, n_{1} v_{0}^{3} - 2 \, n_{1} v_{0} v_{1}^{2} - 4 \, n_{1} v_{0} v_{2}^{2} - 4 \, n_{1} v_{0} v_{3}^{2} - 4 \, E d_{1} v_{0} \\
--4 \, m_{1} v_{0} v_{1} v_{2} \\
--4 \, m_{1} v_{0} v_{1} v_{3} \\
--4 \, m_{1} v_{0} v_{2} v_{3} \\
--4 \, n_{1} v_{0} v_{1} v_{2} \\
--4 \, n_{1} v_{0} v_{1} v_{3} \\
--4 \, n_{1} v_{0} v_{2} v_{3} \\
--3 \, m_{1} v_{0}^{2} v_{1} -  \, m_{1} v_{1}^{3} -  \, m_{1} v_{1} v_{2}^{2} -  \, m_{1} v_{1} v_{3}^{2} \\
--3 \, m_{1} v_{0}^{2} v_{2} -  \, m_{1} v_{1}^{2} v_{2} -  \, m_{1} v_{2}^{3} -  \, m_{1} v_{2} v_{3}^{2} \\
--3 \, m_{1} v_{0}^{2} v_{3} -  \, m_{1} v_{1}^{2} v_{3} -  \, m_{1} v_{2}^{2} v_{3} -  \, m_{1} v_{3}^{3} \\
--2 \, m_{1} v_{0}^{3} - 4 \, m_{1} v_{0} v_{1}^{2} - 4 \, m_{1} v_{0} v_{2}^{2} - 2 \, m_{1} v_{0} v_{3}^{2} \\
--2 \, m_{1} v_{0}^{3} - 4 \, m_{1} v_{0} v_{1}^{2} - 2 \, m_{1} v_{0} v_{2}^{2} - 4 \, m_{1} v_{0} v_{3}^{2} \\
--3 \, n_{1} v_{0}^{2} v_{1} -  \, n_{1} v_{1}^{3} -  \, n_{1} v_{1} v_{2}^{2} -  \, n_{1} v_{1} v_{3}^{2} - 2 \, E d_{1} v_{1} \\
--3 \, n_{1} v_{0}^{2} v_{2} -  \, n_{1} v_{1}^{2} v_{2} -  \, n_{1} v_{2}^{3} -  \, n_{1} v_{2} v_{3}^{2} - 2 \, E d_{1} v_{2} \\
--3 \, n_{1} v_{0}^{2} v_{3} -  \, n_{1} v_{1}^{2} v_{3} -  \, n_{1} v_{2}^{2} v_{3} -  \, n_{1} v_{3}^{3} - 2 \, E d_{1} v_{3} \\
--2 \, m_{1} v_{0}^{3} - 2 \, m_{1} v_{0} v_{1}^{2} - 4 \, m_{1} v_{0} v_{2}^{2} - 4 \, m_{1} v_{0} v_{3}^{2} \\
-- \, n_{0} v_{0}^{2} -  \, n_{0} v_{1}^{2} -  \, n_{0} v_{2}^{2} -  \, n_{0} v_{3}^{2} - 2 \, E d_{0} - 2 \, d_{1} v_{0} \\
--2 \, n_{0} v_{0} v_{1} - 2 \, d_{1} v_{1} \\
--2 \, n_{0} v_{0} v_{2} - 2 \, d_{1} v_{2} \\
--2 \, n_{0} v_{0} v_{3} - 2 \, d_{1} v_{3} \\
--2 \, d_{1} v_{0} v_{1} - 2 \, m_{0} v_{0} v_{1} \\
--2 \, d_{1} v_{0} v_{2} - 2 \, m_{0} v_{0} v_{2} \\
--2 \, d_{1} v_{0} v_{3} - 2 \, m_{0} v_{0} v_{3} \\
-- \, n_{1} v_{0}^{3} - 3 \, n_{1} v_{0} v_{1}^{2} -  \, n_{1} v_{0} v_{2}^{2} -  \, n_{1} v_{0} v_{3}^{2} - 2 \, E d_{1} v_{0} \\
-- \, n_{1} v_{0}^{3} -  \, n_{1} v_{0} v_{1}^{2} - 3 \, n_{1} v_{0} v_{2}^{2} -  \, n_{1} v_{0} v_{3}^{2} - 2 \, E d_{1} v_{0} \\
-- \, n_{1} v_{0}^{3} -  \, n_{1} v_{0} v_{1}^{2} -  \, n_{1} v_{0} v_{2}^{2} - 3 \, n_{1} v_{0} v_{3}^{2} - 2 \, E d_{1} v_{0} \\
--2 \, d_{1} v_{0}^{2} -  \, m_{0} v_{0}^{2} -  \, m_{0} v_{1}^{2} -  \, m_{0} v_{2}^{2} -  \, m_{0} v_{3}^{2} \\
--2 \, d_{0} \\
--2 \, d_{0} v_{0} \\
-- \, m_{1} v_{0}^{3} - 3 \, m_{1} v_{0} v_{1}^{2} -  \, m_{1} v_{0} v_{2}^{2} -  \, m_{1} v_{0} v_{3}^{2} \\
-- \, m_{1} v_{0}^{3} -  \, m_{1} v_{0} v_{1}^{2} - 3 \, m_{1} v_{0} v_{2}^{2} -  \, m_{1} v_{0} v_{3}^{2} \\
-- \, m_{1} v_{0}^{3} -  \, m_{1} v_{0} v_{1}^{2} -  \, m_{1} v_{0} v_{2}^{2} - 3 \, m_{1} v_{0} v_{3}^{2}
+-2 v_{1} v_{4} a_{1} + 2 v_{1} v_{4} b_{0} = 0 \\
+4 v_{1} v_{3} v_{4} b_{1} = 0 \\
+4 v_{1} v_{3} v_{4} c_{1} = 0 \\
+4 v_{1}^{2} v_{4} b_{1} + 4 v_{2}^{2} v_{4} b_{1} + 2 v_{3}^{2} v_{4} b_{1} + 2 v_{4}^{3} b_{1} = 0 \\
+2 v_{1}^{2} v_{4} c_{1} + 4 v_{2}^{2} v_{4} c_{1} + 4 v_{3}^{2} v_{4} c_{1} + 2 v_{4}^{3} c_{1} - 4 E v_{4} a_{1} = 0 \\
+4 v_{1} v_{2} v_{4} b_{1} = 0 \\
+4 v_{1} v_{2} v_{4} c_{1} = 0 \\
+2 v_{1} v_{4} c_{0} - 2 v_{1} a_{1} = 0 \\
+v_{1}^{2} v_{3} c_{1} + v_{2}^{2} v_{3} c_{1} + v_{3}^{3} c_{1} + 3 v_{3} v_{4}^{2} c_{1} - 2 E v_{3} a_{1} = 0 \\
+-2 v_{3} v_{4} a_{1} + 2 v_{3} v_{4} b_{0} = 0 \\
+v_{1}^{2} v_{3} b_{1} + v_{2}^{2} v_{3} b_{1} + v_{3}^{3} b_{1} + 3 v_{3} v_{4}^{2} b_{1} = 0 \\
+v_{1}^{2} v_{4} c_{1} + 3 v_{2}^{2} v_{4} c_{1} + v_{3}^{2} v_{4} c_{1} + v_{4}^{3} c_{1} - 2 E v_{4} a_{1} = 0 \\
+v_{1}^{2} v_{4} b_{1} + 3 v_{2}^{2} v_{4} b_{1} + v_{3}^{2} v_{4} b_{1} + v_{4}^{3} b_{1} = 0 \\
+2 v_{3} v_{4} c_{0} - 2 v_{3} a_{1} = 0 \\
+2 v_{1}^{2} v_{4} b_{1} + 4 v_{2}^{2} v_{4} b_{1} + 4 v_{3}^{2} v_{4} b_{1} + 2 v_{4}^{3} b_{1} = 0 \\
+v_{1}^{2} v_{2} c_{1} + v_{2}^{3} c_{1} + v_{2} v_{3}^{2} c_{1} + 3 v_{2} v_{4}^{2} c_{1} - 2 E v_{2} a_{1} = 0 \\
+-2 v_{2} v_{4} a_{1} + 2 v_{2} v_{4} b_{0} = 0 \\
+v_{1}^{3} c_{1} + v_{1} v_{2}^{2} c_{1} + v_{1} v_{3}^{2} c_{1} + 3 v_{1} v_{4}^{2} c_{1} - 2 E v_{1} a_{1} = 0 \\
+4 v_{2} v_{3} v_{4} b_{1} = 0 \\
+4 v_{1}^{2} v_{4} c_{1} + 2 v_{2}^{2} v_{4} c_{1} + 4 v_{3}^{2} v_{4} c_{1} + 2 v_{4}^{3} c_{1} - 4 E v_{4} a_{1} = 0 \\
+v_{1}^{2} v_{4} b_{1} + v_{2}^{2} v_{4} b_{1} + 3 v_{3}^{2} v_{4} b_{1} + v_{4}^{3} b_{1} = 0 \\
+v_{1}^{2} v_{4} c_{1} + v_{2}^{2} v_{4} c_{1} + 3 v_{3}^{2} v_{4} c_{1} + v_{4}^{3} c_{1} - 2 E v_{4} a_{1} = 0 \\
+4 v_{2} v_{3} v_{4} c_{1} = 0 \\
+3 v_{1}^{2} v_{4} c_{1} + v_{2}^{2} v_{4} c_{1} + v_{3}^{2} v_{4} c_{1} + v_{4}^{3} c_{1} - 2 E v_{4} a_{1} = 0 \\
+3 v_{1}^{2} v_{4} b_{1} + v_{2}^{2} v_{4} b_{1} + v_{3}^{2} v_{4} b_{1} + v_{4}^{3} b_{1} = 0 \\
+-2 v_{4}^{2} a_{1} + v_{1}^{2} b_{0} + v_{2}^{2} b_{0} + v_{3}^{2} b_{0} + v_{4}^{2} b_{0} = 0 \\
+-2 a_{0} = 0 \\
+v_{1}^{3} b_{1} + v_{1} v_{2}^{2} b_{1} + v_{1} v_{3}^{2} b_{1} + 3 v_{1} v_{4}^{2} b_{1} = 0 \\
+-2 v_{4} a_{0} = 0 \\
+4 v_{1}^{2} v_{4} c_{1} + 4 v_{2}^{2} v_{4} c_{1} + 2 v_{3}^{2} v_{4} c_{1} + 2 v_{4}^{3} c_{1} - 4 E v_{4} a_{1} = 0 \\
+v_{1}^{2} v_{2} b_{1} + v_{2}^{3} b_{1} + v_{2} v_{3}^{2} b_{1} + 3 v_{2} v_{4}^{2} b_{1} = 0 \\
+2 v_{2} v_{4} c_{0} - 2 v_{2} a_{1} = 0 \\
+v_{1}^{2} c_{0} + v_{2}^{2} c_{0} + v_{3}^{2} c_{0} + v_{4}^{2} c_{0} - 2 E a_{0} - 2 v_{4} a_{1} = 0 \\
+4 v_{1}^{2} v_{4} b_{1} + 2 v_{2}^{2} v_{4} b_{1} + 4 v_{3}^{2} v_{4} b_{1} + 2 v_{4}^{3} b_{1} = 0 \\
 \end{array}
+}
 \end{equation}
 
 \begin{comment}
@@ -373,17 +385,19 @@ I performed this step using Sage, which uses Singular's implementation of SY
 to perform this step on ideals:
 
 \begin{verbatim}
-sage: I.radical().primary_decomposition()
+sage: I.minimal_associated_primes()
 \end{verbatim}
 
 \begin{subequations}
 \label{ideal}
 \begin{align}
-& \left(n_{1}, n_{0}, m_{1}, m_{0}, d_{1}, d_{0}\right)\label{ideal:5} \\
-& \left(v_{3}, v_{2}, v_{1}, v_{0}, d_{0}\right)\label{ideal:4}\\
-& \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2}, v_{0}, d_{1}, d_{0}\right)\label{ideal:3}\\
-& \left(v_{3}, v_{2}, v_{1}, m_{1}, m_{0} - n_{0} v_{0}, 2 d_{1} + n_{0} v_{0}, d_{0}, E n_{0} - n_{1} v_{0}\right)\label{ideal:2}\\
-& \left(v_{0}^{2} - v_{1}^{2} - v_{2}^{2} - v_{3}^{2}, n_{1}, m_{1}, m_{0} - n_{0} v_{0}, d_{1} + n_{0} v_{0}, d_{0}, E\right)\label{ideal:1}
+% for i,I in enumerate(sorted(ideal(eqns_RQQ).minimal_associated_primes())): print("&", latex(tuple(I.gens())), f"\\label{{ideal:{i+1}}} \\\\")
+% then put then in the order I want
+& \left(c_{1}, c_{0}, b_{1}, b_{0}, a_{1}, a_{0}\right) \label{ideal:3} \\
+& \left(a_{0}, v_{4}, v_{3}, v_{2}, v_{1}\right) \label{ideal:1} \\
+& \left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2}, a_{1}, a_{0}, v_{4}\right) \label{ideal:4} \\
+& \left(v_{4} c_{0} - b_{0}, E c_{0} - v_{4} c_{1}, -v_{4}^{2} c_{1} + E b_{0}, b_{1}, 2 a_{1} - b_{0}, a_{0}, v_{3}, v_{2}, v_{1}\right) \label{ideal:2} \\
+& \left(v_{4} c_{0} - b_{0}, v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - v_{4}^{2}, c_{1}, b_{1}, a_{1} - b_{0}, a_{0}, E\right) \label{ideal:5}
 \end{align}
 \end{subequations}
 
@@ -391,24 +405,25 @@ Several of these varieties solve the system of equations, but do not lead to a m
 In brief,
 
 \begin{itemize}
-\item[\eqref{ideal:5}] sets all coefficients of the ODE to zero, so we discard it,
-\item[\eqref{ideal:4}] sets the variable $v$ to zero, so we discard it,
-\item[\eqref{ideal:3}] sets the coefficient of
-%$\frac{d^2\Psi}{dv^2}$
-$D^2\Psi$
+\item[\eqref{ideal:3}] sets all coefficients of the ODE to zero, so we discard it,
+\item[\eqref{ideal:1}] sets the variable $v$ to zero, so we discard it,
+\item[\eqref{ideal:4}] sets the coefficient $(a_0 + a_1 v)$ of
+$\frac{d^2\Psi}{dv^2}$
+%$D^2\Psi$
 in the ODE to zero, resulting in a first-order ODE, so we discard it, too,
 \item[\eqref{ideal:2}] corresponds to the classical solutions (see below), and
-\item[\eqref{ideal:1}] gives us our new solution (see below).
+\item[\eqref{ideal:5}] gives us our new solution (see below).
 
 \end{itemize}
 
-How to understand ideal \eqref{ideal:2}?  $d_0$ is an ideal generator,
-so $d_0=0$, and we can always multiply our homogenous differential polynomial by a constant without affecting our result, so we can set $d_1=1$.
+How to understand ideal \eqref{ideal:2}?  $a_0$ is an ideal generator,
+so $a_0=0$, and we can always multiply our homogenous differential polynomial by a constant without affecting our result, so we can set $a_1=1$.
 Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants,
-and $v_1=v_2=v_3=0$, so we can normalize by setting $v_0=1$.  This simplifies ideal \eqref{ideal:2} to:
+and $v_1=v_2=v_3=0$, so we can normalize by setting $v_4=1$.  This simplifies ideal \eqref{ideal:2} to:
 
 \begin{equation}
-\left(v_{3}, v_{2}, v_{1}, v_{0} - 1, n_{0} + 2, m_{1}, m_{0} + 2, d_{1} - 1, d_{0}, 2 E + n_{1}\right)
+% copy-and-paste in emacs, then edit
+\left(c_{0} - 2, 2 E - c_{1}, b_{1}, 2 - b_{0}, a_{0}, a_{1}-1, v_{3}, v_{2}, v_{1}, v_{4}-1\right)
 \end{equation}
 
 \begin{equation}
@@ -430,18 +445,18 @@ though it is more commonly written in this form:
 \end{equation}
 
 where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ and $\Psi=R$ and
-expand out the derivative to obtain \eqref{classical eq in ideal}.  Its presence here was
+expand out the derivative to obtain \eqref{classical eq in ideal}.  The presence of this solution was
 expected and won't be commented on further.
 
-Ideal \eqref{ideal:1} was not expected, and contains our new solution.
-$d_0$ is an ideal generator,
-so $d_0=0$, and we can set $d_1=1$, by the same logic as above.
-Our coordinates are in real space, so our $v_i$ coefficients must be real (why?), so all of their squares must
-be positive, and since $v_0^2-v_1^2-v_2^2-v_3^3=0$, $v_0$ must be non-zero.  So we can normalize by setting $v_0=1$.
-That simplifies \eqref{ideal:1} to this ideal:
+Ideal \eqref{ideal:5} was not expected, and contains our new solution.
+$a_0$ is an ideal generator,
+so $a_0=0$, and we can set $a_1=1$, by the same logic as above.
+Let's assume that our $v_i$ coefficients are real (why?), so all of their squares must
+be positive, and since $v_4^2-v_1^2-v_2^2-v_3^3=0$, $v_4$ must be non-zero.  So we can normalize by setting $v_4=1$.
+That simplifies \eqref{ideal:5} to this ideal:
 
 \begin{equation}
-\left(v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_{0} - 1, n_{1}, n_{0} + 1, m_{1}, m_{0} + 1, d_{1} - 1, d_{0}, E\right)
+\left(c_{0} - 1, v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - 1, v_4 - 1, c_{1}, b_{1}, 1 - b_{0}, a_1 - 1, a_{0}, E\right)
 \end{equation}
 
 This ideal corresponds to the following system of equations:
@@ -449,13 +464,13 @@ This ideal corresponds to the following system of equations:
 \begin{equation}
 \begin{gathered}
 E = 0 \\
-d_0 = 0 \qquad
-d_1 = 1 \\
-m_0 = -1 \qquad
-m_1 = 0 \\
-n_0 = -1 \qquad
-n_1 = 0 \\
-v_0 = 1 \qquad
+a_0 = 0 \qquad
+a_1 = 1 \\
+b_0 = 1 \qquad
+b_1 = 0 \\
+c_0 = 1 \qquad
+c_1 = 0 \\
+v_4 = 1 \qquad
 v_1^2 + v_2^2 + v_3^2 = 1
 \end{gathered}
 \end{equation}
@@ -492,8 +507,8 @@ analyze this equation and find a solution using the ordinary Bessel functions $J
 Therefore, letting $J_0$ be the ordinary Bessel function $J_0$, and setting
 
 \begin{equation}
-\label{solution}
 \Psi = J_0(2\sqrt{x+r})
+\tag{\ref{solution}}
 \end{equation}
 
 where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$, we conclude that
@@ -509,25 +524,27 @@ The result can be easily verified using Mathematica\footnote{A manual verificati
 \subsection*{Generalization}
 \parskip 12pt
 
-The choice of $x$ is arbitrary, and any ordinary Bessel function can be used:
+Any unit vector can be picked for $(v_1, v_2, v_3)$,
+so the distance in any direction from the origin can be used in lieu of $x$,
+and any ordinary Bessel function can be used:
 
 \begin{equation}
 \label{generalized solution}
-\Psi = F(2\sqrt{a_1 x+ a_2 y+ a_3 z+r})
+\Psi = F(2\sqrt{v_1 x+ v_2 y+ v_3 z+r})
 \end{equation}
 
 where
 
 \begin{equation*}
-a_1^2+a_2^2+a_3^2=1
+v_1^2+v_2^2+v_3^2=1
 \end{equation*}
 
 and $F$ is any linear combination of the Bessel functions $J_0$ and $Y_0$.
 
-\vskip 12pt
-
 By linearity of \eqref{schrodinger hydrogen}, any finite linear combination of functions of the form
 \eqref{generalized solution} also solves \eqref{schrodinger hydrogen}.
+
+The assumption that the $v_i$ coefficients are real was arbitrary.
 
 \subsection*{Software}
 
@@ -547,7 +564,7 @@ load('helium.sage')     # loads the script
 prep_hydrogen(5)        # select PDE:hydrogen and ansatz:5
 init()                  # finish setting everything up
 I=ideal(eqns_RQQ)       # constuct ideal from equations
-I.radical().primary_decomposition()
+I.minimal_associated_primes()
 \end{verbatim}
 
 Here are some other convenient variables and functions in the script:
@@ -555,11 +572,10 @@ Here are some other convenient variables and functions in the script:
 \begin{verbatim}
 A, B, C, V              # trial forms of various polynomials
 eq_a                    # the PDE in its original form
+eq_a_convertField       # the PDE modulo the ansatz
+eq_a_reduceRing_n       # the expanded numerator
 R                       # polynomial ring over integers
 F                       # fraction field of R
-F_eq_a                  # the PDE modulo the ansatz
-F_eq_a_n                # expanded numerator (in R)
-F_eq_a_d                # expanded denominator (in R)
 eqns_RQQ                # system of equations to solve
 \end{verbatim}
 
@@ -570,7 +586,7 @@ The algorithm presented above can be used to check any PDE to see if any of its 
 can be expressed using an ODE structured according to a specific ansatz.  This technique
 is complementary to separation of variables, where we check a PDE to see if any of
 its solutions can be expressed as a product of factors, each depending on only
-a single variable.
+a subset of the independent variables.
 
 As my primary interest lies in quantum mechanics, I have investigated the PDEs
 that model hydrogen and helium.
@@ -663,7 +679,7 @@ The author maintains a discussion page for this result on his personal blog at:
 
 \vfill\eject
 \subsection*{Appendix: Manual Verification of the Result}
-For anybody wondering how Mathematica concludes that \eqref{solution} solves \eqref{schrodinger},
+For anybody wondering how Mathematica concludes that \eqref{solution} solves \eqref{schrodinger hydrogen},
 the claim is that $\Psi = J_0(2\sqrt{x+r}) = (J_0 \circ 2\sqrt{v}) (x+r)$ satisfies:
 
 \begin{equation}
