@@ -378,15 +378,29 @@ is small enough that exact methods are usable.
 
 The system \eqref{polynomial system} describes an algebraic variety in ${\mathbf C}^{11}$.
 We can better understand its structure by decomposing it into a union
-of its irreducible subvarieties, using one of several published algorithms.
-[Shimoyama-Yokoyama algorithm\footnote{Localization and Primary Decomposition of
-Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277}, other Singular algorithms, char sets, numerical alg decomp]
-I performed this step using Sage, which uses Singular's implementation of SY
-to perform this step on ideals:
+of its irreducible subvarieties.  Numerous algorithms to do this
+have been proposed and/or implemented,
+including the Shimoyama-Yokoyama algorithm \cite{SY},
+the Gianni, Trager, Zacharias algorithm \cite{GTZ},
+the Eisenbud, Huneke, Vasconcelos algorithm \cite{EHV},
+the method of characteristic sets \cite{Ritt, Wu},
+and numerical methods such as homotopy continuation equipped with exactness recovery \cite{Bertini}.
+Thanks to the well-known correspondence between algebraic varieties and ideals in a polynomial ring,
+algorithms for the primary decomposition of ideals are well suited to decomposing
+an algebraic variety in its irreducible subvarieties;
+a survey of algorithms for primary decomposition implemented in the Singular computer algebra system
+can be found in \cite{Schönemann}.
 
+I performed this step using Sage, by constructing an ideal consisting of the
+left hand sides of the equations in \eqref{polynomial system}, and
+then calling a Sage method that uses Singular's implementation of the Shimoyama-Yokoyama algorithm
+to compute the ideal's minimal associated prime ideals:
+
+\begin{comment}
 \begin{verbatim}
 sage: I.minimal_associated_primes()
 \end{verbatim}
+\end{comment}
 
 \begin{subequations}
 \label{ideal}
@@ -400,6 +414,9 @@ sage: I.minimal_associated_primes()
 & \left(v_{4} c_{0} - b_{0}, v_{1}^{2} + v_{2}^{2} + v_{3}^{2} - v_{4}^{2}, c_{1}, b_{1}, a_{1} - b_{0}, a_{0}, E\right) \label{ideal:5}
 \end{align}
 \end{subequations}
+
+Each of these five ideals corresponds to an algebraic variety described by setting
+all of the ideal generators equal to zero; the union of these five algebraic varieties is the algebraic variety described by \eqref{polynomial system}.
 
 Several of these varieties solve the system of equations, but do not lead to a meaningful solution to the differential equation.
 In brief,
@@ -676,6 +693,48 @@ The author maintains a discussion page for this result on his personal blog at:
 \small
 \url{https://www.freesoft.org/blogs/soapbox/a-new-solution-of-hydrogen/}
 \end{center}
+
+\begin{thebibliography}{9}
+\bibitem{Bertini}
+Numerically solving polynomial systems with Bertini
+by D.J. Bates, J.D. Hauenstein, A.J. Sommese, and C.W. Wampler
+Software, Environments, and Tools 25
+SIAM, 2013
+
+\bibitem {EHV} Eisenbud, Huneke, Vasconcelos
+Direct methods for primary decomposition
+David Eisenbud, Craig Huneke, and Wolmer Vasconcelos
+Invent. math. 110, 207 235 (1992),
+9 Springer-Verlag 1992
+
+\bibitem{GTZ} Gianni, Trager, Zacharias
+J. Symbolic Computation (1988) 6, 149-167
+Gr6bner Bases and Primary Decomposition of
+Polynomial Ideals
+PATRIZIA GIANNI, BARRY TRAGER AND GAIL ZACHARIAS
+
+\bibitem{Ritt}
+J.F. Ritt, Differential Algebra, American Mathematical Society 1950
+
+\bibitem {Schönemann}
+Advanced Studies in Pure Mathematics 68, 2016
+School on Real and Complex Singularities in São Carlos, 2012
+pp. 171–190
+Algorithms for primary decomposition in Singular
+Hans Schönemann
+
+\bibitem{SY} Localization and Primary Decomposition of Polynomial Ideals, {\it J. Symbolic Computation} (1996) {\bf 22}, 247–277
+
+\bibitem {Wang}
+{\it An Implementation of the Characteristic Set Method in Maple}
+Dongming Wang,
+Research Institute for Symbolic Computation,
+Johannes Kepler University, A-4040 Linz, Austria
+
+\bibitem{Wu}
+Wen-Tsun, W. Basic principles of mechanical theorem proving in elementary geometries. J Autom Reasoning 2, 221–252 (1986). https://doi.org/10.1007/BF02328447
+
+\end{thebibliography}
 
 \vfill\eject
 \subsection*{Appendix: Manual Verification of the Result}
