@@ -73,7 +73,7 @@ i.e, it is not in $L^2$:
 
 Therefore, it is only a pseudo-solution, since it satisfies the differential equation but is not a valid wavefunction.
 
-A ``proof by Mathematica'' is on page \pageref{verification}.
+A ``proof by Mathematica'' is on page \pageref{verification}, and a direct manual proof in included as an appendix.
 
 \begin{comment}
 What I find surprising about the result is that it solves one of the best known equations in mathematical physics, yet has apparently remained undiscovered for over a hundred years!
@@ -229,7 +229,6 @@ and are each paired with a negative energy value, of which $-\frac{1}{2}$ is the
 and corresponds to the 1s or ground state.
 
 Yet the existance of separable solutions leaves open the existance of non-separable solutions.
-
 It is perhaps surprising that such a well-studied equation would have fairly simple, previously
 undiscovered, non-separable solutions.
 
@@ -245,9 +244,10 @@ Let's assume that wavefunction $\Psi$ satisfies a second-order ODE in some as ye
 a(v) \frac{\delta^2\Psi}{\delta v^2} + b(v) \frac{\delta\Psi}{\delta v} + c(v) \Psi = 0
 \end{equation}
 
-This assumption is motivated by the observation that ODEs are considerable better understood
-than PDEs.  We aim to parameterize our solution by a finite number of constants, so we
-further restrict our ODE by requiring its coefficients to be second degree polynomials in $v$
+% This assumption is motivated by the observation that ODEs are considerable better understood
+% than PDEs.
+We aim to parameterize our solution by a finite number of constants, so we
+further restrict our ODE by requiring its coefficients to be linear polynomials in $v$
 with constant coefficients:
 
 \begin{equation}
@@ -283,7 +283,11 @@ Rearranging \eqref{v equation} like this:
 \end{equation}
 
 substituting into \eqref{schrodinger hydrogen} after expanding the Laplacian $\nabla^2$ in Cartesian coordinates,
-using \eqref{v form} for $v$, and simplifying higher powers of $r$ using $r^2=x^2+y^2+z^2$, we obtain
+using \eqref{v form} for $v$,
+simplifying higher powers of $r$ using $r^2=x^2+y^2+z^2$,
+writing $\Psi'$ for $\frac{d\Psi}{dv}$
+and collecting all terms on one side of an equality with zero,
+we obtain
 a rational function in $x, y, z, r, \Psi, \Psi', E, a_0, a_1, b_0, b_1, c_0, c_1, v_1, v_2, v_3, v_4$
 with a 228 term numerator and an 18 term denominator.  We ignore the denominator.  The numerator begins:
 
@@ -417,9 +421,12 @@ sage: I.minimal_associated_primes()
 
 Each of these five ideals corresponds to an algebraic variety described by setting
 all of the ideal generators equal to zero; the union of these five algebraic varieties is the algebraic variety described by \eqref{polynomial system}.
+Every point on each of these varieties describes a set of constants that solve \eqref{polynomial system};
+% that when substituted into \eqref{v equation} and \eqref{v form} solve \eqref{schrodinger hydrogen};
+each variety therefore describes a family of solutions.
 
-Several of these varieties solve the system of equations, but do not lead to a meaningful solution to the differential equation.
-In brief,
+Several of these varieties solve the system of equations, but do not lead to a meaningful solution to the differential equation
+\eqref{schrodinger hydrogen}.  In brief,
 
 \begin{itemize}
 \item[\eqref{ideal:3}] sets all coefficients of the ODE to zero, so we discard it,
@@ -433,15 +440,35 @@ in the ODE to zero, resulting in a first-order ODE, so we discard it, too,
 
 \end{itemize}
 
-How to understand ideal \eqref{ideal:2}?  $a_0$ is an ideal generator,
-so $a_0=0$, and we can always multiply our homogenous differential polynomial by a constant without affecting our result, so we can set $a_1=1$.
+How to understand ideal \eqref{ideal:2}?  We form a system of equations that describe the corresponding
+variety by setting all of the ideal generators to zero.
+We can always multiply \eqref{v equation} by a constant without affecting our result, so we can set $a_1=1$ without loss of generality.
 Likewise, we can multiply our variable $v$ by a constant and that will only change our coefficients by constants,
-and $v_1=v_2=v_3=0$, so we can normalize by setting $v_4=1$.  This simplifies ideal \eqref{ideal:2} to:
+and $v_1=v_2=v_3=0$, so we can normalize by setting $v_4=1$.  This simplifies the variety corresponding to
+ideal \eqref{ideal:2} to the following system of equations:
 
+\begin{comment}
 \begin{equation}
 % copy-and-paste in emacs, then edit
 \left(c_{0} - 2, 2 E - c_{1}, b_{1}, 2 - b_{0}, a_{0}, a_{1}-1, v_{3}, v_{2}, v_{1}, v_{4}-1\right)
 \end{equation}
+\end{comment}
+
+\begin{equation}
+\begin{gathered}
+a_0 = 0 \qquad
+a_1 = 1 \\
+b_0 = 2 \qquad
+b_1 = 0 \\
+c_0 = 2 \qquad
+c_1 = 2 E \\
+v_4 = 1 \qquad
+v_1 = v_2 = v_3 = 0
+\end{gathered}
+\end{equation}
+
+Substituting these values back into \eqref{v equation} and \eqref{v form}, we conclude that $\Psi(v)$
+is a solution of \eqref{schrodinger hydrogen} under these conditions:
 
 \begin{equation}
 \label{classical eq in ideal}
@@ -458,16 +485,17 @@ spherical coordinates, set $\Psi = R(r)P(\theta)F(\psi)$, and obtain the above e
 though it is more commonly written in this form:
 
 \begin{equation}
+\label{classical eq in classical form}
 \frac{1}{R} \frac{d}{dr}\left[ r^2 \frac{dR}{dr}\right] + 2(Er^2 + r) = l(l+1)
 \end{equation}
 
-where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ and $\Psi=R$ and
-expand out the derivative to obtain \eqref{classical eq in ideal}.  The presence of this solution was
+where $l$ is the orbital quantum number, which can be zero.  Set $l=0$, $v=r$ and $\Psi=R$ in \eqref{classical eq in classical form}
+and expand out the derivative to obtain \eqref{classical eq in ideal}.  The presence of this solution was
 expected and won't be commented on further.
 
 Ideal \eqref{ideal:5} was not expected, and contains our new solution.
-$a_0$ is an ideal generator,
-so $a_0=0$, and we can set $a_1=1$, by the same logic as above.
+Again, we form a system of equations by setting all of the ideal generators to zero.
+Again, we can set $a_1=1$, by the same logic as above.
 Let's assume that our $v_i$ coefficients are real (why?), so all of their squares must
 be positive, and since $v_4^2-v_1^2-v_2^2-v_3^3=0$, $v_4$ must be non-zero.  So we can normalize by setting $v_4=1$.
 That simplifies \eqref{ideal:5} to this ideal:
@@ -505,7 +533,7 @@ v_1^2 + v_2^2 + v_3^2 = 1
 \end{equation}
 
 The expression $v_1 x + v_2 y + v_3 z$ is easily identified as a dot product between
-the coordinate $(x,y,z)$ and the unit vector $(v_1, v_2, v_3)$ (remembering
+the coordinate $(x,y,z)$ and the unit vector $(v_1, v_2, v_3)$ (note
 that $v_1^2 + v_2^2 + v_3^2 = 1$).  The direction of this vector is arbitrary,
 so we can orient the $x$-axis in this direction and set $(v_1, v_2, v_3) = (1,0,0)$
 without loss of generality.
@@ -516,8 +544,9 @@ We now have to solve a second order ODE:
 v \Psi''(v) + \Psi'(v) + \Psi(v) = 0
 \end{equation}
 
-Wolfram Mathematica\footnote{I originally used Wolfram Alpha} can now
-analyze this equation and find a solution using the ordinary Bessel functions $J_0$ and $Y_0$:
+Wolfram Mathematica\cite{Mathematica} can now
+analyze this equation\footnote{I originally used Wolfram Alpha; the Wolfram Language Engine can also be used.}
+and find a solution using the ordinary Bessel functions $J_0$ and $Y_0$:
 
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
@@ -534,7 +563,7 @@ where $x,y,z$ are Cartesian coordinates and $r=\sqrt{x^2+y^2+z^2}$, we conclude 
 \subsection*{Verification}
 
 \label{verification}
-The result can be easily verified using Mathematica\footnote{A manual verification is presented in an appendix}, as follows:
+The result can be easily verified\footnote{A manual verification is presented in an appendix} using Mathematica, as follows:
 
 \includegraphics[page=1, clip, trim=1in 7in 1in 1in, width=\textwidth]{improved.pdf}
 
@@ -712,6 +741,9 @@ J. Symbolic Computation (1988) 6, 149-167
 Gr6bner Bases and Primary Decomposition of
 Polynomial Ideals
 PATRIZIA GIANNI, BARRY TRAGER AND GAIL ZACHARIAS
+
+\bibitem{Mathematica}
+Wolfram Research, Inc., Mathematica, Version 14.1, Champaign, IL (2024).
 
 \bibitem{Ritt}
 J.F. Ritt, Differential Algebra, American Mathematical Society 1950
