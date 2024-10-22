@@ -551,7 +551,14 @@ and find a solution using the ordinary Bessel functions $J_0$ and $Y_0$:
 
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
-Therefore, letting $J_0$ be the ordinary Bessel function $J_0$, and setting
+Bessel's original definition of $J_0$ \cite[p. 19]{Watson} was:
+
+\begin{equation}
+\label{J0 definition}
+J_0(z) = \frac{1}{2\pi}\int_0^{2\pi} \cos(z\sin\theta) d\theta
+\end{equation}
+
+Therefore, setting
 
 \begin{equation}
 \Psi = J_0(2\sqrt{x+r})
@@ -803,6 +810,10 @@ Hans Schönemann
 Dongming Wang,
 Research Institute for Symbolic Computation,
 Johannes Kepler University, A-4040 Linz, Austria
+
+\bibitem{Watson}
+{\it A Treatise On The Theory Of Bessel Functions}
+Watson.
 
 \bibitem{Wu}
 Wen-Tsun, W. Basic principles of mechanical theorem proving in elementary geometries. J Autom Reasoning 2, 221–252 (1986). https://doi.org/10.1007/BF02328447
