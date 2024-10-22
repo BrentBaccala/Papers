@@ -578,42 +578,26 @@ The result can be easily verified\footnote{A manual verification is presented in
 \subsection*{The Global Condition}
 
 As noted in the introduction, in order to be a valid wavefunction, \eqref{L2 condition} must also be satisfied.
-The physical intuition lying behind this requirement is that the square of the modulus $|\Psi^2|$ is a probability
-density function and its global integral must therefore be finite, as the total probability of the system
-being in some state is 1.
+The physical intuition lying behind this requirement is that the square of the modulus $|\Psi|^2$ is a probability
+density function and its global integral must therefore be finite, as the total probability of the electron
+being somewhere is finite.
 
-\eqref{solution} does not satisfy \eqref{L2 condition}.  This can be easily seen by considering a graph
-of $J_0(v)$:
+\eqref{solution} does not satisfy \eqref{L2 condition}.  This can be easily seen by inspecting \eqref{J0 definition}.
+$J_0(z)$ is continuous everywhere on the real line and $J_0(0)=1$.  Also, $2\sqrt{x+r}$ is continuous
+everywhere in $\mathbb{R}^3$ and is zero along the negative $x$-axis.  These facts imply that for any
+$\delta>0$ there exists an $\epsilon>0$ such that $J_0(2\sqrt{x+r}) > 1-\epsilon$ for any point within
+a distance of $\delta$ from the negative $x$-axis. (uniform continuity?)
 
-[insert graph]
+This implies that for a small sphere $S$ of radius $\delta$, centered on a point along the negative $x$-axis,
 
-Note that $J_0(x) > 0.22$ for all $x<2$:
+\[ \int_S \left|J_0(2\sqrt{x+r})\right|^2\  dV > \frac{4}{3}\pi\delta^3(1-\epsilon) \]
 
-\includegraphics[clip, trim=1in 9.4in 1in 1in, width=\textwidth]{J0-2.pdf}
+Since there are an infinite number of these small spheres (disjoint?),
 
-Consider what happens along the negative $x$-axis: \qquad
-\begin{tikzpicture}[scale=0.1]
-\draw (0,0) -- (-12,0) node [pos=0.5, below] {\scriptsize 12};
-\draw (-12,0) -- (-12,5) node [pos=0.5, left] {\scriptsize 5};
-\draw (0,0) -- (-12,5) node [pos=0.5, above] {\scriptsize 13};
+\[ \int_{\mathbb{R}^3} \left|J_0(2\sqrt{x+r})\right|^2\ dV  = \infty \]
 
-\draw (0,0) -- (3,0) node [pos=0.9, below, yshift=2] {\tiny x};
-\draw (0,0) -- (0,3) node [right, xshift=-2] {\tiny y};
-
-\fill (0,0) circle (10pt);
-\end{tikzpicture}
-
-\[ x<-12 \land \sqrt{y^2+z^2} < 5 \Longrightarrow x+r < 1 \Longrightarrow J_0(2\sqrt{x+r}) > 0.22 \]
-
-This implies that the integral of a small block along the negative $x$-axis when $x<-12$ is:
-
-\[ \int_{-1}^{1} \int_{-1}^{1} \int_{x-1}^{x} \left|J_0(2\sqrt{x+r})\right|^2\ dx\ dy\ dz  > 4 \cdot (0.22)^2 \]
-
-Since there are an infinite number of these small blocks,
-
-\[ \int_{-1}^{1} \int_{-1}^{1} \int_{-\infty}^{12} \left|J_0(2\sqrt{x+r})\right|^2\ dx\ dy\ dz  = \infty \]
-
-and $J_0(2\sqrt{x+r})$ not square integrable.
+and $J_0(2\sqrt{x+r})$ is not square integrable\footnote{Peter Ulrickson (Catholic University) pointed out
+to me that this argument also implies that $\Psi$ is not in any $L^p$ space except $L^\infty$.}.
 
 \subsection*{Generalization}
 \parskip 12pt
