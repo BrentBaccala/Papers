@@ -762,6 +762,15 @@ by D.J. Bates, J.D. Hauenstein, A.J. Sommese, and C.W. Wampler
 Software, Environments, and Tools 25
 SIAM, 2013
 
+\bibitem{Bessel}
+Bessel, Friedrich (1824). "Untersuchung des Theils der planetarischen Störungen, welcher aus der Bewegung der Sonne entsteht"
+% Investigation of the part of the planetary disturbances which arise from the movement of the sun.
+Berlin Abhandlungen.
+Reproduced as pages 84 to 109 in Abhandlungen von Friedrich Wilhelm Bessel. Leipzig: Engelmann. 1875.
+\url{https://play.google.com/store/books/details?id=Un4EAAAAYAAJ}
+English translation of the text available at
+\url{https://drive.google.com/file/d/1W-z4BNN4s7nfGC9IbCkhQksHzGQG-wox}
+
 \bibitem {EHV} Eisenbud, Huneke, Vasconcelos
 Direct methods for primary decomposition
 David Eisenbud, Craig Huneke, and Wolmer Vasconcelos
@@ -930,11 +939,12 @@ Remembering that $v=x+r$,
 =\frac{2}{r} \left( J_0''(2\sqrt{v}) + \frac{1}{2\sqrt{v}} J_0'(2\sqrt{v}) + J_0(2\sqrt{v})\right)
 \end{equation}
 
-Now, the ordinary Bessel function $J_0(x)$ satisfies:
+Assume for that moment that the Bessel function $J_0(x)$ satisfies Bessel's equation:
 
-\begin{equation*}
+\begin{equation}
+\label{Bessel equation}
 x^2 J_0''(x) + xJ_0'(x) + x^2J_0(x) = 0
-\end{equation*}
+\end{equation}
 
 dividing through by $x^2$ and changing variables, we get:
 
@@ -943,5 +953,64 @@ J_0''(2\sqrt{v}) + \frac{1}{2\sqrt{v}}J_0'(2\sqrt{v}) + J_0(2\sqrt{v}) = 0
 \end{equation*}
 
 which shows that \eqref{last eq in derivation} is zero, and establishes the proof of \eqref{claim}.
+
+It remains to show that $J_0(x)$, defined by \eqref{J0 definition}, actually satisfies \eqref{Bessel equation}.
+
+The approach here largely follows \cite[p. 92]{Bessel}, with modern notation.  For integer values of $n$,
+define $J_n(z)$ as follows:
+
+\begin{equation}
+J_n(z) = \frac{1}{2\pi}\int_0^{2\pi} \cos(n\theta - z\sin\theta) d\theta \qquad n\in{\mathbb Z}
+\end{equation}
+
+Differentiating with respect to $z$, we obtain:
+
+\begin{equation}
+J'_n(z) = \frac{1}{2\pi}\int_0^{2\pi} \sin(n\theta - z\sin\theta) \sin\theta \, d\theta
+\end{equation}
+
+Applying the trigonometric identity $2\sin\alpha\sin\beta = \cos(\alpha-\beta)-\cos(\alpha+\beta)$,
+
+\begin{equation}
+\label{recurrence formula 1}
+\begin{gathered}
+J'_n(z) = \frac{1}{2\pi}\int_0^{2\pi} \left[ \frac{1}{2}\cos\left((n-1)\theta - z\sin\theta \right) - \frac{1}{2}\cos\left((n-1)\theta - z\sin\theta \right) \right] d\theta \\
+= \frac{1}{2} J_{n-1}(z) - \frac{1}{2}J_{n+1}(z)
+\end{gathered}
+\end{equation}
+
+Having found a relationship for the difference of $J_{n-1}(z)$ and $J_{n+1}(z)$, we now seek a relationship for their sum.
+
+\begin{equation}
+\label{recurrence formula 2}
+\begin{gathered}
+\frac{1}{2} J_{n-1}(z) + \frac{1}{2}J_{n+1}(z) \\
+= \frac{1}{2\pi}\int_0^{2\pi} \left[ \frac{1}{2}\cos\left((n-1)\theta - z\sin\theta \right) + \frac{1}{2}\cos\left((n+1)\theta - z\sin\theta \right) \right] d\theta \\
+= \frac{1}{2\pi}\int_0^{2\pi} \cos(n\theta - z\sin\theta) \cos\theta \, d\theta \\
+= \frac{n}{z}\cdot\frac{1}{2\pi}\int_0^{2\pi} \cos(n\theta - z\sin\theta) \, d\theta
+  - \frac{1}{z}\cdot\frac{1}{2\pi}\int_0^{2\pi} \cos(n\theta - z\sin\theta) \left(n - z\cos\theta \right) d\theta \\
+= \frac{n}{z}\cdot\frac{1}{2\pi}\int_0^{2\pi} \cos(n\theta - z\sin\theta) \, d\theta
+  - \frac{1}{z}\cdot\frac{1}{2\pi}\biggl[ \sin(n\theta - z\sin\theta) \biggr]_0^{2\pi} \\
+= \frac{n}{z} J_n(z)
+\end{gathered}
+\end{equation}
+
+where I used the fact that $n$ is an integer to evaluate the bracketed expression as zero.
+
+Now we use
+\eqref{recurrence formula 1}
+and \eqref{recurrence formula 2}
+to evaluate the LHS of \eqref{Bessel equation}:
+
+\begin{equation}
+\begin{gathered}
+x^2 J_0''(x) + xJ_0'(x) + x^2J_0(x) \\
+= \frac{1}{4}x^2 J_{-2}(x) - \frac{1}{2}x^2J_0(x) + \frac{1}{4}x^2 J_{2}(x) + \frac{1}{2}x J_{-1}(x) - \frac{1}{2} x J_{1}(x) + x^2 J_0(x) \\
+= \left[ \frac{1}{4}x^2 J_{-2}(x) + \frac{1}{4}x^2J_0(x) \right] + \left[\frac{1}{4}x^2 J_{2}(x) + \frac{1}{4}x^2J_0(x)\right]+ \frac{1}{2}x J_{-1}(x) - \frac{1}{2} x J_{1}(x) \\
+= - \frac{1}{2}x J_{-1}(x) + \frac{1}{2}x J_{1}(x) + \frac{1}{2}x J_{-1}(x) - \frac{1}{2} x J_{1}(x) = 0 \\
+\end{gathered}
+\end{equation}
+
+which proves that $J_0(x)$ satisfies \eqref{Bessel equation}.
 
 \end{document}
