@@ -384,21 +384,16 @@ is small enough that exact methods are usable.
 The system \eqref{polynomial system} describes an algebraic variety in ${\mathbf C}^{11}$.
 We can better understand its structure by decomposing it into a union
 of its irreducible subvarieties.  Numerous algorithms to do this
-have been proposed and/or implemented,
-including the Shimoyama-Yokoyama algorithm \cite{SY},
-the Gianni, Trager, Zacharias algorithm \cite{GTZ},
-the Eisenbud, Huneke, Vasconcelos algorithm \cite{EHV},
-the method of characteristic sets \cite{Ritt, Wu},
-and numerical methods such as homotopy continuation equipped with exactness recovery \cite{Bertini}.
-Thanks to the well-known correspondence between algebraic varieties and ideals in a polynomial ring,
+have been proposed and/or implemented \cite{Bertini, EHV, GTZ, Schönemann, SY, Ritt, Wu}.
+Due to the well-known correspondence between algebraic varieties and ideals in a polynomial ring,
 algorithms for the primary decomposition of ideals are well suited to decomposing
-an algebraic variety in its irreducible subvarieties;
-a survey of algorithms for primary decomposition implemented in the Singular computer algebra system
-can be found in \cite{Schönemann}.
+an algebraic variety into its irreducible subvarieties.
+%a survey of algorithms for primary decomposition implemented in the Singular computer algebra system
+%can be found in \cite{Schönemann}.
 
 I performed this step using Sage, by constructing an ideal consisting of the
 left hand sides of the equations in \eqref{polynomial system}, and
-then calling a Sage method that uses Singular's implementation of the Shimoyama-Yokoyama algorithm
+then calling a Sage method that uses Singular's implementation of the Shimoyama-Yokoyama algorithm\cite{SY}
 to compute the ideal's minimal associated prime ideals:
 
 \begin{comment}
