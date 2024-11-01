@@ -546,13 +546,6 @@ and find a solution using the ordinary Bessel functions $J_0$ and $Y_0$:
 
 \includegraphics[page=1, clip, trim=1in 9in 1in 1in, width=\textwidth]{find Bessel solution.pdf}
 
-Bessel's original definition of $J_0$ \cite[p. 19]{Watson} was:
-
-\begin{equation}
-\label{J0 definition}
-J_0(z) = \frac{1}{2\pi}\int_0^{2\pi} \cos(z\sin\theta) d\theta
-\end{equation}
-
 Therefore, setting
 
 \begin{equation}
@@ -577,7 +570,15 @@ The physical intuition lying behind this requirement is that the square of the m
 density function and its global integral must therefore be finite, as the total probability of the electron
 being somewhere is finite. \cite[\S 1.4]{Griffiths}
 
-\eqref{solution} does not satisfy \eqref{L2 condition}.  This can be easily seen by inspecting \eqref{J0 definition}.
+\eqref{solution} does not satisfy \eqref{L2 condition}.  This can be easily seen by inspecting
+Bessel's original definition of $J_0$ \cite[p. 19]{Watson}:
+
+\begin{equation}
+\label{J0 definition}
+J_0(z) = \frac{1}{2\pi}\int_0^{2\pi} \cos(z\sin\theta) d\theta
+\end{equation}
+
+
 $J_0(z)$ is continuous everywhere on the real line and $J_0(0)=1$.  Also, $2\sqrt{x+r}$ is continuous
 everywhere in $\mathbb{R}^3$ and is zero along the negative $x$-axis.  These facts imply that for any
 $\delta>0$ there exists an $\epsilon>0$ such that $J_0(2\sqrt{x+r}) > 1-\epsilon$ for any point within
