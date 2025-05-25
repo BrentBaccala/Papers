@@ -1,0 +1,65 @@
+
+\documentclass{article}
+
+\title{Solving Systems of Polynomial Equations}
+\author{Brent Baccala}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{graphicx}
+
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{tabularx}
+
+\usepackage{longtable}
+
+% For drawing ansatz diagrams
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+\parindent 0pt
+
+\maketitle
+
+\begin{abstract}
+The author has developed new software to solve systems of polynomial equations.
+\end{abstract}
+
+%%\section*{The Algorithm}
+
+\parskip 12pt
+
+%% \subsection*{Introduction}
+
+Hans-Gert Gr\"abe --- On Factorized Gr\"obner Bases (1994)
+
+Gr\"abe implemented his ideas in REDUCE package called CALI.
+
+Gr\"abe algorithm:
+
+\begin{itemize}
+\item try to factor each polynomial in a preprocessing step
+\item try to factor each new reduced S-polynomial
+\item when finished, apply tail reduction and check for factorization again
+\end{itemize}
+
+Singular algorithm:
+
+\begin{itemize}
+\item check for simple reductions in a preprocessing step
+\item use the factoring Gr\"obner basis algorithm (with an option to disable the factorization)
+\end{itemize}
+
+The ``simple reductions'' of the Singular algorithms are equivalent to reordering the variables,
+then applying a tail reduction step.
+
+\end{document}
