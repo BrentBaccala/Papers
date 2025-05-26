@@ -42,13 +42,14 @@ The author has developed new software to solve systems of polynomial equations.
 
 Hans-Gert Gr\"abe --- On Factorized Gr\"obner Bases (1994)
 
-Gr\"abe implemented his ideas in REDUCE package called CALI.
+Gr\"abe implemented his ideas in REDUCE package called CALI, which has since been ported
+to Singular and is available as the Singular function {\tt facstd}.
 
 Gr\"abe algorithm:
 
 \begin{itemize}
 \item try to factor each polynomial in a preprocessing step
-\item try to factor each new reduced S-polynomial
+\item during the Buchberger algorithm, try to factor each new reduced S-polynomial
 \item when finished, apply tail reduction and check for factorization again
 \end{itemize}
 
@@ -56,10 +57,126 @@ Singular algorithm:
 
 \begin{itemize}
 \item check for simple reductions in a preprocessing step
-\item use the factoring Gr\"obner basis algorithm (with an option to disable the factorization)
+\item use the factoring Gr\"obner basis algorithm (with an option to disable the factorization) to complete the GTZ algorithm.
 \end{itemize}
 
-The ``simple reductions'' of the Singular algorithms are equivalent to reordering the variables,
-then applying a tail reduction step.
+The ``simple reductions'' of the Singular algorithms are formed from polynomials in which
+there is a variable that appears only once in the polynomial, and only as a single term with degree one.
+Thus, $x$, $x-1$, and $x+y^2$ are all candidates (in $x$) for simple reduction, and
+the reductions would be to substitute $x=0$, $x=1$, or $x=-y^2$ (respectively) into all
+polynomials in the system.
+
+These ``simple reductions'' are equivalent to reordering the variables
+so that the most significant variable has a polynomial in
+the system with a term consisting of that variable only,
+then using this polynomial to apply a tail reduction step to the remaining polynomials.
+
+The check for ``simple reductions'' is only done once, as a preprocessing step,
+and not attempted again after the Gr\"obner basis calculation has begun.
+Combined with the factoring Gr\"obner basis algorithm introduced by Gr\"abe,
+the algorithm is seen to consist of attempting simple reductions, then
+attempting factorization as the first step in the Gr\"obner basis algorithm.
+
+I've found that the first factoring step often yields systems of equations in
+which simple reductions can be found that were not present prior to
+the factorization, so it seems profitable to check for further simple reductions.
+
+My algorithm:
+
+\begin{itemize}
+\item check for simple reductions
+\item try to factor each polynomial to split the system
+\item repeat these two steps they yield no further reductions
+\item use the Gr\"abe algorithm to apply the GTZ algorithm
+\end{itemize}
+
+Also, I do not split the system after each factorization, but rather factor
+all of the polynomials in the system, and then perform a CNF-to-DNF conversion.
+
+Prior implementations of the factorized Gr\"obner basis algorithm
+store the polynomial systems in RAM.  Because I expect a large number
+of systems to split off (on the order of millions), I store the
+systems in a SQL database, using Python's pickling format.
+
+The approach to the factorized Gr\"obner basis algorithm in \cite{Grabe06}
+is described like this ($B$ is the system of polynomials to be solved):
+
+\begin{quote}
+During a preprocessing interreduce $B$ and try to factor each polynomial $f \in B$. If $f$ factors,
+replace $B$ by a set of new problems, one for each factor of $f$. Update the side conditions
+and apply the preprocessing recursively. This ends up with a list of interreduced problems
+with non factoring base elements.
+\end{quote}
+
+This suggests that the factorization and splitting is performed independently on each
+polynomial in the system.  If the system is large and many of the polynomials factor,
+then this can lead to exponential growth in the number of systems.
+
+This exponential growth in the number of systems can sometimes be mitigated
+by first factoring all of the polynomials in the system, then performing
+a logical transformation, as follows.
+
+Consider a polynomial $f$ that factors as $f_1\cdot f_2\cdot f_3$.
+The condition $f=0$ is then equivalent to the logical system ($f_1=0 \vee f_2=0 \vee f_3=0$).
+If another polynomial $g$ factors as $g_1 \cdot g_2$, then the simultaneous
+systems of equations $f=0; g=0$ is equivalent to this logical system:
+
+\begin{equation}
+(f_1=0 \vee f_2=0 \vee f_3=0) \wedge (g_1 = 0 \vee g_2 = 0)
+\end{equation}
+
+This logical system is in conjunctive normal form (CNF) and can be
+converted to an equivalent system in disjunctive normal form (DNF), specifically:
+
+\begin{equation}
+\begin{split}
+(f_1=0 \wedge g_1 = 0) \vee (f_2=0 \wedge g_1 = 0) \vee (f_3=0 \wedge g_1 = 0) \\
+\vee (f_1=0 \wedge g_2 = 0) \vee (f_2=0 \wedge g_2 = 0) \vee (f_3=0 \wedge g_2 = 0)
+\end{split}
+\end{equation}
+
+In this example, we have now obtained six simultaneous systems of polynomial equations,
+each composed of irreducible polynomials.  A solution to any of them will solve the
+original system.  The alegbraic variety defined by the original system is the union
+of the six irreducible algebraic varieties defined by the factored systems.
+
+The extended factorization step is to first factor all of the polynomials.  Then consider
+each factor as a logical variable that is either true or false, depending on
+whether the factor is or is not equal to zero.  Form a logical system in CNF
+from the original polynomials and convert it to DNF to obtain systems of polynomials
+formed from the factors.  Each system is further processed to analyze it.
+
+For physically realistic problems, we hope that there is enough overlap between
+the factorizations of the various polynomials to make this conversion desirable.
+
+For example, one of the systems I'm concerned with (ansatz 16.6 for helium's ground state)
+has 3486 polynomials.  2341 of them are irreducible; 969 of them factor into two irreducible factors, and 176 of them
+factor into three irreducible factors.  Splitting on each of these factors independently,
+the Gr\"abe algorithm would produce $2^{969} 3^{176} > 10^{375}$
+distinct systems.  Yet there are only 2950 distinct factors, not $2341+2\cdot969+3\cdot176=4807$,
+so there's a lot of overlap between the factors of the various polynomials.
+Using CNF-to-DNF conversion, we obtain not $2^{969} 3^{176}$ systems, but only 48.
+
+An obvious question is whether each CNF yields a unique DNF.  In general, the
+answer is no, but the specific Boolean functions defined by polynomial systems are {\it monotone} Boolean functions,
+because they do not involve the logical inverse of any logical variable, i.e,
+they depend only on $f=0$ and not $f\ne 0$.  Monotone Boolean functions admit
+a single unique DNF of unique prime implicants, due to a theorem stating that for monotone Boolean functions,
+all prime implicants are essential.
+
+Not only that, but a logical expression in DNF can be inverted to obtain a logical expression in CNF
+for the inverse Boolean function.  Since the inverse of a monotone Boolean function is also
+a monotone Boolean function, after a CNF-to-DNF conversion is performed on the inverse function,
+the inverse function's DNF can be inverted to obtain the original CNF.  This procedure
+is referred to in the literature as ``monotone dualization'', and is a very convenient
+property for testing the correct operation of a software implementation.
+
+
+\begin{thebibliography}{9}
+\bibitem{Grabe06}
+Gr\"abe (2006).  ``The Groebner Factorizer and Polynomial System Solving'',
+Talk given at the Special Semester on Groebner Bases, Linz 2006.
+\url{https://www.ricam.oeaw.ac.at/specsem/srs/groeb/download/06_02_Solver.pdf}
+\end{thebibliography}
 
 \end{document}
