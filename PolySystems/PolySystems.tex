@@ -1,29 +1,19 @@
 
 \documentclass{article}
 
-\title{Solving Systems of Polynomial Equations}
+\title{An Enhanced Gr\"obner Factorizer for\\ solving systems of Polynomial Equations}
 \author{Brent Baccala}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 
-\usepackage{xcolor}
-\usepackage{comment}
-\usepackage{graphicx}
-
+% for \url
 \usepackage[hidelinks]{hyperref}
 
-\usepackage{tabularx}
+% for \setmarginsrb
+\usepackage{vmargin}
 
-\usepackage{longtable}
-
-% For drawing ansatz diagrams
-
-\usepackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{positioning}
-\usetikzlibrary{fit}
-\usetikzlibrary{backgrounds}
+\setmarginsrb{0.5in}{1in}{0.5in}{0.5in}{20pt}{20pt}{20pt}{20pt}
 
 \begin{document}
 \parindent 0pt
@@ -31,7 +21,11 @@
 \maketitle
 
 \begin{abstract}
-The author has developed new software to solve systems of polynomial equations.
+Factoring polynomials to simplify Gr\"obner basis calculations has
+been state-of-the-art for over 30 years.
+The author has developed an extension to previous factorized Gr\"obner basis algorithms
+that uses monotone dualization combined with some simple simplifications, and
+implemented the algorithm using the Sage computer algebra system.
 \end{abstract}
 
 %%\section*{The Algorithm}
@@ -40,8 +34,9 @@ The author has developed new software to solve systems of polynomial equations.
 
 %% \subsection*{Introduction}
 
-Hans-Gert Gr\"abe --- On Factorized Gr\"obner Bases (1994)
-
+Hans-Gert Gr\"abe, in \cite{Grabe94}, proposed a modified Buchberger algorithm
+that aggressively factors the polynomials appearing in a Gr\"obner basis
+calculation in order to split the original polynomial system into simpler subsystems.
 Gr\"abe implemented his ideas in REDUCE package called CALI, which has since been ported
 to Singular and is available as the Singular function {\tt facstd}.
 
@@ -171,12 +166,51 @@ the inverse function's DNF can be inverted to obtain the original CNF.  This pro
 is referred to in the literature as ``monotone dualization'', and is a very convenient
 property for testing the correct operation of a software implementation.
 
+\section*{Implementation}
 
+I've implemented these ideas using the Sage computer algebra system.
+
+Sage's basic design philosophy is to use existing programs and libraries
+whenever practical, interconnecting them all using the Python language,
+with a Python interpreter being Sage's primary user interface.
+Cython is used heavily.
+Singular is used as a backend for many polynomial calculations,
+including the GTZ algorithm which is implemented using Singular's
+native Gr\"obner basis algorithms, including a factorized
+Gr\"obner basis algorithm, used by default in a GTZ calculation.
+
+
+My implementation of the algorithm proposed above has several components:
+
+\begin{itemize}
+\item A Python library that implements the overall algorithm
+\item A standard (i.e, unmodified) PostgreSQL database that stores the intermediate calculations
+\item A multithreaded C++ program to perform the monotone dualization
+\item Cython code to implement the simplification logic
+\item Cython code to implement a faster pickling algorithm for polynomials over finite fields
+\end{itemize}
+
+The core process of the algorithm is to extract a polynomial subsystem from the SQL database,
+apply any simplifications, factor the polynomials, compute the monotone dualization,
+then insert the resulting subsystems back into the SQL database, each flagged for further processing.
+
+Parallel operation of the algorithm is fairly simple --- any number of processes on any
+number of nodes can be simultaneously processing different subsystems.  PostgreSQL
+supports both transactions and network operations, making it easy to support concurrency
+over a cluster.
+
+\vfill\eject
 \begin{thebibliography}{9}
+
+\bibitem{Grabe94}
+Hans-Gert Gr\"abe (1994). ``On Factorized Gr\"obner Bases''
+
 \bibitem{Grabe06}
 Gr\"abe (2006).  ``The Groebner Factorizer and Polynomial System Solving'',
 Talk given at the Special Semester on Groebner Bases, Linz 2006.
+
 \url{https://www.ricam.oeaw.ac.at/specsem/srs/groeb/download/06_02_Solver.pdf}
+
 \end{thebibliography}
 
 \end{document}
