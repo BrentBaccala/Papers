@@ -32,6 +32,21 @@ implemented the algorithm using the Sage computer algebra system.
 
 \parskip 12pt
 
+\subsection*{Previous Work}
+
+\cite{Grabe94} ---
+
+\cite{Grabe96} --- continues study of factorized Gr\"obner bases from \cite{Grabe94} and \cite{Grabe95}.
+The introduction credits Seidenberg's work in the 1970s and 1980s, leading up to the GTZ
+algorithm \cite{GTZ}, ``the first general primary decomposition algorithm''
+
+\cite{Grabe06} --- Linz talk.  Cited by Hans Sch\"onemann. ``Among the methods to split polynomial systems into smaller pieces probably the Gr\"obner
+factorizer method attracted the most theoretical attention'', citing Czapor (\cite{Czapor87} and \cite{Czapor89})
+
+Geddes, Czapor, Labahn wrote ``Algorithms for Computer Algebra''.  All were involved with developing MAPLE.
+Geddes and Gonnet were professors at the University of Waterloo when they founded Maplesoft.
+Czapor was a Ph.D. student of Geddes.
+
 %% \subsection*{Introduction}
 
 Hans-Gert Gr\"abe, in \cite{Grabe94}, proposed a modified Buchberger algorithm
@@ -48,15 +63,17 @@ Gr\"abe algorithm:
 \item when finished, apply tail reduction and check for factorization again
 \end{itemize}
 
-Singular algorithm:
+Singular \cite{DGPS}, in its {\tt primdec} library for primary decomposition,
+adds a preprocessing step to this algorithm:
 
 \begin{itemize}
 \item check for simple reductions in a preprocessing step
 \item use the factoring Gr\"obner basis algorithm (with an option to disable the factorization) to complete the GTZ algorithm.
 \end{itemize}
 
-The ``simple reductions'' of the Singular algorithms are formed from polynomials in which
-there is a variable that appears only once in the polynomial, and only as a single term with degree one.
+The ``simple reductions'' of the Singular algorithm (implemented in the {\tt simplifyIdeal} procedure)
+are formed from polynomials in which
+there is a variable that appears only once in the polynomial, and only as an isolated term with degree one.
 Thus, $x$, $x-1$, and $x+y^2$ are all candidates (in $x$) for simple reduction, and
 the reductions would be to substitute $x=0$, $x=1$, or $x=-y^2$ (respectively) into all
 polynomials in the system.
@@ -79,19 +96,11 @@ the factorization, so it seems profitable to check for further simple reductions
 My algorithm:
 
 \begin{itemize}
-\item check for simple reductions
-\item try to factor each polynomial to split the system
+\item check for simple reductions and apply them
+\item try to split the system by factoring the polynomials
 \item repeat these two steps they yield no further reductions
 \item use the Gr\"abe algorithm to apply the GTZ algorithm
 \end{itemize}
-
-Also, I do not split the system after each factorization, but rather factor
-all of the polynomials in the system, and then perform a CNF-to-DNF conversion.
-
-Prior implementations of the factorized Gr\"obner basis algorithm
-store the polynomial systems in RAM.  Because I expect a large number
-of systems to split off (on the order of millions), I store the
-systems in a SQL database, using Python's pickling format.
 
 The approach to the factorized Gr\"obner basis algorithm in \cite{Grabe06}
 is described like this ($B$ is the system of polynomials to be solved):
@@ -135,11 +144,12 @@ each composed of irreducible polynomials.  A solution to any of them will solve 
 original system.  The alegbraic variety defined by the original system is the union
 of the six irreducible algebraic varieties defined by the factored systems.
 
-The extended factorization step is to first factor all of the polynomials.  Then consider
+Therefore, I do not split the system after each factorization, as in \cite{Grabe06},
+but rather factor all of the polynomials in the system, then consider
 each factor as a logical variable that is either true or false, depending on
 whether the factor is or is not equal to zero.  Form a logical system in CNF
 from the original polynomials and convert it to DNF to obtain systems of polynomials
-formed from the factors.  Each system is further processed to analyze it.
+formed from the irreducible factors.
 
 For physically realistic problems, we hope that there is enough overlap between
 the factorizations of the various polynomials to make this conversion desirable.
@@ -152,14 +162,14 @@ distinct systems.  Yet there are only 2950 distinct factors, not $2341+2\cdot969
 so there's a lot of overlap between the factors of the various polynomials.
 Using CNF-to-DNF conversion, we obtain not $2^{969} 3^{176}$ systems, but only 48.
 
-An obvious question is whether each CNF yields a unique DNF.  In general, the
+An obvious question is whether every Boolean function in CNF has a unique DNF.  In general, the
 answer is no, but the specific Boolean functions defined by polynomial systems are {\it monotone} Boolean functions,
 because they do not involve the logical inverse of any logical variable, i.e,
 they depend only on $f=0$ and not $f\ne 0$.  Monotone Boolean functions admit
 a single unique DNF of unique prime implicants, due to a theorem stating that for monotone Boolean functions,
-all prime implicants are essential.
+all prime implicants are essential.  Therefore, up to ordering, the DNF is unique.
 
-Not only that, but a logical expression in DNF can be inverted to obtain a logical expression in CNF
+Also, a logical expression in DNF can be inverted to obtain a logical expression in CNF
 for the inverse Boolean function.  Since the inverse of a monotone Boolean function is also
 a monotone Boolean function, after a CNF-to-DNF conversion is performed on the inverse function,
 the inverse function's DNF can be inverted to obtain the original CNF.  This procedure
@@ -199,17 +209,47 @@ number of nodes can be simultaneously processing different subsystems.  PostgreS
 supports both transactions and network operations, making it easy to support concurrency
 over a cluster.
 
+Prior implementations of the factorized Gr\"obner basis algorithm
+store the polynomial systems in RAM.  Because I expect a large number
+of systems to split off (on the order of millions), I store the
+systems in a SQL database, using Python's pickling format.
+
 \vfill\eject
 \begin{thebibliography}{9}
 
+\bibitem{Czapor87}
+S. R. Czapor. Solving algebraic equations via Buchberger’s algorithm. In Proc. EUROCAL’87,
+volume 378 of Lect. Notes Comp. Sci., pages 260 -- 269, 1987.
+
+\bibitem{Czapor89}
+S. R. Czapor. Solving algebraic equations : Combining Buchberger’s algorithm with
+multivariate factorization. J. Symb. Comp., 7:49 -- 53, 1989.
+
 \bibitem{Grabe94}
 Hans-Gert Gr\"abe (1994). ``On Factorized Gr\"obner Bases''
+
+\url{https://d-nb.info/1249927226/34}
+
+\bibitem{Grabe95}
+Hans-Gert Gr\"abe (1995). ``Triangular systems and factorized Gr\"obner bases''
+
+\bibitem{Grabe96}
+Hans-Gert Gr\"abe (1996). ``Minimal Primary Decomposition and Factorized Gr\"obner Bases''
 
 \bibitem{Grabe06}
 Gr\"abe (2006).  ``The Groebner Factorizer and Polynomial System Solving'',
 Talk given at the Special Semester on Groebner Bases, Linz 2006.
 
 \url{https://www.ricam.oeaw.ac.at/specsem/srs/groeb/download/06_02_Solver.pdf}
+
+\bibitem{GTZ}
+Gianni, P., Trager, B., Zacharias, G.: ``Gr\"obner bases and primary decomposition of polynomial ideals''.
+{\it J. Symb. Comp.} 6 (1988), 149 - 167.
+
+\bibitem[DGPS]{DGPS}
+Decker, W.; Greuel, G.-M.; Pfister, G.; Sch{\"o}nemann, H.:
+\newblock {\sc Singular} {4-4-0} --- {A} computer algebra system for polynomial computations.
+\newblock {https://www.singular.uni-kl.de} (2024).
 
 \end{thebibliography}
 
