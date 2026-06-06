@@ -2,3 +2,6 @@
 *.log
 *.out
 *.sage.py
+
+# generated companion-note PDF (build artifact; source is the .tex)
+NewMethod/rg-saturation-and-the-bad-locus.pdf
