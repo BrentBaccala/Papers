@@ -1,6 +1,14 @@
+# pdflatex build products
 *.aux
 *.log
 *.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
 *.sage.py
 
 # Python bytecode cache
