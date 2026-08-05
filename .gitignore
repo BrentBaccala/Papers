@@ -9,6 +9,11 @@
 *.fls
 *.fdb_latexmk
 
+# beamer build products
+*.nav
+*.snm
+*.vrb
+
 *.sage.py
 
 # Python bytecode cache
