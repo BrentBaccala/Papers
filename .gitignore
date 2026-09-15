@@ -21,3 +21,6 @@ __pycache__/
 
 # comment package scratch file (\excludecomment)
 *.cut
+
+# moved to its own repo
+NewMethod/
